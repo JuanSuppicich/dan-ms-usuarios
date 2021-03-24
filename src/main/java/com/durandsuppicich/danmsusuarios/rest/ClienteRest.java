@@ -23,7 +23,6 @@ import io.swagger.annotations.ApiOperation;
 public class ClienteRest {
 
 private List<Cliente> clientes = new ArrayList<Cliente>();
-private static Integer ID_GEN = 0; 
 
 @GetMapping(path = "/{cuit}")
 @ApiOperation(value = "Busca un cliente por cuit")
