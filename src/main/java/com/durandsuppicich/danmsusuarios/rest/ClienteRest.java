@@ -13,18 +13,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
+
 
 @RestController
 @RequestMapping("/api/cliente")
+@Api(value = "ClienteRest", description =  "Permite gestionar los clientes")
 public class ClienteRest {
 
 private List<Cliente> clientes = new ArrayList<Cliente>();
-private static Integer ID_GEN = 1; 
+private static Integer ID_GEN = 0; 
 
 @GetMapping(path = "/{cuit}")
-@ApiOperation(value = "Busca un cliente por id")
+@ApiOperation(value = "Busca un cliente por cuit")
 public ResponseEntity<Cliente> clientePorCuit(@PathVariable String cuit) {
     
     Optional<Cliente> cliente = clientes
