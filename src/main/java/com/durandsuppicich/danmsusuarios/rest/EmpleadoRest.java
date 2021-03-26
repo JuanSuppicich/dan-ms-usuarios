@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
@@ -85,5 +87,21 @@ public class EmpleadoRest {
         return ResponseEntity.of(empleado);
     }
 
-    
+    @GetMapping
+    @ApiOperation(value = "Busca un empleado por nombre")
+    public ResponseEntity<Empleado> empleadoPorNombre(@RequestParam(required = false) String name) {
+        
+        if(name != null) {
+            Optional<Empleado> empleado = empleados
+                .stream()
+                .filter(e -> e.getName().equals(name))
+                .findFirst();
+            return ResponseEntity.of(empleado);
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
 }
