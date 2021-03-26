@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
@@ -35,10 +34,8 @@ public class EmpleadoRest {
     @PostMapping
     @ApiOperation(value = "Crea un nuevo empleado")
     public ResponseEntity<Empleado> crear(@RequestBody Empleado empleado) {
-        
         empleado.setId(ID_GEN++);
         empleados.add(empleado);
-
         return ResponseEntity.ok(empleado);
     }
 
@@ -79,7 +76,6 @@ public class EmpleadoRest {
     @GetMapping(path = "/{id}")
     @ApiOperation(value = "Busca un empleado por id")
     public ResponseEntity<Empleado> empleadoPorId(@PathVariable Integer id) {
-    
         Optional<Empleado> empleado = empleados
             .stream()
             .filter(e -> e.getId().equals(id))
@@ -90,8 +86,7 @@ public class EmpleadoRest {
     @GetMapping
     @ApiOperation(value = "Busca un empleado por nombre")
     public ResponseEntity<Empleado> empleadoPorNombre(@RequestParam(required = false) String name) {
-        
-        if(name != null) {
+        if (name != null) {
             Optional<Empleado> empleado = empleados
                 .stream()
                 .filter(e -> e.getName().equals(name))
@@ -101,7 +96,7 @@ public class EmpleadoRest {
         else {
             return ResponseEntity.notFound().build();
         }
+        
     }
-
 
 }

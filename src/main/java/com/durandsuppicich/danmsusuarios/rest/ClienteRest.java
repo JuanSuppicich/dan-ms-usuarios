@@ -27,7 +27,6 @@ private List<Cliente> clientes = new ArrayList<Cliente>();
 @GetMapping(path = "/{cuit}")
 @ApiOperation(value = "Busca un cliente por cuit")
 public ResponseEntity<Cliente> clientePorCuit(@PathVariable String cuit) {
-    
     Optional<Cliente> cliente = clientes
         .stream()
         .filter(c -> c.getCuit().equals(cuit))
@@ -38,7 +37,6 @@ public ResponseEntity<Cliente> clientePorCuit(@PathVariable String cuit) {
 @GetMapping()
 @ApiOperation(value = "Busca un cliente por razon social")
 public ResponseEntity<Cliente> clientePorRazonSocial(@RequestParam(name = "razonSocial") String razonSocial) {
-
     Optional<Cliente> cliente = clientes
         .stream()
         .filter(r -> r.getRazonSocial().equals(razonSocial))
