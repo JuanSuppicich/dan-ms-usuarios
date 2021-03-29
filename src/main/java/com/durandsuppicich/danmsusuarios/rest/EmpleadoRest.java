@@ -83,9 +83,9 @@ public class EmpleadoRest {
         return ResponseEntity.of(empleado);
     }
 
-    @GetMapping
+    @GetMapping(params = "name")
     @ApiOperation(value = "Busca un empleado por nombre")
-    public ResponseEntity<Empleado> empleadoPorNombre(@RequestParam(required = false) String name) {
+    public ResponseEntity<Empleado> empleadoPorNombre(@RequestParam(name = "name", required = false) String name) {
         if (name != null) {
             Optional<Empleado> empleado = empleados
                 .stream()
