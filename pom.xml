@@ -12,7 +12,7 @@
 	<artifactId>dan-ms-usuarios</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>dan-ms-usuarios</name>
-	<description>Laboratorio 01  DAM </description>
+	<description>Laboratorio DAM API Usuarios</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
