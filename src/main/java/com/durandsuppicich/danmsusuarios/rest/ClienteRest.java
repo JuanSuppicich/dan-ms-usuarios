@@ -58,7 +58,7 @@ public class ClienteRest {
     }
 
     @PutMapping(path = "/{id}")
-    @ApiOperation(value = "Actualiza un cliente")
+    @ApiOperation(value = "Actualiza un cliente en base al id")
     public ResponseEntity<Cliente> actualizar(@RequestBody Cliente cliente,  @PathVariable Integer id){
         OptionalInt indexOpt =   IntStream.range(0, clientes.size())
         .filter(i -> clientes.get(i).getId().equals(id))

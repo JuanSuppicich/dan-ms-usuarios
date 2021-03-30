@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.OptionalInt;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import com.durandsuppicich.danmsusuarios.domain.Cliente;
 import com.durandsuppicich.danmsusuarios.domain.Obra;
-import com.durandsuppicich.danmsusuarios.domain.TipoObra;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
@@ -84,38 +84,31 @@ public class ObraRest {
         return ResponseEntity.of(obra);
     }
 
-    @GetMapping
-    @ApiOperation(value = "Busca una por cliente y/o tipo de obra")
-    public ResponseEntity<Obra> obraPorClienteOTipoDeObra(@RequestBody(required = false) Cliente cliente, 
-        @RequestBody(required = false) TipoObra tipoObra) {
+    @GetMapping(params = {"idCliente","idTipoObra"})
+    @ApiOperation(value = "Lista obras por id cliente y/o id tipo de obra")
+    public ResponseEntity<List<Obra>> obrasPorClienteOTipoDeObra(
+        @RequestParam(required = false) Integer idCliente,
+        @RequestParam(required = false) Integer idTipoObra) {
         
-        if (cliente != null && tipoObra != null) {
-            Optional<Obra> obra = obras
+        List<Obra> obras = new ArrayList<Obra>();
+
+        if (idCliente != null) {
+            obras = this.obras
                 .stream()
-                .filter(o -> o.getCliente().equals(cliente) && o.getTipoObra().equals(tipoObra))
-                .findFirst();
-            return ResponseEntity.of(obra);
+                .filter(o -> o.getCliente().getId().equals(idCliente))
+                .collect(Collectors.toList());
+        }
+        if (idTipoObra != null) {
+            obras = this.obras
+                .stream()
+                .filter(o -> o.getTipoObra().getId().equals(idTipoObra))
+                .collect(Collectors.toList());
+        }
+        if (obras.isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
         else {
-            if (cliente != null) {
-                Optional<Obra> obra = obras
-                    .stream()
-                    .filter(o -> o.getCliente().equals(cliente))
-                    .findFirst();
-                return ResponseEntity.of(obra);
-            }
-            else {
-                if (tipoObra != null) {
-                    Optional<Obra> obra = obras
-                        .stream()
-                        .filter(o -> o.getTipoObra().equals(tipoObra))
-                        .findFirst();
-                    return ResponseEntity.of(obra);
-                }
-                else {
-                    return ResponseEntity.notFound().build();
-                }
-            }
+            return ResponseEntity.ok(obras);
         }
     }
 }

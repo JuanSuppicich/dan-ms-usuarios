@@ -86,17 +86,11 @@ public class EmpleadoRest {
     @GetMapping(params = "name")
     @ApiOperation(value = "Busca un empleado por nombre")
     public ResponseEntity<Empleado> empleadoPorNombre(@RequestParam(name = "name", required = false) String name) {
-        if (name != null) {
-            Optional<Empleado> empleado = empleados
-                .stream()
-                .filter(e -> e.getName().equals(name))
-                .findFirst();
-            return ResponseEntity.of(empleado);
-        }
-        else {
-            return ResponseEntity.notFound().build();
-        }
-        
+        Optional<Empleado> empleado = empleados
+            .stream()
+            .filter(e -> e.getName().equals(name))
+            .findFirst();
+        return ResponseEntity.of(empleado);
     }
 
 }
