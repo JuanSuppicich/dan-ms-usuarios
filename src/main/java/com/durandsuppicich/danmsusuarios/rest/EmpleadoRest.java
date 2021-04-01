@@ -14,20 +14,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @RequestMapping("/api/empleado")
-@Api(value = "ClienteRest", description =  "Permite gestionar los empleados")
+@Api(value = "EmpleadoRest", description =  "Permite gestionar los empleados")
 public class EmpleadoRest {
     
-    private Integer ID_GEN = 0;
+    private Integer ID_GEN = 1;
     private List<Empleado> empleados = new ArrayList<Empleado>();
 
 
@@ -37,6 +37,32 @@ public class EmpleadoRest {
         empleado.setId(ID_GEN++);
         empleados.add(empleado);
         return ResponseEntity.ok(empleado);
+    }
+
+    @GetMapping
+    @ApiOperation(value = "Lista todos los empleados")
+    public ResponseEntity<List<Empleado>> todos(){
+        return ResponseEntity.ok(empleados);
+    }
+
+    @GetMapping(path = "/{id}")
+    @ApiOperation(value = "Busca un empleado por id")
+    public ResponseEntity<Empleado> empleadoPorId(@PathVariable Integer id) {
+        Optional<Empleado> empleado = empleados
+            .stream()
+            .filter(e -> e.getId().equals(id))
+            .findFirst();
+        return ResponseEntity.of(empleado);
+    }
+
+    @GetMapping(params = "nombre")
+    @ApiOperation(value = "Busca un empleado por nombre")
+    public ResponseEntity<Empleado> empleadoPorNombre(@RequestParam(name = "nombre", required = false) String nombre) {
+        Optional<Empleado> empleado = empleados
+            .stream()
+            .filter(e -> e.getNombre().equals(nombre))
+            .findFirst();
+        return ResponseEntity.of(empleado);
     }
 
     @PutMapping(path = "/{id}")
@@ -72,25 +98,4 @@ public class EmpleadoRest {
             return ResponseEntity.notFound().build();
         }
     }
-
-    @GetMapping(path = "/{id}")
-    @ApiOperation(value = "Busca un empleado por id")
-    public ResponseEntity<Empleado> empleadoPorId(@PathVariable Integer id) {
-        Optional<Empleado> empleado = empleados
-            .stream()
-            .filter(e -> e.getId().equals(id))
-            .findFirst();
-        return ResponseEntity.of(empleado);
-    }
-
-    @GetMapping(params = "name")
-    @ApiOperation(value = "Busca un empleado por nombre")
-    public ResponseEntity<Empleado> empleadoPorNombre(@RequestParam(name = "name", required = false) String name) {
-        Optional<Empleado> empleado = empleados
-            .stream()
-            .filter(e -> e.getName().equals(name))
-            .findFirst();
-        return ResponseEntity.of(empleado);
-    }
-
 }

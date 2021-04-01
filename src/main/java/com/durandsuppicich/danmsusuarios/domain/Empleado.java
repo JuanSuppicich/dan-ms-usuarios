@@ -5,7 +5,7 @@ public class Empleado {
     private Integer id;
     private String mail;
     private Usuario usuario;
-    private String name;
+    private String nombre;
     
     public Integer getId() {
         return id;
@@ -25,11 +25,11 @@ public class Empleado {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-    public String getName() {
-        return name;
+    public String getNombre() {
+        return nombre;
     }
-    public void setName(String name) {
-        this.name = name;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
     @Override
     public String toString() {
