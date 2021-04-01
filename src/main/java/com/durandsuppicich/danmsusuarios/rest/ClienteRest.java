@@ -40,6 +40,12 @@ public class ClienteRest {
         return ResponseEntity.ok(cliente);
     }
 
+    @GetMapping
+    @ApiOperation(value = "Lista todos los clientes")
+    public ResponseEntity<List<Cliente>> todos(){
+        return ResponseEntity.ok(clientes);
+    }
+
     @GetMapping(path = "/{id}")
     @ApiOperation(value = "Busca un cliente por id")
     public ResponseEntity<Cliente> clientePorId(@PathVariable Integer id){
@@ -48,12 +54,6 @@ public class ClienteRest {
                 .filter(c -> c.getId().equals(id))
                 .findFirst();
         return ResponseEntity.of(cliente);
-    }
-
-    @GetMapping
-    @ApiOperation(value = "Lista todos los clientes")
-    public ResponseEntity<List<Cliente>> todos(){
-        return ResponseEntity.ok(clientes);
     }
 
     @GetMapping(params = "cuit")
