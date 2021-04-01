@@ -28,14 +28,21 @@ import io.swagger.annotations.ApiOperation;
 @Api(value = "ClienteRest", description =  "Permite gestionar los clientes")
 public class ClienteRest {
 
-    private List<Cliente> clientes = new ArrayList<Cliente>();
     private static Integer ID_GEN = 1;
+    private List<Cliente> clientes = new ArrayList<Cliente>();
 
+
+    @PostMapping
+    @ApiOperation(value = "Crea un nuevo cliente")
+    public ResponseEntity<Cliente> crear(@RequestBody Cliente cliente){
+        cliente.setId(ID_GEN++);
+        clientes.add(cliente);
+        return ResponseEntity.ok(cliente);
+    }
 
     @GetMapping(path = "/{id}")
     @ApiOperation(value = "Busca un cliente por id")
     public ResponseEntity<Cliente> clientePorId(@PathVariable Integer id){
-
         Optional<Cliente> cliente =  clientes
                 .stream()
                 .filter(c -> c.getId().equals(id))
@@ -49,12 +56,24 @@ public class ClienteRest {
         return ResponseEntity.ok(clientes);
     }
 
-    @PostMapping
-    @ApiOperation(value = "Crea un nuevo cliente")
-    public ResponseEntity<Cliente> crear(@RequestBody Cliente cliente){
-        cliente.setId(ID_GEN++);
-        clientes.add(cliente);
-        return ResponseEntity.ok(cliente);
+    @GetMapping(params = "cuit")
+    @ApiOperation(value = "Busca un cliente por cuit")
+    public ResponseEntity<Cliente> clientePorCuit(@RequestParam(name = "cuit") String cuit) {
+        Optional<Cliente> cliente = clientes
+            .stream()
+            .filter(c -> c.getCuit().equals(cuit))
+            .findFirst();
+        return ResponseEntity.of(cliente);
+    }
+
+    @GetMapping(params = "razonSocial")
+    @ApiOperation(value = "Busca un cliente por razon social")
+    public ResponseEntity<Cliente> clientePorRazonSocial(@RequestParam(name = "razonSocial", required = false) String razonSocial) {
+        Optional<Cliente> cliente = clientes
+            .stream()
+            .filter(r -> r.getRazonSocial().equals(razonSocial))
+            .findFirst();
+        return ResponseEntity.of(cliente);
     }
 
     @PutMapping(path = "/{id}")
@@ -74,7 +93,7 @@ public class ClienteRest {
 
     @DeleteMapping(path = "/{id}")
     @ApiOperation(value = "Elimina un cliente en base al id")
-    public ResponseEntity<Cliente> borrar(@PathVariable Integer id){
+    public ResponseEntity<Cliente> eliminar(@PathVariable Integer id){
         OptionalInt indexOpt =   IntStream.range(0, clientes.size())
         .filter(i -> clientes.get(i).getId().equals(id))
         .findFirst();
@@ -86,25 +105,4 @@ public class ClienteRest {
             return ResponseEntity.notFound().build();
         }
     }
-
-    @GetMapping(path = "/{cuit}")
-    @ApiOperation(value = "Busca un cliente por cuit")
-    public ResponseEntity<Cliente> clientePorCuit(@PathVariable String cuit) {
-        Optional<Cliente> cliente = clientes
-            .stream()
-            .filter(c -> c.getCuit().equals(cuit))
-            .findFirst();
-        return ResponseEntity.of(cliente);
-    }
-
-    @GetMapping(params = "razonSocial")
-    @ApiOperation(value = "Busca un cliente por razon social")
-    public ResponseEntity<Cliente> clientePorRazonSocial(@RequestParam(name = "razonSocial", required = false) String razonSocial) {
-        Optional<Cliente> cliente = clientes
-            .stream()
-            .filter(r -> r.getRazonSocial().equals(razonSocial))
-            .findFirst();
-        return ResponseEntity.of(cliente);
-    }
-    
 }
