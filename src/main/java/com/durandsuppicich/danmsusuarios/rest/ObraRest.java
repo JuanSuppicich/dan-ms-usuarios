@@ -15,20 +15,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @RequestMapping("/api/obra")
 @Api(value = "ObraRest", description =  "Permite gestionar las obras")
 public class ObraRest {
 
-    private Integer ID_GEN = 0;
+    private Integer ID_GEN = 1;
     private List<Obra> obras = new ArrayList<Obra>();
 
 
@@ -38,6 +38,50 @@ public class ObraRest {
         obra.setId(ID_GEN++);
         obras.add(obra);
         return ResponseEntity.ok(obra);
+    }
+
+    @GetMapping
+    @ApiOperation(value = "Lista todos las obras")
+    public ResponseEntity<List<Obra>> todos(){
+        return ResponseEntity.ok(obras);
+    }
+
+    @GetMapping(path = "/{id}")
+    @ApiOperation(value = "Busca una obra por id")
+    public ResponseEntity<Obra> obraPorId(@PathVariable Integer id) {
+        Optional<Obra> obra = obras
+            .stream()
+            .filter(o -> o.getId().equals(id))
+            .findFirst();
+        return ResponseEntity.of(obra);
+    }
+
+    @GetMapping(params = {"idCliente","idTipoObra"})
+    @ApiOperation(value = "Lista obras por id cliente y/o id tipo de obra")
+    public ResponseEntity<List<Obra>> obrasPorClienteOTipoDeObra(
+        @RequestParam(required = false) Integer idCliente,
+        @RequestParam(required = false) Integer idTipoObra) {
+        
+        List<Obra> obras = List.copyOf(this.obras);
+
+        if (idCliente != null) {
+            obras = obras
+                .stream()
+                .filter(o -> o.getCliente().getId().equals(idCliente))
+                .collect(Collectors.toList());
+        }
+        if (idTipoObra != null) {
+            obras = obras
+                .stream()
+                .filter(o -> o.getTipoObra().getId().equals(idTipoObra))
+                .collect(Collectors.toList());
+        }
+        if (idCliente == null && idTipoObra == null) {
+            return ResponseEntity.notFound().build();
+        }
+        else {
+            return ResponseEntity.ok(obras);
+        }
     }
 
     @PutMapping(path = "/{id}")
@@ -57,9 +101,9 @@ public class ObraRest {
         }
     }
 
-    @DeleteMapping
+    @DeleteMapping(path = "/{id}")
     @ApiOperation(value = "Elimina una obra en base al id")
-    public ResponseEntity<Obra> borrar(@PathVariable Integer id) {
+    public ResponseEntity<Obra> eliminar(@PathVariable Integer id) {
 
         OptionalInt index = IntStream.range(0, obras.size())
             .filter(i -> obras.get(i).getId().equals(id))
@@ -71,44 +115,6 @@ public class ObraRest {
         }
         else {
             return ResponseEntity.notFound().build();
-        }
-    }
-    
-    @GetMapping(path = "/{id}")
-    @ApiOperation(value = "Busca una obra por id")
-    public ResponseEntity<Obra> obraPorId(@PathVariable Integer id) {
-        Optional<Obra> obra = obras
-            .stream()
-            .filter(o -> o.getId().equals(id))
-            .findFirst();
-        return ResponseEntity.of(obra);
-    }
-
-    @GetMapping(params = {"idCliente","idTipoObra"})
-    @ApiOperation(value = "Lista obras por id cliente y/o id tipo de obra")
-    public ResponseEntity<List<Obra>> obrasPorClienteOTipoDeObra(
-        @RequestParam(required = false) Integer idCliente,
-        @RequestParam(required = false) Integer idTipoObra) {
-        
-        List<Obra> obras = new ArrayList<Obra>();
-
-        if (idCliente != null) {
-            obras = this.obras
-                .stream()
-                .filter(o -> o.getCliente().getId().equals(idCliente))
-                .collect(Collectors.toList());
-        }
-        if (idTipoObra != null) {
-            obras = this.obras
-                .stream()
-                .filter(o -> o.getTipoObra().getId().equals(idTipoObra))
-                .collect(Collectors.toList());
-        }
-        if (obras.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        else {
-            return ResponseEntity.ok(obras);
         }
     }
 }
