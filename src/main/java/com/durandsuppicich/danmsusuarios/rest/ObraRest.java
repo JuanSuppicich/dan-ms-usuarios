@@ -42,7 +42,7 @@ public class ObraRest {
 
     @GetMapping
     @ApiOperation(value = "Lista todos las obras")
-    public ResponseEntity<List<Obra>> todos(){
+    public ResponseEntity<List<Obra>> todos() {
         return ResponseEntity.ok(obras);
     }
 

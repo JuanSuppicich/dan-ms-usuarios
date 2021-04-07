@@ -41,7 +41,7 @@ public class EmpleadoRest {
 
     @GetMapping
     @ApiOperation(value = "Lista todos los empleados")
-    public ResponseEntity<List<Empleado>> todos(){
+    public ResponseEntity<List<Empleado>> todos() {
         return ResponseEntity.ok(empleados);
     }
 

@@ -34,7 +34,7 @@ public class ClienteRest {
 
     @PostMapping
     @ApiOperation(value = "Crea un nuevo cliente")
-    public ResponseEntity<Cliente> crear(@RequestBody Cliente cliente){
+    public ResponseEntity<Cliente> crear(@RequestBody Cliente cliente) {
         cliente.setId(ID_GEN++);
         clientes.add(cliente);
         return ResponseEntity.ok(cliente);
@@ -42,13 +42,13 @@ public class ClienteRest {
 
     @GetMapping
     @ApiOperation(value = "Lista todos los clientes")
-    public ResponseEntity<List<Cliente>> todos(){
+    public ResponseEntity<List<Cliente>> todos() {
         return ResponseEntity.ok(clientes);
     }
 
     @GetMapping(path = "/{id}")
     @ApiOperation(value = "Busca un cliente por id")
-    public ResponseEntity<Cliente> clientePorId(@PathVariable Integer id){
+    public ResponseEntity<Cliente> clientePorId(@PathVariable Integer id) {
         Optional<Cliente> cliente =  clientes
                 .stream()
                 .filter(c -> c.getId().equals(id))
@@ -78,12 +78,12 @@ public class ClienteRest {
 
     @PutMapping(path = "/{id}")
     @ApiOperation(value = "Actualiza un cliente en base al id")
-    public ResponseEntity<Cliente> actualizar(@RequestBody Cliente cliente,  @PathVariable Integer id){
+    public ResponseEntity<Cliente> actualizar(@RequestBody Cliente cliente,  @PathVariable Integer id) {
         OptionalInt indexOpt =   IntStream.range(0, clientes.size())
-        .filter(i -> clientes.get(i).getId().equals(id))
-        .findFirst();
+            .filter(i -> clientes.get(i).getId().equals(id))
+            .findFirst();
 
-        if(indexOpt.isPresent()){
+        if (indexOpt.isPresent()) {
             clientes.set(indexOpt.getAsInt(), cliente);
             return ResponseEntity.ok(cliente);
         } else {
@@ -93,12 +93,12 @@ public class ClienteRest {
 
     @DeleteMapping(path = "/{id}")
     @ApiOperation(value = "Elimina un cliente en base al id")
-    public ResponseEntity<Cliente> eliminar(@PathVariable Integer id){
+    public ResponseEntity<Cliente> eliminar(@PathVariable Integer id) {
         OptionalInt indexOpt =   IntStream.range(0, clientes.size())
-        .filter(i -> clientes.get(i).getId().equals(id))
-        .findFirst();
+            .filter(i -> clientes.get(i).getId().equals(id))
+            .findFirst();
 
-        if(indexOpt.isPresent()){
+        if (indexOpt.isPresent()) {
             clientes.remove(indexOpt.getAsInt());
             return ResponseEntity.ok().build();
         } else {
