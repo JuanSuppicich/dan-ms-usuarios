@@ -1,8 +1,8 @@
 # Dan-ms-usuarios
 
-Users API repository for DAN course.
+Repositorio API de usuarios para laboratorio curso DAN. 
 
-## Developers 
+## Desarrolladores
 
 - Durand, Matias. 
 - Suppicich, Juan Sebastian.
