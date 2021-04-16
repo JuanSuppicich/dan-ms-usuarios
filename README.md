@@ -1,6 +1,6 @@
 # Dan-ms-usuarios
 
-Users API Repository for DAN course.
+Users API repository for DAN course.
 
 ## Developers 
 
