@@ -1,5 +1,6 @@
 package com.durandsuppicich.danmsusuarios.domain;
 
+import java.time.Instant;
 import java.util.List;
 
 public class Cliente {
@@ -10,6 +11,7 @@ public class Cliente {
     private String mail;
     private Double maxCuentaCorriente;
     private Boolean habilitadoOnline;
+    private Instant fechaBaja;
     private List<Obra> obras;
     private Usuario usuario;
     
@@ -49,6 +51,12 @@ public class Cliente {
     }
     public void setHabilitadoOnline(Boolean habilitadoOnline) {
         this.habilitadoOnline = habilitadoOnline;
+    }
+    public Instant getFechaBaja() {
+        return fechaBaja;
+    }
+    public void setFechaBaja(Instant fechaBaja) {
+        this.fechaBaja = fechaBaja;
     }
     public List<Obra> getObras() {
         return obras;

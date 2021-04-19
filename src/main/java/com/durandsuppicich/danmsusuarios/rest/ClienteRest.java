@@ -1,12 +1,10 @@
 package com.durandsuppicich.danmsusuarios.rest;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.OptionalInt;
-import java.util.stream.IntStream;
 
 import com.durandsuppicich.danmsusuarios.domain.Cliente;
+import com.durandsuppicich.danmsusuarios.service.IServicioCliente;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,81 +26,70 @@ import io.swagger.annotations.ApiOperation;
 @Api(value = "ClienteRest", description =  "Permite gestionar los clientes")
 public class ClienteRest {
 
-    private static Integer ID_GEN = 1;
-    private List<Cliente> clientes = new ArrayList<Cliente>();
+    private final IServicioCliente servicioCliente; 
 
+
+    public ClienteRest(IServicioCliente servicioCliente) {
+        this.servicioCliente = servicioCliente;
+    }
 
     @PostMapping
     @ApiOperation(value = "Crea un nuevo cliente")
     public ResponseEntity<Cliente> crear(@RequestBody Cliente cliente) {
-        cliente.setId(ID_GEN++);
-        clientes.add(cliente);
-        return ResponseEntity.ok(cliente);
+        if (cliente.getObras() != null && !cliente.getObras().isEmpty() && 
+            cliente.getUsuario() != null && cliente.getUsuario().getClave() != null) {
+                
+                Cliente body = servicioCliente.crear(cliente);
+                return ResponseEntity.ok(body);
+        }
+        return ResponseEntity.badRequest().build();
+        //Agregar codigo execiones
     }
 
     @GetMapping
     @ApiOperation(value = "Lista todos los clientes")
     public ResponseEntity<List<Cliente>> todos() {
-        return ResponseEntity.ok(clientes);
+        List<Cliente> body = servicioCliente.todos();
+        return ResponseEntity.ok(body);
     }
 
     @GetMapping(path = "/{id}")
     @ApiOperation(value = "Busca un cliente por id")
     public ResponseEntity<Cliente> clientePorId(@PathVariable Integer id) {
-        Optional<Cliente> cliente =  clientes
-                .stream()
-                .filter(c -> c.getId().equals(id))
-                .findFirst();
-        return ResponseEntity.of(cliente);
+        Optional<Cliente> body = servicioCliente.clientePorId(id);
+        return ResponseEntity.of(body);
+        //Agregar codigo excepciones?
     }
 
     @GetMapping(params = "cuit")
     @ApiOperation(value = "Busca un cliente por cuit")
     public ResponseEntity<Cliente> clientePorCuit(@RequestParam(name = "cuit") String cuit) {
-        Optional<Cliente> cliente = clientes
-            .stream()
-            .filter(c -> c.getCuit().equals(cuit))
-            .findFirst();
-        return ResponseEntity.of(cliente);
+        Optional<Cliente> body = servicioCliente.clientePorCuit(cuit);
+        return ResponseEntity.of(body);
+        //Agregar codigo excepciones?
     }
 
     @GetMapping(params = "razonSocial")
     @ApiOperation(value = "Busca un cliente por razon social")
     public ResponseEntity<Cliente> clientePorRazonSocial(@RequestParam(name = "razonSocial", required = false) String razonSocial) {
-        Optional<Cliente> cliente = clientes
-            .stream()
-            .filter(r -> r.getRazonSocial().equals(razonSocial))
-            .findFirst();
-        return ResponseEntity.of(cliente);
+        Optional<Cliente> body = servicioCliente.clientePorRazonSocial(razonSocial);
+        return ResponseEntity.of(body);
+        //Agregar codigo excepciones?
     }
 
     @PutMapping(path = "/{id}")
     @ApiOperation(value = "Actualiza un cliente en base al id")
     public ResponseEntity<Cliente> actualizar(@RequestBody Cliente cliente,  @PathVariable Integer id) {
-        OptionalInt indexOpt =   IntStream.range(0, clientes.size())
-            .filter(i -> clientes.get(i).getId().equals(id))
-            .findFirst();
-
-        if (indexOpt.isPresent()) {
-            clientes.set(indexOpt.getAsInt(), cliente);
-            return ResponseEntity.ok(cliente);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        servicioCliente.actualizar(id, cliente);
+        return ResponseEntity.ok().build();
+        //Agregar codigo exepciones 
     }
 
     @DeleteMapping(path = "/{id}")
     @ApiOperation(value = "Elimina un cliente en base al id")
     public ResponseEntity<Cliente> eliminar(@PathVariable Integer id) {
-        OptionalInt indexOpt =   IntStream.range(0, clientes.size())
-            .filter(i -> clientes.get(i).getId().equals(id))
-            .findFirst();
-
-        if (indexOpt.isPresent()) {
-            clientes.remove(indexOpt.getAsInt());
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        servicioCliente.eliminar(id);
+        return ResponseEntity.ok().build();
+        //Agregar codigo exepciones 
     }
 }
