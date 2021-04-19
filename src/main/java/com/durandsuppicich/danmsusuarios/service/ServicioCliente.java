@@ -1,29 +1,30 @@
 package com.durandsuppicich.danmsusuarios.service;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.OptionalInt;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.stream.StreamSupport;
 
 import com.durandsuppicich.danmsusuarios.domain.Cliente;
+import com.durandsuppicich.danmsusuarios.repository.ClienteRepository;
 
 import org.springframework.stereotype.Service;
 
 @Service
 public class ServicioCliente implements IServicioCliente {
 
-    private Integer ID_GEN = 1;
-    private List<Cliente> clientes = new ArrayList<Cliente>();
     private final IServicioRiesgoCrediticio servicioRiesgo;
     private final IServicioPedido servicioPedido;
+    private final ClienteRepository clienteRepository;
 
 
-    public ServicioCliente(IServicioRiesgoCrediticio servicioRiesgo, IServicioPedido servicioPedido) {
+    public ServicioCliente(IServicioRiesgoCrediticio servicioRiesgo, 
+                            IServicioPedido servicioPedido,
+                            ClienteRepository clienteRepository) {
         this.servicioRiesgo = servicioRiesgo;
         this.servicioPedido = servicioPedido;
+        this.clienteRepository = clienteRepository;
     }
     
     @Override
@@ -31,30 +32,33 @@ public class ServicioCliente implements IServicioCliente {
         if (servicioRiesgo.resporteBCRAPositivo(cliente.getCuit())) {
             cliente.setHabilitadoOnline(true);
         }
-        cliente.setId(ID_GEN++);
-        clientes.add(cliente);
-        return cliente;
+        return clienteRepository.save(cliente);
     }
 
     @Override
     public List<Cliente> todos() {
-        return clientes
-                .stream()
-                .filter(c -> c.getFechaBaja() == null)
-                .collect(Collectors.toList());
+        return StreamSupport
+            .stream(clienteRepository.findAll().spliterator(), false)
+            .collect(Collectors.toList())
+            .stream()
+            .filter(c -> c.getFechaBaja() == null)
+            .collect(Collectors.toList());
     }
 
     @Override
     public Optional<Cliente> clientePorId(Integer id) {
-        return clientes
-            .stream()
-            .filter(c -> c.getId().equals(id) && c.getFechaBaja() == null)
-            .findFirst();
+        Optional<Cliente> optCliente = clienteRepository.findById(id);
+        if (optCliente.isPresent() && optCliente.get().getFechaBaja() == null) {
+            return optCliente;
+        }
+        return Optional.of(null);
     }
 
     @Override
     public Optional<Cliente> clientePorCuit(String cuit) {
-        return clientes
+        return StreamSupport
+            .stream(clienteRepository.findAll().spliterator(), false)
+            .collect(Collectors.toList())
             .stream()
             .filter(c -> c.getCuit().equals(cuit) && c.getFechaBaja() == null)
             .findFirst();
@@ -62,7 +66,9 @@ public class ServicioCliente implements IServicioCliente {
 
     @Override
     public Optional<Cliente> clientePorRazonSocial(String razonSocial) {
-        return clientes
+        return StreamSupport
+            .stream(clienteRepository.findAll().spliterator(), false)
+            .collect(Collectors.toList())
             .stream()
             .filter(c -> c.getRazonSocial().equals(razonSocial) && c.getFechaBaja() == null)
             .findFirst();
@@ -70,34 +76,24 @@ public class ServicioCliente implements IServicioCliente {
 
     @Override
     public void actualizar(Integer id, Cliente cliente) {
-        OptionalInt indexOpt =   IntStream.range(0, clientes.size())
-            .filter(i -> clientes.get(i).getId().equals(id))
-            .findFirst();
-
-        if (indexOpt.isPresent()) {
-            clientes.set(indexOpt.getAsInt(), cliente);
+        if (clienteRepository.existsById(id)) {
+            clienteRepository.save(cliente);
         } 
         //Agregar codigo de excepciones 
     }
     
     @Override
     public void eliminar(Integer id) {
-        OptionalInt indexOpt =   IntStream.range(0, clientes.size())
-        .filter(i -> clientes.get(i).getId().equals(id))
-        .findFirst();
-
-        if (indexOpt.isPresent()) {
-            Cliente cliente = clientes.get(indexOpt.getAsInt());
-            if (servicioPedido.obtenerPedidos(cliente).isEmpty()) {
-                cliente.setFechaBaja(Instant.now());
+        if (clienteRepository.existsById(id)) {
+            Optional<Cliente> optCliente = clienteRepository.findById(id);
+            if (servicioPedido.obtenerPedidos(optCliente.get()).isEmpty()) {
+                optCliente.get().setFechaBaja(Instant.now());
+                clienteRepository.save(optCliente.get());
             }
             else {
-                clientes.remove(indexOpt.getAsInt());
+                clienteRepository.deleteById(id);
             }
         }
         //Agregar codigo de excepciones
     }
-
-   
-
 }
