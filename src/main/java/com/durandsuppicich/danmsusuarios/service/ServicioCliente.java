@@ -32,6 +32,9 @@ public class ServicioCliente implements IServicioCliente {
         if (servicioRiesgo.resporteBCRAPositivo(cliente.getCuit())) {
             cliente.setHabilitadoOnline(true);
         }
+        else {
+            cliente.setHabilitadoOnline(false);
+        }
         return clienteRepository.save(cliente);
     }
 
@@ -51,7 +54,7 @@ public class ServicioCliente implements IServicioCliente {
         if (optCliente.isPresent() && optCliente.get().getFechaBaja() == null) {
             return optCliente;
         }
-        return Optional.of(null);
+        return Optional.ofNullable(null);
     }
 
     @Override
@@ -86,7 +89,7 @@ public class ServicioCliente implements IServicioCliente {
     public void eliminar(Integer id) {
         if (clienteRepository.existsById(id)) {
             Optional<Cliente> optCliente = clienteRepository.findById(id);
-            if (servicioPedido.obtenerPedidos(optCliente.get()).isEmpty()) {
+            if (!servicioPedido.obtenerPedidos(optCliente.get()).isEmpty()) {
                 optCliente.get().setFechaBaja(Instant.now());
                 clienteRepository.save(optCliente.get());
             }
