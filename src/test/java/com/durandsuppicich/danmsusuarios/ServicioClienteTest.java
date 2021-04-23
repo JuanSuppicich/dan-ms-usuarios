@@ -118,5 +118,15 @@ public class ServicioClienteTest {
 
         Optional<Cliente> resultado = servicioCliente.clientePorId(1);
         assertTrue(resultado.isEmpty());
-    }    
+    }
+
+    @Test
+    public void clientePorId_ClienteSinFechaBaja_RecuperaCliente() {
+        Cliente cliente = new Cliente();
+        when(clienteRepository.findById(anyInt())).thenReturn(Optional.of(cliente));
+
+        Optional<Cliente> resultado = servicioCliente.clientePorId(1);
+        assertTrue(resultado.isPresent());
+    }
+    
 }
