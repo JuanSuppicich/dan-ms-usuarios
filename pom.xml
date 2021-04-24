@@ -91,16 +91,19 @@
 			<plugin>
 				<groupId>com.github.spotbugs</groupId>
 				<artifactId>spotbugs-maven-plugin</artifactId>
-				<version>4.2.0</version>
-				<dependencies>
-				  <!-- overwrite dependency on spotbugs if you want to specify the version of spotbugs -->
-				  <dependency>
-					<groupId>com.github.spotbugs</groupId>
-					<artifactId>spotbugs</artifactId>
-					<version>4.2.3</version>
-				  </dependency>
-				</dependencies>
-			  </plugin>	
+				<version>4.2.2</version>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>3.0.5</version>
+				<configuration>
+					<excludeFilterFile>
+					${project.basedir}/exclude-findbugs.xml
+					</excludeFilterFile>
+					<skip>true</skip>
+				</configuration>
+				</plugin>
 		</plugins>
 	</build>
 	<reporting>
