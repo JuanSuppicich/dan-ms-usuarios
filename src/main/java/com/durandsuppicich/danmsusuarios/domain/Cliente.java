@@ -72,8 +72,9 @@ public class Cliente {
     }
     @Override
     public String toString() {
-        return "Cliente [cuit=" + cuit + ", habilitadoOnline=" + habilitadoOnline + ", id=" + id + ", mail=" + mail
-                + ", maxCuentaCorriente=" + maxCuentaCorriente + ", razonSocial=" + razonSocial + "]";
+        return "Cliente [cuit=" + cuit + ", fechaBaja=" + fechaBaja + ", habilitadoOnline=" + habilitadoOnline + ", id="
+                + id + ", mail=" + mail + ", maxCuentaCorriente=" + maxCuentaCorriente + ", razonSocial=" + razonSocial
+                + "]";
     }
     @Override
     public int hashCode() {
