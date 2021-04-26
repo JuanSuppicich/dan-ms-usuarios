@@ -21,7 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 
-@SpringBootTest(classes = UsuariosTest.class, webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class ClienteRestTest {
     
     @Autowired
@@ -29,7 +29,7 @@ public class ClienteRestTest {
     @LocalServerPort
     String puerto;
     
-
+    
     @Test
     public void crear_ClienteSinObras_BadRequest() {
         String url = "http://localhost:" + puerto + "/api/cliente";
