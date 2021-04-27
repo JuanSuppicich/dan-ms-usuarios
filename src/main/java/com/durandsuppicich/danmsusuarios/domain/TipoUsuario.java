@@ -1,10 +1,24 @@
 package com.durandsuppicich.danmsusuarios.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "TIPO_USUARIO")
 public class TipoUsuario {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID_TIPO_USUARIO")
     private Integer id;
-    private String tipo;
 
+    @Column(nullable = false)
+    private String tipo;
+    
 
     public Integer getId() {
         return id;

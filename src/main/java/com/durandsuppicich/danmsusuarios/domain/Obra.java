@@ -1,15 +1,46 @@
 package com.durandsuppicich.danmsusuarios.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+
+@Entity
+@Table(name = "OBRA")
 public class Obra {
     
-    private Integer id; 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID_OBRA")
+    private Integer id;
+    
+    @Column(length = 128)
     private String descripcion;
+    
+    @Column(nullable = false)
     private Float latitud;
+
+    @Column(nullable = false)
     private Float longitud;
+
+    @Column(nullable = false, length = 32)
     private String direccion;
+
     private Integer superficie;
-    private Cliente cliente;
+
+    @OneToOne
+    @JoinColumn(name = "ID_TIPO_OBRA")
     private TipoObra tipoObra;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_CLIENTE")
+    private Cliente cliente;
     
     
     public Integer getId() {

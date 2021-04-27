@@ -3,17 +3,49 @@ package com.durandsuppicich.danmsusuarios.domain;
 import java.time.Instant;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "CLIENTE")
 public class Cliente {
     
-    private Integer id; 
-    private String razonSocial; 
-    private String cuit; 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID_CLIENTE")
+    private Integer id;
+    
+    @Column(nullable = false, length = 32)
+    private String razonSocial;
+    
+    @Column(nullable = false, unique = true, length = 11)
+    private String cuit;
+    
+    @Column(nullable = false)
     private String mail;
+
+    @Column(scale = 3, precision = 7)
     private Double maxCuentaCorriente;
+
+    @Column(nullable = false, columnDefinition = "boolean default false")
     private Boolean habilitadoOnline;
+
     private Instant fechaBaja;
-    private List<Obra> obras;
+
+    @OneToOne
+    @JoinColumn(name = "ID_USUARIO")
     private Usuario usuario;
+    
+    @OneToMany(mappedBy = "cliente")
+    private List<Obra> obras;
+    
     
     
     public Integer getId() {

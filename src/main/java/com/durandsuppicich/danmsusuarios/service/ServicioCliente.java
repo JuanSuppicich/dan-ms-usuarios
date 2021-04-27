@@ -6,8 +6,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import com.durandsuppicich.danmsusuarios.dao.ClienteJpaRepository;
 import com.durandsuppicich.danmsusuarios.domain.Cliente;
-import com.durandsuppicich.danmsusuarios.repository.ClienteRepository;
 
 import org.springframework.stereotype.Service;
 
@@ -16,12 +16,12 @@ public class ServicioCliente implements IServicioCliente {
 
     private final IServicioRiesgoCrediticio servicioRiesgo;
     private final IServicioPedido servicioPedido;
-    private final ClienteRepository clienteRepository;
+    private final ClienteJpaRepository clienteRepository;
 
 
     public ServicioCliente(IServicioRiesgoCrediticio servicioRiesgo, 
                             IServicioPedido servicioPedido,
-                            ClienteRepository clienteRepository) {
+                            ClienteJpaRepository clienteRepository) {
         this.servicioRiesgo = servicioRiesgo;
         this.servicioPedido = servicioPedido;
         this.clienteRepository = clienteRepository;
