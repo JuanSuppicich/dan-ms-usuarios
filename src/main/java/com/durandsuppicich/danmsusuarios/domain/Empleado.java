@@ -1,5 +1,6 @@
 package com.durandsuppicich.danmsusuarios.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,7 +26,7 @@ public class Empleado {
     @Column(nullable = false, length = 32)
     private String nombre;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "ID_USUARIO")
     private Usuario usuario;
     
