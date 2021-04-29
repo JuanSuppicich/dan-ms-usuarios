@@ -15,27 +15,27 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "CLIENTE")
+@Table(name = "CLIENTE", schema = "MS_USUARIOS")
 public class Cliente {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_CLIENTE")
     private Integer id;
-    
-    @Column(nullable = false, length = 32)
+
+    @Column(name = "RAZON_SOCIAL", nullable = false, length = 32)
     private String razonSocial;
-    
+
     @Column(nullable = false, unique = true, length = 11)
     private String cuit;
-    
+
     @Column(nullable = false)
     private String mail;
 
-    @Column(scale = 3, precision = 7)
+    @Column(name = "MAX_CUENTA_CORRIENTE", scale = 3, precision = 7)
     private Double maxCuentaCorriente;
 
-    @Column(nullable = false, columnDefinition = "boolean default false")
+    @Column(name = "HABILITADO_ONLINE", nullable = false, columnDefinition = "boolean default false")
     private Boolean habilitadoOnline;
 
     private Instant fechaBaja;
@@ -43,72 +43,104 @@ public class Cliente {
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "ID_USUARIO")
     private Usuario usuario;
-    
+
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.PERSIST)
     private List<Obra> obras;
-    
-    
-    
+
+    public Cliente() {
+    }
+
+    public Cliente(String razonSocial, String cuit, String mail, Double maxCuentaCorriente, Boolean habilitadoOnline,
+            Instant fechaBaja, Usuario usuario, List<Obra> obras) {
+        this.razonSocial = razonSocial;
+        this.cuit = cuit;
+        this.mail = mail;
+        this.maxCuentaCorriente = maxCuentaCorriente;
+        this.habilitadoOnline = habilitadoOnline;
+        this.fechaBaja = fechaBaja;
+        this.usuario = usuario;
+        this.obras = obras;
+    }
+
     public Integer getId() {
         return id;
     }
+
     public void setId(Integer id) {
         this.id = id;
     }
+
     public String getRazonSocial() {
         return razonSocial;
     }
+
     public void setRazonSocial(String razonSocial) {
         this.razonSocial = razonSocial;
     }
+
     public String getCuit() {
         return cuit;
     }
+
     public void setCuit(String cuit) {
         this.cuit = cuit;
     }
+
     public String getMail() {
         return mail;
     }
+
     public void setMail(String mail) {
         this.mail = mail;
     }
+
     public Double getMaxCuentaCorriente() {
         return maxCuentaCorriente;
     }
+
     public void setMaxCuentaCorriente(Double maxCuentaCorriente) {
         this.maxCuentaCorriente = maxCuentaCorriente;
     }
+
     public Boolean getHabilitadoOnline() {
         return habilitadoOnline;
     }
+
     public void setHabilitadoOnline(Boolean habilitadoOnline) {
         this.habilitadoOnline = habilitadoOnline;
     }
+
     public Instant getFechaBaja() {
         return fechaBaja;
     }
+
     public void setFechaBaja(Instant fechaBaja) {
         this.fechaBaja = fechaBaja;
     }
+
     public List<Obra> getObras() {
         return obras;
     }
+
     public void setObras(List<Obra> obras) {
         this.obras = obras;
     }
+
     public Usuario getUsuario() {
         return usuario;
     }
+
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
+
     @Override
     public String toString() {
         return "Cliente [cuit=" + cuit + ", fechaBaja=" + fechaBaja + ", habilitadoOnline=" + habilitadoOnline + ", id="
                 + id + ", mail=" + mail + ", maxCuentaCorriente=" + maxCuentaCorriente + ", razonSocial=" + razonSocial
                 + "]";
     }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -119,6 +151,7 @@ public class Cliente {
         result = prime * result + ((razonSocial == null) ? 0 : razonSocial.hashCode());
         return result;
     }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -149,7 +182,6 @@ public class Cliente {
         } else if (!razonSocial.equals(other.razonSocial))
             return false;
         return true;
-    } 
-    
+    }
 
 }

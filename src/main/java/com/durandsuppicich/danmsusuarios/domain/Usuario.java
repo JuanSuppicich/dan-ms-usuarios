@@ -10,9 +10,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "USUARIO")
+@Table(name = "USUARIO", schema = "MS_USUARIOS")
 public class Usuario {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_USUARIO")
@@ -27,35 +27,51 @@ public class Usuario {
     @OneToOne
     @JoinColumn(name = "ID_TIPO_USUARIO")
     private TipoUsuario tipoUsuario;
-    
-    
+
+    public Usuario() {
+    }
+
+    public Usuario(String usuario, String clave, TipoUsuario tipoUsuario) {
+        this.usuario = usuario;
+        this.clave = clave;
+        this.tipoUsuario = tipoUsuario;
+    }
+
     public Integer getId() {
         return id;
     }
+
     public void setId(Integer id) {
         this.id = id;
     }
+
     public String getUsuario() {
         return usuario;
     }
+
     public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
+
     public String getClave() {
         return clave;
     }
+
     public void setClave(String clave) {
         this.clave = clave;
     }
+
     public TipoUsuario getTipoUsuario() {
         return tipoUsuario;
     }
+
     public void setTipoUsuario(TipoUsuario tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
     }
+
     @Override
     public String toString() {
         return "Usuario [clave=" + clave + ", id=" + id + ", usuario=" + usuario + "]";
     }
-   
+
 }

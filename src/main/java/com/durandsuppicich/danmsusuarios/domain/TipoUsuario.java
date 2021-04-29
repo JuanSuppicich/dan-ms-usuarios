@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "TIPO_USUARIO")
+@Table(name = "TIPO_USUARIO", schema = "MS_USUARIOS")
 public class TipoUsuario {
 
     @Id
@@ -18,23 +18,33 @@ public class TipoUsuario {
 
     @Column(nullable = false)
     private String tipo;
-    
+
+    public TipoUsuario() {
+    }
+
+    public TipoUsuario(String tipo) {
+        this.tipo = tipo;
+    }
 
     public Integer getId() {
         return id;
     }
+
     public void setId(Integer id) {
         this.id = id;
     }
+
     public String getTipo() {
         return tipo;
     }
+
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
+
     @Override
     public String toString() {
         return "TipoUsuario [id=" + id + ", tipo=" + tipo + "]";
     }
-        
+
 }
