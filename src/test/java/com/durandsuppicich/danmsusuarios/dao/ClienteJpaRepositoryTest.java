@@ -29,8 +29,10 @@ public class ClienteJpaRepositoryTest {
     @Sql({"/datos_test.sql"})
     public void save_ClienteOk_ClienteCreado () {
         TipoUsuario tipoUsuario = new TipoUsuario("Cliente");
-        Usuario usuario = new Usuario("usuario3", "clave3", tipoUsuario);
+        tipoUsuario.setId(1);
+        Usuario usuario = new Usuario("usuario5", "clave5", tipoUsuario);
         TipoObra tipoObra = new TipoObra("Casa");
+        tipoObra.setId(1);
         Obra obra = new Obra("descripcion3", Float.valueOf("3.0"), Float.valueOf("3.0"), "direccion3", 30, tipoObra);
         List<Obra> obras = new ArrayList<Obra>();
         obras.add(obra);
