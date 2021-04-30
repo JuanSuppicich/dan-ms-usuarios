@@ -20,4 +20,5 @@ INSERT INTO MS_USUARIOS.CLIENTE (razon_social, cuit, mail, max_cuenta_corriente,
 
 INSERT INTO MS_USUARIOS.OBRA (descripcion, latitud, longitud, direccion, superficie, id_tipo_obra, id_cliente) VALUES
     ('desc1', 1.00, 1.00, 'direc1', 10, 1, 1),
-    ('desc2', 2.00, 2.00, 'direc2', 20, 2, 2);
+    ('desc2', 2.00, 2.00, 'direc2', 20, 2, 2),
+    ('desc3', 3.00, 3.00, 'direc3', 30, 3, 1);
