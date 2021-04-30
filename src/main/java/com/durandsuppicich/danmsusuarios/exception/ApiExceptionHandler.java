@@ -9,26 +9,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
-    
+
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler({NotFoundException.class})
+    @ExceptionHandler({ NotFoundException.class })
     @ResponseBody
     public MensajeError notFoundRequest(HttpServletRequest request, Exception exception) {
         return new MensajeError(exception, request.getRequestURI());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({
-        BadRequestExeption.class,
-        //org.springframework.dao.DuplicateKeyException.class,
-        //org.springframework.web.method.annotation.MethodArgumentTypeMismatchException.class,
-        //org.springframework.http.converter.HttpMessageNotReadableException.class,
-        //org.springframework.web.bind.MethodArgumentNotValidException.class,
-        //org.springframework.web.bind.MissingRequestHeaderException.class,
-        //org.springframework.web.bind.MissingServletRequestParameterException.class
+    @ExceptionHandler({ BadRequestExeption.class,
+    // org.springframework.dao.DuplicateKeyException.class,
+    // org.springframework.web.method.annotation.MethodArgumentTypeMismatchException.class,
+    // org.springframework.http.converter.HttpMessageNotReadableException.class,
+    // org.springframework.web.bind.MethodArgumentNotValidException.class,
+    // org.springframework.web.bind.MissingRequestHeaderException.class,
+    // org.springframework.web.bind.MissingServletRequestParameterException.class
     })
     @ResponseBody
     public MensajeError badRequest(HttpServletRequest request, Exception exception) {
@@ -36,35 +34,31 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    @ExceptionHandler({ForbiddenException.class})
+    @ExceptionHandler({ ForbiddenException.class })
     @ResponseBody
     public MensajeError forbiddenRequest(HttpServletRequest request, Exception exception) {
         return new MensajeError(exception, request.getRequestURI());
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)
-    @ExceptionHandler({ConflictException.class})
+    @ExceptionHandler({ ConflictException.class })
     @ResponseBody
     public MensajeError conflic(HttpServletRequest request, Exception exception) {
         return new MensajeError(exception, request.getRequestURI());
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @ExceptionHandler({UnauthorizedException.class})
+    @ExceptionHandler({ UnauthorizedException.class })
     public void unauthorized() {
-        //Sin mensaje.
+        // Sin mensaje.
     }
 
-    //No deberia suceder 
+    // No deberia suceder
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler({Exception.class})
+    @ExceptionHandler({ Exception.class })
     @ResponseBody
     public MensajeError fatalErrorUnexpectedException(HttpServletRequest request, Exception exception) {
         return new MensajeError(exception, request.getRequestURI());
     }
-    
-
-
-
 
 }
