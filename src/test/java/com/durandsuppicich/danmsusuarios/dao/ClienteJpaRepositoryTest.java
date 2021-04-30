@@ -22,7 +22,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.jdbc.Sql;
 
-
 @SpringBootTest
 @Profile("testing")
 public class ClienteJpaRepositoryTest {
@@ -68,7 +67,6 @@ public class ClienteJpaRepositoryTest {
     //Ver saves y validaciones 
 
     @Test
-    @Sql({"/datos_test.sql"})
     public void find_ClientePorId_ClienteRecuperadoConUsuario() {
         Optional<Cliente> cliente = clienteRepository.findById(1);
         assertTrue(cliente.isPresent());
@@ -80,7 +78,6 @@ public class ClienteJpaRepositoryTest {
     }
 
     @Test
-    @Sql({"/datos_test.sql"})
     public void find_ClientePorIdConObras_ClienteRecuperadoConUsuarioYObras() {
         Cliente cliente = clienteRepository.findClienteConObras(1).get(0);
         assertNotNull(cliente);
@@ -88,10 +85,4 @@ public class ClienteJpaRepositoryTest {
         assertNotNull(cliente.getUsuario());
         assertEquals(cliente.getObras().size(), 2);
     }
-
-    
-    
-    
-
-    
 }
