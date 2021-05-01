@@ -1,6 +1,7 @@
 package com.durandsuppicich.danmsusuarios.exception;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 public class MensajeError {
 
@@ -19,7 +20,7 @@ public class MensajeError {
         this.excepcion = excepcion.getClass().getSimpleName();
         this.mensaje = excepcion.getMessage();
         this.path = path;
-        this.timeStamp = Instant.now();
+        this.timeStamp = Instant.now().truncatedTo(ChronoUnit.MILLIS);
     }
 
     public String getExcepcion() {
