@@ -67,23 +67,25 @@ public class ServicioCliente implements IServicioCliente {
     @Override
     public Optional<Cliente> clientePorCuit(String cuit) {
 
-        return StreamSupport
-            .stream(clienteRepository.findAll().spliterator(), false)
-            .collect(Collectors.toList())
-            .stream()
-            .filter(c -> c.getCuit().equals(cuit) && c.getFechaBaja() == null)
-            .findFirst();
+        Optional<Cliente> optCliente = clienteRepository.findByCuit(cuit);
+
+        if (optCliente.isPresent() && optCliente.get().getFechaBaja() == null) {
+            return optCliente;
+        }
+
+        return Optional.ofNullable(null);
     }
 
     @Override
     public Optional<Cliente> clientePorRazonSocial(String razonSocial) {
+        
+        Optional<Cliente> optCliente = clienteRepository.findByRazonSocial(razonSocial);
 
-        return StreamSupport
-            .stream(clienteRepository.findAll().spliterator(), false)
-            .collect(Collectors.toList())
-            .stream()
-            .filter(c -> c.getRazonSocial().equals(razonSocial) && c.getFechaBaja() == null)
-            .findFirst();
+        if (optCliente.isPresent() && optCliente.get().getFechaBaja() == null) {
+            return optCliente;
+        }
+
+        return Optional.ofNullable(null);
     }
 
     @Override
@@ -94,7 +96,6 @@ public class ServicioCliente implements IServicioCliente {
         } 
         else {
             throw new NotFoundException("Cliente inexistente. Id: " + id);
-        
         }
     }
     

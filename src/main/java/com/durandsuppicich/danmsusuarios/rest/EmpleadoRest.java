@@ -78,7 +78,7 @@ public class EmpleadoRest {
         if (body.isPresent()) {
             return ResponseEntity.of(body);
         } else {
-            throw new NotFoundException("Empleado no encontrado. Nombre " + nombre);
+            throw new NotFoundException("Empleado no encontrado. Nombre: " + nombre);
         }
     }
 

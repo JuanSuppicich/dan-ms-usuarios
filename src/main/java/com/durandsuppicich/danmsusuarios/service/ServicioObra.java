@@ -2,7 +2,6 @@ package com.durandsuppicich.danmsusuarios.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import com.durandsuppicich.danmsusuarios.dao.ObraJpaRepository;
 import com.durandsuppicich.danmsusuarios.domain.Obra;
@@ -37,7 +36,7 @@ public class ServicioObra implements IServicioObra {
     @Override
     public List<Obra> obrasPorClienteOTipoObra(Integer idCliente, Integer idTipoObra) {
 
-        List<Obra> obras = obraRepository.findAll(); // Se puede mejorar con una consulta jpql
+        /*List<Obra> obras = obraRepository.findAll(); 
 
         if (idCliente != null) {
             obras = obras
@@ -51,7 +50,8 @@ public class ServicioObra implements IServicioObra {
                 .filter(o -> o.getTipoObra().getId().equals(idTipoObra))
                 .collect(Collectors.toList());
         }
-        return obras;
+        return obras;*/
+        return obrasPorClienteOTipoObra(idCliente, idTipoObra);
     }
 
     @Override

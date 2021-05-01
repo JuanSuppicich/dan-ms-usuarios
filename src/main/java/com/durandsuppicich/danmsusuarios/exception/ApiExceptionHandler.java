@@ -2,6 +2,7 @@ package com.durandsuppicich.danmsusuarios.exception;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -41,7 +42,10 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)
-    @ExceptionHandler({ ConflictException.class })
+    @ExceptionHandler({ ConflictException.class,
+        DataIntegrityViolationException.class
+    })
+
     @ResponseBody
     public MensajeError conflic(HttpServletRequest request, Exception exception) {
         return new MensajeError(exception, request.getRequestURI());
