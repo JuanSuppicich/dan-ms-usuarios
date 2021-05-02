@@ -22,14 +22,12 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-
 @RestController
 @RequestMapping("/api/cliente")
-@Api(value = "ClienteRest", description =  "Permite gestionar los clientes")
+@Api(value = "ClienteRest", description = "Permite gestionar los clientes")
 public class ClienteRest {
 
-    private final IServicioCliente servicioCliente; 
-
+    private final IServicioCliente servicioCliente;
 
     public ClienteRest(IServicioCliente servicioCliente) {
         this.servicioCliente = servicioCliente;
@@ -39,19 +37,17 @@ public class ClienteRest {
     @ApiOperation(value = "Crea un nuevo cliente")
     public ResponseEntity<Cliente> crear(@RequestBody Cliente cliente) {
 
-        if (cliente.getObras()!= null && !cliente.getObras().isEmpty()) {
+        if (cliente.getObras() != null && !cliente.getObras().isEmpty()) {
 
             if (cliente.getUsuario() != null && cliente.getUsuario().getClave() != null) {
 
                 Cliente body = servicioCliente.crear(cliente);
                 return ResponseEntity.ok(body);
 
-            } 
-            else {
+            } else {
                 throw new BadRequestExeption("Usuario: " + cliente.getUsuario());
             }
-        } 
-        else {
+        } else {
             throw new BadRequestExeption("Obras: " + cliente.getObras());
         }
     }
@@ -59,6 +55,7 @@ public class ClienteRest {
     @GetMapping
     @ApiOperation(value = "Lista todos los clientes")
     public ResponseEntity<List<Cliente>> todos() {
+
         List<Cliente> body = servicioCliente.todos();
         return ResponseEntity.ok(body);
     }
@@ -66,13 +63,12 @@ public class ClienteRest {
     @GetMapping(path = "/{id}")
     @ApiOperation(value = "Busca un cliente por id")
     public ResponseEntity<Cliente> clientePorId(@PathVariable Integer id) {
-        
+
         Optional<Cliente> body = servicioCliente.clientePorId(id);
-        
+
         if (body.isPresent()) {
-            return ResponseEntity.of(body); //.ok(body) da error ?
-        }
-        else {
+            return ResponseEntity.of(body); // .ok(body) da error ?
+        } else {
             throw new NotFoundException("Cliente no encontrado. Id: " + id);
         }
     }
@@ -80,46 +76,43 @@ public class ClienteRest {
     @GetMapping(params = "cuit")
     @ApiOperation(value = "Busca un cliente por cuit")
     public ResponseEntity<Cliente> clientePorCuit(@RequestParam(name = "cuit") String cuit) {
-        
+
         Optional<Cliente> body = servicioCliente.clientePorCuit(cuit);
 
         if (body.isPresent()) {
             return ResponseEntity.of(body);
-        }
-        else {
+        } else {
             throw new NotFoundException("Cliente no encontrado. Cuit: " + cuit);
         }
     }
 
     @GetMapping(params = "razonSocial")
     @ApiOperation(value = "Busca un cliente por razon social")
-    public ResponseEntity<Cliente> clientePorRazonSocial(@RequestParam(name = "razonSocial", required = false) String razonSocial) {
-        
+    public ResponseEntity<Cliente> clientePorRazonSocial(
+            @RequestParam(name = "razonSocial", required = false) String razonSocial) {
+
         Optional<Cliente> body = servicioCliente.clientePorRazonSocial(razonSocial);
 
         if (body.isPresent()) {
             return ResponseEntity.of(body);
-        }
-        else {
+        } else {
             throw new NotFoundException("Cliente no encontrado. Razon social: " + razonSocial);
         }
     }
 
     @PutMapping(path = "/{id}")
     @ApiOperation(value = "Actualiza un cliente en base al id")
-    public ResponseEntity<Cliente> actualizar(@RequestBody Cliente cliente,  @PathVariable Integer id) {
-        
+    public ResponseEntity<Cliente> actualizar(@RequestBody Cliente cliente, @PathVariable Integer id) {
+
         servicioCliente.actualizar(id, cliente);
         return ResponseEntity.ok().build();
-
     }
 
     @DeleteMapping(path = "/{id}")
     @ApiOperation(value = "Elimina un cliente en base al id")
     public ResponseEntity<Cliente> eliminar(@PathVariable Integer id) {
-        
+
         servicioCliente.eliminar(id);
         return ResponseEntity.ok().build();
-        
     }
 }

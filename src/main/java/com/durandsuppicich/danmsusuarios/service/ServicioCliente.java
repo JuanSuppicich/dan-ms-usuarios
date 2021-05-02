@@ -19,22 +19,19 @@ public class ServicioCliente implements IServicioCliente {
     private final IServicioPedido servicioPedido;
     private final ClienteJpaRepository clienteRepository;
 
-
-    public ServicioCliente(IServicioRiesgoCrediticio servicioRiesgo, 
-                            IServicioPedido servicioPedido,
-                            ClienteJpaRepository clienteRepository) {
+    public ServicioCliente(IServicioRiesgoCrediticio servicioRiesgo, IServicioPedido servicioPedido,
+            ClienteJpaRepository clienteRepository) {
         this.servicioRiesgo = servicioRiesgo;
         this.servicioPedido = servicioPedido;
         this.clienteRepository = clienteRepository;
     }
-    
+
     @Override
     public Cliente crear(Cliente cliente) {
 
         if (servicioRiesgo.resporteBCRAPositivo(cliente.getCuit())) {
             cliente.setHabilitadoOnline(true);
-        }
-        else {
+        } else {
             cliente.setHabilitadoOnline(false);
         }
 
@@ -43,7 +40,7 @@ public class ServicioCliente implements IServicioCliente {
 
     @Override
     public List<Cliente> todos() {
-        
+
         return StreamSupport
             .stream(clienteRepository.findAll().spliterator(), false)
             .collect(Collectors.toList())
@@ -54,9 +51,9 @@ public class ServicioCliente implements IServicioCliente {
 
     @Override
     public Optional<Cliente> clientePorId(Integer id) {
-        
+
         Optional<Cliente> optCliente = clienteRepository.findById(id);
-        
+
         if (optCliente.isPresent() && optCliente.get().getFechaBaja() == null) {
             return optCliente;
         }
@@ -78,7 +75,7 @@ public class ServicioCliente implements IServicioCliente {
 
     @Override
     public Optional<Cliente> clientePorRazonSocial(String razonSocial) {
-        
+
         Optional<Cliente> optCliente = clienteRepository.findByRazonSocial(razonSocial);
 
         if (optCliente.isPresent() && optCliente.get().getFechaBaja() == null) {
@@ -90,15 +87,14 @@ public class ServicioCliente implements IServicioCliente {
 
     @Override
     public void actualizar(Integer id, Cliente cliente) {
-        
+
         if (clienteRepository.existsById(id)) {
             clienteRepository.save(cliente);
-        } 
-        else {
+        } else {
             throw new NotFoundException("Cliente inexistente. Id: " + id);
         }
     }
-    
+
     @Override
     public void eliminar(Integer id) {
 
@@ -110,13 +106,11 @@ public class ServicioCliente implements IServicioCliente {
 
                 optCliente.get().setFechaBaja(Instant.now());
                 clienteRepository.save(optCliente.get());
-                
-            }
-            else {
+
+            } else {
                 clienteRepository.deleteById(id);
             }
-        }
-        else {
+        } else {
             throw new NotFoundException("Cliente inexistente. Id: " + id);
         }
     }

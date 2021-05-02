@@ -8,5 +8,5 @@ import com.durandsuppicich.danmsusuarios.domain.Pedido;
 public interface IServicioPedido {
 
     List<Pedido> obtenerPedidos(Cliente cliente);
-    
+
 }

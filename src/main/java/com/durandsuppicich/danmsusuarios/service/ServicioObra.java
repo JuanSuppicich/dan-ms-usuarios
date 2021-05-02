@@ -35,22 +35,6 @@ public class ServicioObra implements IServicioObra {
 
     @Override
     public List<Obra> obrasPorClienteOTipoObra(Integer idCliente, Integer idTipoObra) {
-
-        /*List<Obra> obras = obraRepository.findAll(); 
-
-        if (idCliente != null) {
-            obras = obras
-                .stream()
-                .filter(o -> o.getCliente().getId().equals(idCliente))
-                .collect(Collectors.toList());
-        }
-        if (idTipoObra != null) {
-            obras = obras
-                .stream()
-                .filter(o -> o.getTipoObra().getId().equals(idTipoObra))
-                .collect(Collectors.toList());
-        }
-        return obras;*/
         return obrasPorClienteOTipoObra(idCliente, idTipoObra);
     }
 

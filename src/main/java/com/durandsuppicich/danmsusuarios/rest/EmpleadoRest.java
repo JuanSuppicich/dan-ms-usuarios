@@ -53,7 +53,6 @@ public class EmpleadoRest {
 
         List<Empleado> body = servicioEmpleado.todos();
         return ResponseEntity.ok(body);
-
     }
 
     @GetMapping(path = "/{id}")
@@ -88,7 +87,6 @@ public class EmpleadoRest {
 
         servicioEmpleado.actualizar(id, empleado);
         return ResponseEntity.ok().build();
-
     }
 
     @DeleteMapping(path = "/{id}")
@@ -97,6 +95,5 @@ public class EmpleadoRest {
 
         servicioEmpleado.eliminar(id);
         return ResponseEntity.ok().build();
-
     }
 }

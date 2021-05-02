@@ -19,5 +19,5 @@ public class ServicioRiesgoCrediticio implements IServicioRiesgoCrediticio {
     public Boolean reporteVerazPositivo(String cuit) {
         return true;
     }
-    
+
 }
