@@ -14,7 +14,7 @@ public class TipoObra {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_TIPO_OBRA")
-    private Integer id;
+    private Integer id; //Deberia estar precargado en la bd
 
     @Column(nullable = false)
     private String descripcion;
@@ -77,5 +77,4 @@ public class TipoObra {
             return false;
         return true;
     }
-
 }

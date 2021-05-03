@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "OBRA", schema = "MS_USUARIOS")
@@ -39,6 +40,7 @@ public class Obra {
 
     @ManyToOne
     @JoinColumn(name = "ID_CLIENTE")
+    @JsonIgnore
     private Cliente cliente;
 
     public Obra() {

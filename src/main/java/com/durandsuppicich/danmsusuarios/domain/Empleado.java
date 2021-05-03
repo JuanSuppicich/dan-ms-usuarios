@@ -26,7 +26,7 @@ public class Empleado {
     @Column(nullable = false, length = 32)
     private String nombre;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ID_USUARIO")
     private Usuario usuario;
     

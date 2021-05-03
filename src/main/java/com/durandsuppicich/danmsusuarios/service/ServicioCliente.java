@@ -8,6 +8,7 @@ import java.util.stream.StreamSupport;
 
 import com.durandsuppicich.danmsusuarios.dao.ClienteJpaRepository;
 import com.durandsuppicich.danmsusuarios.domain.Cliente;
+import com.durandsuppicich.danmsusuarios.domain.Obra;
 import com.durandsuppicich.danmsusuarios.exception.NotFoundException;
 
 import org.springframework.stereotype.Service;
@@ -34,6 +35,16 @@ public class ServicioCliente implements IServicioCliente {
         } else {
             cliente.setHabilitadoOnline(false);
         }
+
+        //Necesitamos setear el  atributo cliente en cada obra para guardar la relacion
+        //Se podria hacer mas elegante.
+        List<Obra> aux = List.copyOf(cliente.getObras());
+        aux
+            .stream()
+            .forEach( (o) -> {
+                cliente.addObra(o);
+            });
+        cliente.setObras(aux);
 
         return clienteRepository.save(cliente);
     }

@@ -40,11 +40,11 @@ public class Cliente {
 
     private Instant fechaBaja;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ID_USUARIO")
     private Usuario usuario;
 
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<Obra> obras;
 
     public Cliente() {
@@ -132,6 +132,12 @@ public class Cliente {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    //Metodo para sincronizar relacion bidireccional 
+    public void addObra(Obra obra) {
+        obras.add(obra);
+        obra.setCliente(this);
     }
 
     @Override
