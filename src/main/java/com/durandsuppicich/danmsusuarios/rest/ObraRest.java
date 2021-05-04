@@ -67,14 +67,9 @@ public class ObraRest {
     public ResponseEntity<List<Obra>> obrasPorClienteOTipoDeObra(@RequestParam(required = false) Integer idCliente,
             @RequestParam(required = false) Integer idTipoObra) {
 
-        if (idCliente == null && idTipoObra == null) {
-
             List<Obra> body = servicioObra.obrasPorClienteOTipoObra(idCliente, idTipoObra);
             return ResponseEntity.ok(body);
-
-        } else {
-            throw new BadRequestExeption("idCliente: " + idCliente + ", idTipoObra: " + idTipoObra);
-        }
+            
     }
 
     @PutMapping(path = "/{id}")

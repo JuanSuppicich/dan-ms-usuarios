@@ -9,7 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "OBRA", schema = "MS_USUARIOS")
@@ -40,7 +40,7 @@ public class Obra {
 
     @ManyToOne
     @JoinColumn(name = "ID_CLIENTE")
-    @JsonIgnore
+    @JsonBackReference
     private Cliente cliente;
 
     public Obra() {

@@ -35,7 +35,7 @@ public class ServicioObra implements IServicioObra {
 
     @Override
     public List<Obra> obrasPorClienteOTipoObra(Integer idCliente, Integer idTipoObra) {
-        return obrasPorClienteOTipoObra(idCliente, idTipoObra);
+        return obraRepository.findByIdClienteOrIdTipoObra(idCliente, idTipoObra);
     }
 
     @Override
