@@ -1,12 +1,12 @@
 package com.durandsuppicich.danmsusuarios.rest;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.OptionalInt;
-import java.util.stream.IntStream;
 
 import com.durandsuppicich.danmsusuarios.domain.Empleado;
+import com.durandsuppicich.danmsusuarios.exception.BadRequestExeption;
+import com.durandsuppicich.danmsusuarios.exception.NotFoundException;
+import com.durandsuppicich.danmsusuarios.service.IServicioEmpleado;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,78 +24,76 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/api/empleado")
-@Api(value = "EmpleadoRest", description =  "Permite gestionar los empleados")
+@Api(value = "EmpleadoRest", description = "Permite gestionar los empleados")
 public class EmpleadoRest {
-    
-    private Integer ID_GEN = 1;
-    private List<Empleado> empleados = new ArrayList<Empleado>();
 
+    private final IServicioEmpleado servicioEmpleado;
+
+    public EmpleadoRest(IServicioEmpleado servicioEmpleado) {
+        this.servicioEmpleado = servicioEmpleado;
+    }
 
     @PostMapping
     @ApiOperation(value = "Crea un nuevo empleado")
     public ResponseEntity<Empleado> crear(@RequestBody Empleado empleado) {
-        empleado.setId(ID_GEN++);
-        empleados.add(empleado);
-        return ResponseEntity.ok(empleado);
+
+        if (empleado.getUsuario() != null && empleado.getUsuario().getClave() != null) {
+
+            Empleado body = servicioEmpleado.crear(empleado);
+            return ResponseEntity.ok(body);
+
+        } else {
+            throw new BadRequestExeption("Empleado: " + empleado);
+        }
     }
 
     @GetMapping
     @ApiOperation(value = "Lista todos los empleados")
     public ResponseEntity<List<Empleado>> todos() {
-        return ResponseEntity.ok(empleados);
+
+        List<Empleado> body = servicioEmpleado.todos();
+        return ResponseEntity.ok(body);
     }
 
     @GetMapping(path = "/{id}")
     @ApiOperation(value = "Busca un empleado por id")
     public ResponseEntity<Empleado> empleadoPorId(@PathVariable Integer id) {
-        Optional<Empleado> empleado = empleados
-            .stream()
-            .filter(e -> e.getId().equals(id))
-            .findFirst();
-        return ResponseEntity.of(empleado);
+
+        Optional<Empleado> body = servicioEmpleado.empleadoPorId(id);
+
+        if (body.isPresent()) {
+            return ResponseEntity.of(body); // .ok(body) da error ?
+        } else {
+            throw new NotFoundException("Empleado no encontrado. Id: " + id);
+        }
     }
 
     @GetMapping(params = "nombre")
     @ApiOperation(value = "Busca un empleado por nombre")
     public ResponseEntity<Empleado> empleadoPorNombre(@RequestParam(name = "nombre", required = false) String nombre) {
-        Optional<Empleado> empleado = empleados
-            .stream()
-            .filter(e -> e.getNombre().equals(nombre))
-            .findFirst();
-        return ResponseEntity.of(empleado);
+
+        Optional<Empleado> body = servicioEmpleado.empleadoPorNombre(nombre);
+
+        if (body.isPresent()) {
+            return ResponseEntity.of(body);
+        } else {
+            throw new NotFoundException("Empleado no encontrado. Nombre: " + nombre);
+        }
     }
 
     @PutMapping(path = "/{id}")
     @ApiOperation(value = "Actualiza un empleado en base al id")
     public ResponseEntity<Empleado> actualizar(@RequestBody Empleado empleado, @PathVariable Integer id) {
 
-        OptionalInt index = IntStream.range(0, empleados.size())
-            .filter(i -> empleados.get(i).getId().equals(id))
-            .findFirst();
-
-        if (index.isPresent()) {
-            empleados.set(index.getAsInt(), empleado);
-            return ResponseEntity.ok(empleado);
-        }
-        else {
-            return ResponseEntity.notFound().build();
-        }
+        servicioEmpleado.actualizar(id, empleado);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(path = "/{id}")
     @ApiOperation(value = "Elimina un empleado en base al id")
     public ResponseEntity<Empleado> eliminar(@PathVariable Integer id) {
 
-        OptionalInt index = IntStream.range(0, empleados.size())
-            .filter(i -> empleados.get(i).getId().equals(id))
-            .findFirst();
-
-        if (index.isPresent()) {
-            empleados.remove(index.getAsInt());
-            return ResponseEntity.ok().build();
-        }
-        else {
-            return ResponseEntity.notFound().build();
-        }
+        servicioEmpleado.eliminar(id);
+        return ResponseEntity.ok().build();
     }
 }

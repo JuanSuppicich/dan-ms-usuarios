@@ -16,9 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.durandsuppicich.danmsusuarios.dao.ClienteJpaRepository;
 import com.durandsuppicich.danmsusuarios.domain.Cliente;
 import com.durandsuppicich.danmsusuarios.domain.Pedido;
-import com.durandsuppicich.danmsusuarios.repository.ClienteRepository;
 import com.durandsuppicich.danmsusuarios.service.IServicioCliente;
 import com.durandsuppicich.danmsusuarios.service.IServicioPedido;
 import com.durandsuppicich.danmsusuarios.service.IServicioRiesgoCrediticio;
@@ -39,7 +39,7 @@ public class ServicioClienteTest {
     @MockBean
     IServicioPedido servicioPedido;
     @MockBean
-    ClienteRepository clienteRepository;
+    ClienteJpaRepository clienteRepository;
     Cliente cliente;
     
 

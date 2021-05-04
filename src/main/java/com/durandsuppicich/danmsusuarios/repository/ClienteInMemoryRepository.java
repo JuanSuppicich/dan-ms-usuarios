@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import frsf.isi.dan.InMemoryRepository;
 
 @Repository
-public class ClienteRepository extends InMemoryRepository<Cliente>{
+public class ClienteInMemoryRepository extends InMemoryRepository<Cliente>{
 
     @Override
     public Integer getId(Cliente entity) {

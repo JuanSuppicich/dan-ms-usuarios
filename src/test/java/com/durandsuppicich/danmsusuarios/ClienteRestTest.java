@@ -2,11 +2,13 @@ package com.durandsuppicich.danmsusuarios;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.durandsuppicich.danmsusuarios.domain.Cliente;
 import com.durandsuppicich.danmsusuarios.domain.Obra;
+import com.durandsuppicich.danmsusuarios.domain.TipoUsuario;
 import com.durandsuppicich.danmsusuarios.domain.Usuario;
 
 import org.junit.jupiter.api.Test;
@@ -66,9 +68,18 @@ public class ClienteRestTest {
         String url = "http://localhost:" + puerto + "/api/cliente";
         Cliente cliente = new Cliente();
         Usuario usuario = new Usuario();
-        usuario.setClave("test");
+        TipoUsuario tipoUsuario = new TipoUsuario();
         Obra obra = new Obra();
         List<Obra> obras = new ArrayList<Obra>();
+
+        tipoUsuario.setTipo("tipo1");
+        usuario.setUsuario("usuario1");
+        usuario.setClave("clave1");
+        cliente.setCuit("1234");
+        cliente.setRazonSocial("razonSocial1");
+        cliente.setMail("mail1");
+        cliente.setMaxCuentaCorriente(1000.00);
+        cliente.setFechaBaja(Instant.now());
         obras.add(obra);
         cliente.setObras(obras);
         cliente.setUsuario(usuario);
