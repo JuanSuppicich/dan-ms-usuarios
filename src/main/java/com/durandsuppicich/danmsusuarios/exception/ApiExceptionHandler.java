@@ -21,7 +21,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({ BadRequestExeption.class,
+    @ExceptionHandler({ BadRequestException.class,
     // org.springframework.dao.DuplicateKeyException.class,
     // org.springframework.web.method.annotation.MethodArgumentTypeMismatchException.class,
     // org.springframework.http.converter.HttpMessageNotReadableException.class,

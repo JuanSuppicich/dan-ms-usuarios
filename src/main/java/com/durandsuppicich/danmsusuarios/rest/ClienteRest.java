@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.durandsuppicich.danmsusuarios.domain.Cliente;
-import com.durandsuppicich.danmsusuarios.exception.BadRequestExeption;
+import com.durandsuppicich.danmsusuarios.exception.BadRequestException;
 import com.durandsuppicich.danmsusuarios.exception.NotFoundException;
 import com.durandsuppicich.danmsusuarios.service.IServicioCliente;
 
@@ -45,10 +45,10 @@ public class ClienteRest {
                 return ResponseEntity.ok(body);
 
             } else {
-                throw new BadRequestExeption("Usuario: " + cliente.getUsuario());
+                throw new BadRequestException("Usuario: " + cliente.getUsuario());
             }
         } else {
-            throw new BadRequestExeption("Obras: " + cliente.getObras());
+            throw new BadRequestException("Obras: " + cliente.getObras());
         }
     }
 

@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import com.durandsuppicich.danmsusuarios.domain.Obra;
-import com.durandsuppicich.danmsusuarios.exception.BadRequestExeption;
 import com.durandsuppicich.danmsusuarios.exception.NotFoundException;
 import com.durandsuppicich.danmsusuarios.service.IServicioObra;
 
