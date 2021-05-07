@@ -1,3 +1,9 @@
+DELETE FROM MS_USUARIOS.USUARIO;
+DELETE FROM MS_USUARIOS.CLIENTE;
+DELETE FROM MS_USUARIOS.EMPLEADO;
+DELETE FROM MS_USUARIOS.OBRA;    
+
+
 INSERT INTO MS_USUARIOS.TIPO_USUARIO (tipo) VALUES 
     ('Cliente'),
     ('Vendedor');
@@ -17,6 +23,10 @@ INSERT INTO MS_USUARIOS.USUARIO (usuario, clave, id_tipo_usuario) VALUES
 INSERT INTO MS_USUARIOS.CLIENTE (razon_social, cuit, mail, max_cuenta_corriente, id_usuario) VALUES
     ('cliente1', '1111', 'cliente1@example.com', 1000.0, 1),
     ('cliente2', '2222', 'cliente2@example.com', 2000.0, 2);
+
+INSERT INTO MS_USUARIOS.EMPLEADO (mail, nombre, id_usuario) VALUES
+    ('empleado1@example.com', 'empleado1', 3),
+    ('empleado2@example.com', 'empleado2', 4);
 
 INSERT INTO MS_USUARIOS.OBRA (descripcion, latitud, longitud, direccion, superficie, id_tipo_obra, id_cliente) VALUES
     ('desc1', 1.00, 1.00, 'direc1', 10, 1, 1),

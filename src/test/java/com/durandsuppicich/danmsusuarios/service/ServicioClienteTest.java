@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.durandsuppicich.danmsusuarios.DanMsUsuariosApplicationTests;
 import com.durandsuppicich.danmsusuarios.dao.ClienteJpaRepository;
 import com.durandsuppicich.danmsusuarios.domain.Cliente;
 import com.durandsuppicich.danmsusuarios.domain.Obra;
@@ -30,7 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-@SpringBootTest
+@SpringBootTest(classes = DanMsUsuariosApplicationTests.class)
 public class ServicioClienteTest {
 
     @Autowired

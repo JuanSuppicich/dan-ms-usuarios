@@ -1,13 +1,7 @@
 package com.durandsuppicich.danmsusuarios;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootTest
-class DanMsUsuariosApplicationTests {
-
-	@Test
-	void contextLoads() {
-	}
-
+@SpringBootApplication
+public class DanMsUsuariosApplicationTests {
 }

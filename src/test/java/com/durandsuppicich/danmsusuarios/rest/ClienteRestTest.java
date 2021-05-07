@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.durandsuppicich.danmsusuarios.DanMsUsuariosApplicationTests;
 import com.durandsuppicich.danmsusuarios.domain.Cliente;
 import com.durandsuppicich.danmsusuarios.domain.Obra;
 import com.durandsuppicich.danmsusuarios.domain.Usuario;
@@ -21,7 +22,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest (classes = DanMsUsuariosApplicationTests.class,
+        webEnvironment = WebEnvironment.RANDOM_PORT)
 public class ClienteRestTest {
 
     @Autowired
@@ -90,18 +92,16 @@ public class ClienteRestTest {
         assertTrue(response.getStatusCode().equals(HttpStatus.BAD_REQUEST));
     }
 
-    /*@Test
+    @Test
     public void crear_ClienteRepetido_Conflic() {
 
-        HttpEntity<Cliente> request1 = new HttpEntity<Cliente>(cliente);
-        ResponseEntity<Cliente> response1 = testRestTemplate.exchange(url, HttpMethod.POST, request1, Cliente.class);
-        
-        HttpEntity<Cliente> request2 = new HttpEntity<Cliente>(cliente);
-        ResponseEntity<Cliente> response2 = testRestTemplate.exchange(url, HttpMethod.POST, request2, Cliente.class);
+        HttpEntity<Cliente> request = new HttpEntity<Cliente>(cliente);
+        ResponseEntity<Cliente> response1 = testRestTemplate.exchange(url, HttpMethod.POST, request, Cliente.class);
+        ResponseEntity<Cliente> response2 = testRestTemplate.exchange(url, HttpMethod.POST, request, Cliente.class);
         
         assertTrue(response1.getStatusCode().equals(HttpStatus.OK));
         assertTrue(response2.getStatusCode().equals(HttpStatus.CONFLICT));
-    }*/
+    }
 
     /*@Test
     public void crear_ClienteSinRazonSocial_BadRequest() {
