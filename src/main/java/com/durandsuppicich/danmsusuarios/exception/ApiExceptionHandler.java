@@ -43,7 +43,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler({ ConflictException.class, DataIntegrityViolationException.class })
-
     @ResponseBody
     public MensajeError conflic(HttpServletRequest request, Exception exception) {
         return new MensajeError(exception, request.getRequestURI());
