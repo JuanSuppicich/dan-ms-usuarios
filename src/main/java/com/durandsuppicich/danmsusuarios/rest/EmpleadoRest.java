@@ -62,7 +62,7 @@ public class EmpleadoRest {
         Optional<Empleado> body = servicioEmpleado.empleadoPorId(id);
 
         if (body.isPresent()) {
-            return ResponseEntity.of(body); // .ok(body) da error ?
+            return ResponseEntity.ok(body.get());
         } else {
             throw new NotFoundException("Empleado no encontrado. Id: " + id);
         }
@@ -75,7 +75,7 @@ public class EmpleadoRest {
         Optional<Empleado> body = servicioEmpleado.empleadoPorNombre(nombre);
 
         if (body.isPresent()) {
-            return ResponseEntity.of(body);
+            return ResponseEntity.ok(body.get());
         } else {
             throw new NotFoundException("Empleado no encontrado. Nombre: " + nombre);
         }

@@ -67,7 +67,7 @@ public class ClienteRest {
         Optional<Cliente> body = servicioCliente.clientePorId(id);
 
         if (body.isPresent()) {
-            return ResponseEntity.of(body); // .ok(body) da error ?
+            return ResponseEntity.ok(body.get());
         } else {
             throw new NotFoundException("Cliente no encontrado. Id: " + id);
         }
@@ -80,7 +80,7 @@ public class ClienteRest {
         Optional<Cliente> body = servicioCliente.clientePorCuit(cuit);
 
         if (body.isPresent()) {
-            return ResponseEntity.of(body);
+            return ResponseEntity.ok(body.get());
         } else {
             throw new NotFoundException("Cliente no encontrado. Cuit: " + cuit);
         }
@@ -94,7 +94,7 @@ public class ClienteRest {
         Optional<Cliente> body = servicioCliente.clientePorRazonSocial(razonSocial);
 
         if (body.isPresent()) {
-            return ResponseEntity.of(body);
+            return ResponseEntity.ok(body.get());
         } else {
             throw new NotFoundException("Cliente no encontrado. Razon social: " + razonSocial);
         }
