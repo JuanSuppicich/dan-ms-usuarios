@@ -88,17 +88,6 @@ public class ClienteJpaRepositoryTest {
     }
 
     @Test
-    public void findClienteConObras_ClientePorId_ClienteRecuperadoConUsuarioYObras() {
-        
-        Cliente cliente = clienteRepository.findClienteConObras(1).get(0);
-        
-        assertThat(cliente, notNullValue());
-        assertThat(cliente.getId(), is(equalTo(1)));
-        assertThat(cliente.getUsuario(), notNullValue());
-        assertThat(cliente.getObras(), hasSize(2));
-    }
-
-    @Test
     public void findByCuit_ClientePorCuit_ClienteRecuperadoConUsuario() {
 
         Optional<Cliente> cliente = clienteRepository.findByCuit("2222");
