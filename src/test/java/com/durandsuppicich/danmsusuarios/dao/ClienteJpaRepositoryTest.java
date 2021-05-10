@@ -35,8 +35,6 @@ public class ClienteJpaRepositoryTest {
     public void elRepositorioExiste() {
         assertNotNull(clienteRepository);
     }
-
-    @Sql({"/datos_test.sql"})
     
     @Test
     public void save_ClienteOk_ClienteCreado() {
@@ -74,13 +72,14 @@ public class ClienteJpaRepositoryTest {
         assertThat(clienteRepository.count(), is(equalTo(4L)));
     }
 
+    @Sql({"/datos_test.sql"})
     @Test
     public void findById_ClientePorId_ClienteRecuperadoConUsuario() {
 
         Optional<Cliente> cliente = clienteRepository.findById(2);
 
         assertTrue(cliente.isPresent());
-        assertThat(cliente.get().getId(), is(equalTo(1)));
+        assertThat(cliente.get().getId(), is(equalTo(2)));
         assertThat(cliente.get().getUsuario(), notNullValue());
         assertThrows(LazyInitializationException.class, () -> {
             cliente.get().getObras().get(0);
