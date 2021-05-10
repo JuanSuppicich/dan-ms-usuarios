@@ -4,7 +4,6 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import com.durandsuppicich.danmsusuarios.dao.ClienteJpaRepository;
 import com.durandsuppicich.danmsusuarios.domain.Cliente;
@@ -17,7 +16,9 @@ import org.springframework.stereotype.Service;
 public class ServicioCliente implements IServicioCliente {
 
     private final IServicioRiesgoCrediticio servicioRiesgo;
+
     private final IServicioPedido servicioPedido;
+    
     private final ClienteJpaRepository clienteRepository;
 
     public ServicioCliente(IServicioRiesgoCrediticio servicioRiesgo, IServicioPedido servicioPedido,
@@ -52,9 +53,7 @@ public class ServicioCliente implements IServicioCliente {
     @Override
     public List<Cliente> todos() {
 
-        return StreamSupport
-            .stream(clienteRepository.findAll().spliterator(), false)
-            .collect(Collectors.toList())
+        return clienteRepository.findAll()
             .stream()
             .filter(c -> c.getFechaBaja() == null)
             .collect(Collectors.toList());

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.durandsuppicich.danmsusuarios.domain.Cliente;
-import com.durandsuppicich.danmsusuarios.exception.BadRequestExeption;
+import com.durandsuppicich.danmsusuarios.exception.BadRequestException;
 import com.durandsuppicich.danmsusuarios.exception.NotFoundException;
 import com.durandsuppicich.danmsusuarios.service.IServicioCliente;
 
@@ -45,10 +45,10 @@ public class ClienteRest {
                 return ResponseEntity.ok(body);
 
             } else {
-                throw new BadRequestExeption("Usuario: " + cliente.getUsuario());
+                throw new BadRequestException("Usuario: " + cliente.getUsuario());
             }
         } else {
-            throw new BadRequestExeption("Obras: " + cliente.getObras());
+            throw new BadRequestException("Obras: " + cliente.getObras());
         }
     }
 
@@ -67,7 +67,7 @@ public class ClienteRest {
         Optional<Cliente> body = servicioCliente.clientePorId(id);
 
         if (body.isPresent()) {
-            return ResponseEntity.of(body); // .ok(body) da error ?
+            return ResponseEntity.ok(body.get());
         } else {
             throw new NotFoundException("Cliente no encontrado. Id: " + id);
         }
@@ -80,7 +80,7 @@ public class ClienteRest {
         Optional<Cliente> body = servicioCliente.clientePorCuit(cuit);
 
         if (body.isPresent()) {
-            return ResponseEntity.of(body);
+            return ResponseEntity.ok(body.get());
         } else {
             throw new NotFoundException("Cliente no encontrado. Cuit: " + cuit);
         }
@@ -94,7 +94,7 @@ public class ClienteRest {
         Optional<Cliente> body = servicioCliente.clientePorRazonSocial(razonSocial);
 
         if (body.isPresent()) {
-            return ResponseEntity.of(body);
+            return ResponseEntity.ok(body.get());
         } else {
             throw new NotFoundException("Cliente no encontrado. Razon social: " + razonSocial);
         }

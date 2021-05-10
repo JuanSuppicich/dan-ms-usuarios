@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import com.durandsuppicich.danmsusuarios.domain.Obra;
-import com.durandsuppicich.danmsusuarios.exception.BadRequestExeption;
 import com.durandsuppicich.danmsusuarios.exception.NotFoundException;
 import com.durandsuppicich.danmsusuarios.service.IServicioObra;
 
@@ -56,7 +55,7 @@ public class ObraRest {
         Optional<Obra> body = servicioObra.obraPorId(id);
 
         if (body.isPresent()) {
-            return ResponseEntity.of(body); // .ok(body) da error ?
+            return ResponseEntity.ok(body.get());
         } else {
             throw new NotFoundException("Obra no encontrada. Id: " + id);
         }
@@ -69,7 +68,6 @@ public class ObraRest {
 
             List<Obra> body = servicioObra.obrasPorClienteOTipoObra(idCliente, idTipoObra);
             return ResponseEntity.ok(body);
-            
     }
 
     @PutMapping(path = "/{id}")

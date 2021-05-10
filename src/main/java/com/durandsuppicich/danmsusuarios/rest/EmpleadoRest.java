@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.durandsuppicich.danmsusuarios.domain.Empleado;
-import com.durandsuppicich.danmsusuarios.exception.BadRequestExeption;
+import com.durandsuppicich.danmsusuarios.exception.BadRequestException;
 import com.durandsuppicich.danmsusuarios.exception.NotFoundException;
 import com.durandsuppicich.danmsusuarios.service.IServicioEmpleado;
 
@@ -43,7 +43,7 @@ public class EmpleadoRest {
             return ResponseEntity.ok(body);
 
         } else {
-            throw new BadRequestExeption("Empleado: " + empleado);
+            throw new BadRequestException("Empleado: " + empleado);
         }
     }
 
@@ -62,7 +62,7 @@ public class EmpleadoRest {
         Optional<Empleado> body = servicioEmpleado.empleadoPorId(id);
 
         if (body.isPresent()) {
-            return ResponseEntity.of(body); // .ok(body) da error ?
+            return ResponseEntity.ok(body.get());
         } else {
             throw new NotFoundException("Empleado no encontrado. Id: " + id);
         }
@@ -75,7 +75,7 @@ public class EmpleadoRest {
         Optional<Empleado> body = servicioEmpleado.empleadoPorNombre(nombre);
 
         if (body.isPresent()) {
-            return ResponseEntity.of(body);
+            return ResponseEntity.ok(body.get());
         } else {
             throw new NotFoundException("Empleado no encontrado. Nombre: " + nombre);
         }

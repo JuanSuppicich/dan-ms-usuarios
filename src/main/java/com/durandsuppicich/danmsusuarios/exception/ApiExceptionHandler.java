@@ -21,7 +21,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({ BadRequestExeption.class,
+    @ExceptionHandler({ BadRequestException.class,
     // org.springframework.dao.DuplicateKeyException.class,
     // org.springframework.web.method.annotation.MethodArgumentTypeMismatchException.class,
     // org.springframework.http.converter.HttpMessageNotReadableException.class,
@@ -43,7 +43,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler({ ConflictException.class, DataIntegrityViolationException.class })
-
     @ResponseBody
     public MensajeError conflic(HttpServletRequest request, Exception exception) {
         return new MensajeError(exception, request.getRequestURI());
