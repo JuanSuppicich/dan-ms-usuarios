@@ -16,7 +16,7 @@ public interface ClienteJpaRepository extends JpaRepository<Cliente, Integer> {
 
     Optional<Cliente> findByRazonSocial(String razonSocial);
 
-    @Query("SELECT c FROM Cliente c LEFT JOIN c.obras o WHERE o.id = :idObra")
+    @Query("SELECT c FROM Cliente c JOIN c.obras o WHERE o.id = :idObra")
     Optional<Cliente> findByIdObra(@Param("idObra") Integer idObra);
 
 }

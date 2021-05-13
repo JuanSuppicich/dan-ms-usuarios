@@ -14,12 +14,17 @@ public class TipoObra {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_TIPO_OBRA")
-    private Integer id; //Deberia estar precargado en la bd
+    private Integer id; // Deberia estar precargado en la bd
 
     @Column(nullable = false)
     private String descripcion;
 
     public TipoObra() {
+    }
+
+    public TipoObra(Integer id, String descripcion) {
+        this.id = id;
+        this.descripcion = descripcion;
     }
 
     public Integer getId() {

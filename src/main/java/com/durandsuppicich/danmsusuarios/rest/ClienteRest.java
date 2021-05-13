@@ -43,14 +43,9 @@ public class ClienteRest {
 
             if (tipoObraOk) {
 
-                //if (cliente.getUsuario() != null && cliente.getUsuario().getClave() != null) {
-
-                    Cliente body = servicioCliente.crear(cliente);
-                    return ResponseEntity.ok(body);
+                Cliente body = servicioCliente.crear(cliente);
+                return ResponseEntity.ok(body);
     
-                /*} else {
-                    throw new BadRequestException("Usuario: " + cliente.getUsuario());
-                }*/
             } else {
                 throw new BadRequestException("Tipo de obra: " + cliente.getObras());
             }

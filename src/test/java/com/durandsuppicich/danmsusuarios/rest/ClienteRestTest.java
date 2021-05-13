@@ -8,6 +8,7 @@ import java.util.List;
 import com.durandsuppicich.danmsusuarios.DanMsUsuariosApplicationTests;
 import com.durandsuppicich.danmsusuarios.domain.Cliente;
 import com.durandsuppicich.danmsusuarios.domain.Obra;
+import com.durandsuppicich.danmsusuarios.domain.TipoObra;
 import com.durandsuppicich.danmsusuarios.domain.Usuario;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -49,9 +50,15 @@ public class ClienteRestTest {
         cliente.setMaxCuentaCorriente(1000.00);
 
         Obra obra = new Obra();
+        obra.setDescripcion("test");
         obra.setLatitud(Float.valueOf("1.00"));
         obra.setLongitud(Float.valueOf("1.00"));
+        obra.setSuperficie(1);
         obra.setDireccion("test");
+        
+        TipoObra tipoObra = new TipoObra(1, "Reforma");
+        obra.setTipoObra(tipoObra);
+
         List<Obra> obras = new ArrayList<Obra>();
         obras.add(obra);
 
@@ -63,6 +70,8 @@ public class ClienteRestTest {
 
     @Test
     public void crear_ClienteOk_Ok() {
+
+        cliente.setUsuario(null);
 
         HttpEntity<Cliente> request = new HttpEntity<Cliente>(cliente);
         ResponseEntity<Cliente> response = testRestTemplate.exchange(url, HttpMethod.POST, request, Cliente.class);
@@ -82,13 +91,13 @@ public class ClienteRestTest {
     }
 
     @Test
-    public void crear_ClienteSinUsuario_BadRequest() {
+    public void crear_ClienteConObraSinTipoObra_BadRequest() {
 
-        cliente.setUsuario(null);
+        cliente.getObras().get(0).setTipoObra(null);
 
         HttpEntity<Cliente> request = new HttpEntity<Cliente>(cliente);
         ResponseEntity<Cliente> response = testRestTemplate.exchange(url, HttpMethod.POST, request, Cliente.class);
-
+    
         assertTrue(response.getStatusCode().equals(HttpStatus.BAD_REQUEST));
     }
 
