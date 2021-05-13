@@ -39,13 +39,20 @@ public class ClienteRest {
 
         if (cliente.getObras() != null && !cliente.getObras().isEmpty()) {
 
-            if (cliente.getUsuario() != null && cliente.getUsuario().getClave() != null) {
+            Boolean tipoObraOk = cliente.getObras().stream().allMatch(o -> o.getTipoObra() != null);
 
-                Cliente body = servicioCliente.crear(cliente);
-                return ResponseEntity.ok(body);
+            if (tipoObraOk) {
 
+                //if (cliente.getUsuario() != null && cliente.getUsuario().getClave() != null) {
+
+                    Cliente body = servicioCliente.crear(cliente);
+                    return ResponseEntity.ok(body);
+    
+                /*} else {
+                    throw new BadRequestException("Usuario: " + cliente.getUsuario());
+                }*/
             } else {
-                throw new BadRequestException("Usuario: " + cliente.getUsuario());
+                throw new BadRequestException("Tipo de obra: " + cliente.getObras());
             }
         } else {
             throw new BadRequestException("Obras: " + cliente.getObras());
@@ -97,6 +104,19 @@ public class ClienteRest {
             return ResponseEntity.ok(body.get());
         } else {
             throw new NotFoundException("Cliente no encontrado. Razon social: " + razonSocial);
+        }
+    }
+
+    @GetMapping(params = "idObra")
+    @ApiOperation(value = "Busca un cliente por id de obra")
+    public ResponseEntity<Cliente> clientePorIdObra(@RequestParam(name = "idObra") Integer idObra) {
+
+        Optional<Cliente> body = servicioCliente.clientePorIdObra(idObra);
+
+        if (body.isPresent()) {
+            return ResponseEntity.ok(body.get());
+        } else {
+            throw new NotFoundException("Cliente no encontrado. Id Obra: " + idObra);
         }
     }
 

@@ -14,7 +14,7 @@ public class TipoUsuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_TIPO_USUARIO")
-    private Integer id; //Deberia estar precargado en la bd
+    private Integer id; 
 
     @Column(nullable = false)
     private String tipo;
@@ -23,6 +23,11 @@ public class TipoUsuario {
     }
 
     public TipoUsuario(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public TipoUsuario(Integer id, String tipo) {
+        this.id = id;
         this.tipo = tipo;
     }
 

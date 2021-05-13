@@ -17,6 +17,8 @@ public interface IServicioCliente {
 
     Optional<Cliente> clientePorRazonSocial(String razonSocial);
 
+    Optional<Cliente> clientePorIdObra(Integer idObra);
+
     void actualizar(Integer id, Cliente cliente);
 
     void eliminar(Integer id);
