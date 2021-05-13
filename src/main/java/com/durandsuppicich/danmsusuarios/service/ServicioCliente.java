@@ -1,6 +1,7 @@
 package com.durandsuppicich.danmsusuarios.service;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -125,7 +126,7 @@ public class ServicioCliente implements IServicioCliente {
 
             if (!servicioPedido.obtenerPedidos(optCliente.get()).isEmpty()) {
 
-                optCliente.get().setFechaBaja(Instant.now());
+                optCliente.get().setFechaBaja(Instant.now().truncatedTo(ChronoUnit.MILLIS));
                 clienteRepository.save(optCliente.get());
 
             } else {
