@@ -51,5 +51,4 @@ public class TipoUsuario {
     public String toString() {
         return "TipoUsuario [id=" + id + ", tipo=" + tipo + "]";
     }
-
 }

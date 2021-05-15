@@ -71,7 +71,6 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return "Usuario [clave=" + clave + ", id=" + id + ", usuario=" + usuario + "]";
+        return "Usuario [clave=" + clave + ", id=" + id + ", tipoUsuario=" + tipoUsuario + ", usuario=" + usuario + "]";
     }
-
 }

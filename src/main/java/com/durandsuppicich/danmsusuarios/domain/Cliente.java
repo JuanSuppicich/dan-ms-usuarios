@@ -145,8 +145,8 @@ public class Cliente {
     @Override
     public String toString() {
         return "Cliente [cuit=" + cuit + ", fechaBaja=" + fechaBaja + ", habilitadoOnline=" + habilitadoOnline + ", id="
-                + id + ", mail=" + mail + ", maxCuentaCorriente=" + maxCuentaCorriente + ", razonSocial=" + razonSocial
-                + "]";
+                + id + ", mail=" + mail + ", maxCuentaCorriente=" + maxCuentaCorriente + ", obras=" + obras
+                + ", razonSocial=" + razonSocial + ", usuario=" + usuario + "]";
     }
 
     @Override

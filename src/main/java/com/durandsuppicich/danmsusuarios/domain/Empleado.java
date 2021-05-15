@@ -63,7 +63,7 @@ public class Empleado {
 
     @Override
     public String toString() {
-        return "Empleado [id=" + id + ", mail=" + mail + "]";
+        return "Empleado [id=" + id + ", mail=" + mail + ", nombre=" + nombre + ", usuario=" + usuario + "]";
     }
 
 }
