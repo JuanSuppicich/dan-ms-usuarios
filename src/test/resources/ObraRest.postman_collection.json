@@ -1,0 +1,258 @@
+{
+	"info": {
+		"_postman_id": "86f74d26-cb2c-4114-be1e-3d80d1dd9722",
+		"name": "ObraRest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "crear",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"descripcion\": \"obra03\",\r\n    \"latitud\": 3.00,\r\n    \"longitud\": 3.00,\r\n    \"direccion\": \"direccion03\",\r\n    \"superficie\": 4,\r\n    \"tipoObra\": {\r\n            \"id\": 4,\r\n            \"descripcion\": \"Vial\"\r\n        },\r\n    \"cliente\": {\r\n        \"id\": 1\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url-Obra(port 9000)}}",
+					"host": [
+						"{{url-Obra(port 9000)}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "crear",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"descripcion\": \"obra04\",\r\n    \"latitud\": 4.00,\r\n    \"longitud\": 4.00,\r\n    \"direccion\": \"direccion04\",\r\n    \"superficie\": 4,\r\n    \"tipoObra\": {\r\n            \"id\": 4,\r\n            \"descripcion\": \"Vial\"\r\n        },\r\n    \"cliente\": {\r\n        \"id\": 1\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url-Obra(port 9000)}}",
+					"host": [
+						"{{url-Obra(port 9000)}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "crear",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"descripcion\": \"obra05\",\r\n    \"latitud\": 5.00,\r\n    \"longitud\": 5.00,\r\n    \"direccion\": \"direccion05\",\r\n    \"superficie\": 5,\r\n    \"tipoObra\": {\r\n            \"id\": 1,\r\n            \"descripcion\": \"Reforma\"\r\n        },\r\n    \"cliente\": {\r\n        \"id\": 19\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url-Obra(port 9000)}}",
+					"host": [
+						"{{url-Obra(port 9000)}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "todos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url-Obra(port 9000)}}",
+					"host": [
+						"{{url-Obra(port 9000)}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "obraPorId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url-Obra(port 9000)}}/1",
+					"host": [
+						"{{url-Obra(port 9000)}}"
+					],
+					"path": [
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "obrasPorIdCliente",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url-Obra(port 9000)}}?idCliente=1&idTipoObra=",
+					"host": [
+						"{{url-Obra(port 9000)}}"
+					],
+					"query": [
+						{
+							"key": "idCliente",
+							"value": "1"
+						},
+						{
+							"key": "idTipoObra",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "obrasPorIdTipoObra",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url-Obra(port 9000)}}?idCliente=&idTipoObra=1",
+					"host": [
+						"{{url-Obra(port 9000)}}"
+					],
+					"query": [
+						{
+							"key": "idCliente",
+							"value": ""
+						},
+						{
+							"key": "idTipoObra",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "obrasPorIdTipoObraYIdCliente",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url-Obra(port 9000)}}?idCliente=1&idTipoObra=2",
+					"host": [
+						"{{url-Obra(port 9000)}}"
+					],
+					"query": [
+						{
+							"key": "idCliente",
+							"value": "1"
+						},
+						{
+							"key": "idTipoObra",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "obrasPorNada",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url-Obra(port 9000)}}?idCliente=&idTipoObra=",
+					"host": [
+						"{{url-Obra(port 9000)}}"
+					],
+					"query": [
+						{
+							"key": "idCliente",
+							"value": ""
+						},
+						{
+							"key": "idTipoObra",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "actualizar",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 1,\r\n    \"descripcion\": \"Obra01Modificada\",\r\n    \"latitud\": 1.00,\r\n    \"longitud\": 1.00,\r\n    \"direccion\": \"direccion01Modificada\",\r\n    \"superficie\": 1,\r\n    \"tipoObra\": {\r\n            \"id\": 1,\r\n            \"descripcion\": \"descripcion modificada 01\"\r\n        },\r\n    \"cliente\": {\r\n            \"id\": 1\r\n        }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url-Obra(port 9000)}}/1",
+					"host": [
+						"{{url-Obra(port 9000)}}"
+					],
+					"path": [
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "eliminar",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url-Obra(port 9000)}}/1",
+					"host": [
+						"{{url-Obra(port 9000)}}"
+					],
+					"path": [
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "url-ObraRest",
+			"value": "http://localhost:8080/api/obra"
+		},
+		{
+			"key": "url-Obra(port 9000)",
+			"value": "http://localhost:9000/api/obra"
+		}
+	]
+}
