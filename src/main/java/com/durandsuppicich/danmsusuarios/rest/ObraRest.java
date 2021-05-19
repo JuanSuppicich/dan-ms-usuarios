@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.durandsuppicich.danmsusuarios.domain.Obra;
+import com.durandsuppicich.danmsusuarios.exception.BadRequestException;
 import com.durandsuppicich.danmsusuarios.exception.NotFoundException;
 import com.durandsuppicich.danmsusuarios.service.IServicioObra;
 
@@ -36,8 +37,15 @@ public class ObraRest {
     @ApiOperation(value = "Crea una nueva obra")
     public ResponseEntity<Obra> crear(@RequestBody Obra obra) {
 
-        Obra body = servicioObra.crear(obra);
-        return ResponseEntity.ok(body);
+        if (obra.getTipoObra() != null && obra.getTipoObra().getId() != null) {
+
+            Obra body = servicioObra.crear(obra);
+            return ResponseEntity.ok(body);
+
+        } else {
+            throw new BadRequestException("Tipo de obra: " + obra.getTipoObra());
+        }
+        
     }
 
     @GetMapping
@@ -62,7 +70,8 @@ public class ObraRest {
     }
 
     @GetMapping(params = { "idCliente", "idTipoObra" })
-    @ApiOperation(value = "Lista obras por id cliente y/o id tipo de obra")
+    @ApiOperation(value = "Lista obras por id cliente y/o id tipo de obra. Ambos parametros son" +
+                            " opcionales, si no se proporciona ninguno se transforma en findAll")
     public ResponseEntity<List<Obra>> obrasPorClienteOTipoDeObra(@RequestParam(required = false) Integer idCliente,
             @RequestParam(required = false) Integer idTipoObra) {
 

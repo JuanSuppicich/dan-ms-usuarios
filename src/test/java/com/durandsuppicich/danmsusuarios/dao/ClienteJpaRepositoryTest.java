@@ -119,4 +119,13 @@ public class ClienteJpaRepositoryTest {
             cliente.get().getObras().get(0);
         });
     }
+
+    @Test
+    public void findByIdObra_ClientePorObra_ClienteRecuperadoConObraIdObra() {
+
+        Optional<Cliente> cliente = clienteRepository.findByIdObra(3);
+
+        assertTrue(cliente.isPresent());
+        assertThat(cliente.get().getId(), is(equalTo(1)));
+    }
 }

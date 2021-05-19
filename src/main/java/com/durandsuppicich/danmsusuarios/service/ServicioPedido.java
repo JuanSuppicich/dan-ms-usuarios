@@ -13,7 +13,9 @@ public class ServicioPedido implements IServicioPedido {
 
     @Override
     public List<Pedido> obtenerPedidos(Cliente cliente) {
-        return new ArrayList<Pedido>();
+        List<Pedido> pedidos = new ArrayList<>();
+        pedidos.add(new Pedido());
+        return pedidos;
     }
 
 }

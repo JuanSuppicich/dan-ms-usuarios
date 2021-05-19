@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import com.durandsuppicich.danmsusuarios.domain.Empleado;
-import com.durandsuppicich.danmsusuarios.exception.BadRequestException;
 import com.durandsuppicich.danmsusuarios.exception.NotFoundException;
 import com.durandsuppicich.danmsusuarios.service.IServicioEmpleado;
 
@@ -37,14 +36,14 @@ public class EmpleadoRest {
     @ApiOperation(value = "Crea un nuevo empleado")
     public ResponseEntity<Empleado> crear(@RequestBody Empleado empleado) {
 
-        if (empleado.getUsuario() != null && empleado.getUsuario().getClave() != null) {
+        //if (empleado.getUsuario() != null && empleado.getUsuario().getClave() != null) {
 
             Empleado body = servicioEmpleado.crear(empleado);
             return ResponseEntity.ok(body);
 
-        } else {
+        /*} else {
             throw new BadRequestException("Empleado: " + empleado);
-        }
+        }*/
     }
 
     @GetMapping

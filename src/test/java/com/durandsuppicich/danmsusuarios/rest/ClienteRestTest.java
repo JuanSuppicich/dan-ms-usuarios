@@ -8,6 +8,7 @@ import java.util.List;
 import com.durandsuppicich.danmsusuarios.DanMsUsuariosApplicationTests;
 import com.durandsuppicich.danmsusuarios.domain.Cliente;
 import com.durandsuppicich.danmsusuarios.domain.Obra;
+import com.durandsuppicich.danmsusuarios.domain.TipoObra;
 import com.durandsuppicich.danmsusuarios.domain.Usuario;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -21,6 +22,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.jdbc.Sql;
 
 @SpringBootTest (classes = DanMsUsuariosApplicationTests.class,
         webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -49,9 +51,15 @@ public class ClienteRestTest {
         cliente.setMaxCuentaCorriente(1000.00);
 
         Obra obra = new Obra();
-        obra.setLatitud(Float.valueOf("1.00"));
-        obra.setLongitud(Float.valueOf("1.00"));
+        obra.setDescripcion("test");
+        obra.setLatitud(1F);
+        obra.setLongitud(1F);
+        obra.setSuperficie(1);
         obra.setDireccion("test");
+        
+        TipoObra tipoObra = new TipoObra(1, "Reforma");
+        obra.setTipoObra(tipoObra);
+
         List<Obra> obras = new ArrayList<Obra>();
         obras.add(obra);
 
@@ -62,7 +70,10 @@ public class ClienteRestTest {
     }
 
     @Test
+    @Sql({"/datos_test.sql"})
     public void crear_ClienteOk_Ok() {
+
+        cliente.setUsuario(null);
 
         HttpEntity<Cliente> request = new HttpEntity<Cliente>(cliente);
         ResponseEntity<Cliente> response = testRestTemplate.exchange(url, HttpMethod.POST, request, Cliente.class);
@@ -82,36 +93,46 @@ public class ClienteRestTest {
     }
 
     @Test
-    public void crear_ClienteSinUsuario_BadRequest() {
+    public void crear_ClienteConObraSinTipoObra_BadRequest() {
 
-        cliente.setUsuario(null);
+        cliente.getObras().get(0).setTipoObra(null);
 
         HttpEntity<Cliente> request = new HttpEntity<Cliente>(cliente);
         ResponseEntity<Cliente> response = testRestTemplate.exchange(url, HttpMethod.POST, request, Cliente.class);
-
+    
         assertTrue(response.getStatusCode().equals(HttpStatus.BAD_REQUEST));
     }
 
     @Test
     public void crear_ClienteRepetido_Conflic() {
 
-        HttpEntity<Cliente> request = new HttpEntity<Cliente>(cliente);
+        Cliente cliente2 = new Cliente();
+        cliente2.setRazonSocial("test");
+        cliente2.setCuit("777777777");
+        cliente2.setMail("test7@test.com");
+        cliente2.setHabilitadoOnline(false);
+        cliente2.setMaxCuentaCorriente(1000.00);
+
+        Obra obra = new Obra();
+        obra.setDescripcion("test");
+        obra.setLatitud(1F);
+        obra.setLongitud(1F);
+        obra.setSuperficie(1);
+        obra.setDireccion("test");
+        
+        TipoObra tipoObra = new TipoObra(1, "Reforma");
+        obra.setTipoObra(tipoObra);
+
+        List<Obra> obras = new ArrayList<Obra>();
+        obras.add(obra);
+
+        cliente2.setObras(obras);
+
+        HttpEntity<Cliente> request = new HttpEntity<Cliente>(cliente2);
         ResponseEntity<Cliente> response1 = testRestTemplate.exchange(url, HttpMethod.POST, request, Cliente.class);
         ResponseEntity<Cliente> response2 = testRestTemplate.exchange(url, HttpMethod.POST, request, Cliente.class);
         
         assertTrue(response1.getStatusCode().equals(HttpStatus.OK));
         assertTrue(response2.getStatusCode().equals(HttpStatus.CONFLICT));
     }
-
-    /*@Test
-    public void crear_ClienteSinRazonSocial_BadRequest() {
-
-        cliente.setRazonSocial(null);
-
-        HttpEntity<Cliente> request = new HttpEntity<Cliente>(cliente);
-        ResponseEntity<Cliente> response = testRestTemplate.exchange(url, HttpMethod.POST, request, Cliente.class);
-
-        assertTrue(response.getStatusCode().equals(HttpStatus.BAD_REQUEST));
-    }*/
-
 }

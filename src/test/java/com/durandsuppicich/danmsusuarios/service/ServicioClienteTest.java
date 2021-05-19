@@ -66,23 +66,42 @@ public class ServicioClienteTest {
     @Test
     public void crear_ReporteBCRAPositivo_HabilitadoOnlineTrue() {
 
+        cliente.setUsuario(null);
+
         when(servicioRiesgo.resporteBCRAPositivo(anyString())).thenReturn(true);
         when(clienteRepository.save(any(Cliente.class))).thenReturn(cliente);
 
         Cliente resultado = servicioCliente.crear(cliente);
         assertTrue(resultado.getHabilitadoOnline());
+        assertNotNull(resultado.getUsuario());
         verify(clienteRepository, times(1)).save(cliente);
     }
 
     @Test
     public void crear_ReporteBCRANegativo_HabilitadoOnlineFalse() {
 
+        cliente.setUsuario(null);
+
         when(servicioRiesgo.resporteBCRAPositivo(anyString())).thenReturn(false);
         when(clienteRepository.save(any(Cliente.class))).thenReturn(cliente);
 
         Cliente resultado = servicioCliente.crear(cliente);
         assertFalse(resultado.getHabilitadoOnline());
+        assertNotNull(resultado.getUsuario());
         verify(clienteRepository, times(1)).save(cliente);
+    }
+
+    @Test
+    public void crear_CreacionDeUsuario_NombreUsuarioMail() {
+
+        cliente.setUsuario(null);
+
+        when(servicioRiesgo.resporteBCRAPositivo(anyString())).thenReturn(true);
+        when(clienteRepository.save(any(Cliente.class))).thenReturn(cliente);
+
+        Cliente resultado = servicioCliente.crear(cliente);
+
+        assertTrue(resultado.getUsuario().getUsuario().equals(resultado.getMail()));
     }
 
     @Test

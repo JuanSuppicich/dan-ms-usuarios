@@ -1,6 +1,7 @@
 package com.durandsuppicich.danmsusuarios.service;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -8,6 +9,8 @@ import java.util.stream.Collectors;
 import com.durandsuppicich.danmsusuarios.dao.ClienteJpaRepository;
 import com.durandsuppicich.danmsusuarios.domain.Cliente;
 import com.durandsuppicich.danmsusuarios.domain.Obra;
+import com.durandsuppicich.danmsusuarios.domain.TipoUsuario;
+import com.durandsuppicich.danmsusuarios.domain.Usuario;
 import com.durandsuppicich.danmsusuarios.exception.NotFoundException;
 
 import org.springframework.stereotype.Service;
@@ -36,6 +39,10 @@ public class ServicioCliente implements IServicioCliente {
         } else {
             cliente.setHabilitadoOnline(false);
         }
+
+        TipoUsuario tipoUsuario = new TipoUsuario(1, "Cliente");
+        Usuario usuario = new Usuario(cliente.getMail(), "1234", tipoUsuario);
+        cliente.setUsuario(usuario);
 
         //Necesitamos setear el  atributo cliente en cada obra para guardar la relacion
         //Se podria hacer mas elegante.
@@ -68,7 +75,7 @@ public class ServicioCliente implements IServicioCliente {
             return optCliente;
         }
 
-        return Optional.ofNullable(null);
+        return Optional.empty();
     }
 
     @Override
@@ -80,7 +87,7 @@ public class ServicioCliente implements IServicioCliente {
             return optCliente;
         }
 
-        return Optional.ofNullable(null);
+        return Optional.empty();
     }
 
     @Override
@@ -92,7 +99,12 @@ public class ServicioCliente implements IServicioCliente {
             return optCliente;
         }
 
-        return Optional.ofNullable(null);
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Cliente> clientePorIdObra(Integer idObra) {
+        return clienteRepository.findByIdObra(idObra);
     }
 
     @Override
@@ -114,7 +126,7 @@ public class ServicioCliente implements IServicioCliente {
 
             if (!servicioPedido.obtenerPedidos(optCliente.get()).isEmpty()) {
 
-                optCliente.get().setFechaBaja(Instant.now());
+                optCliente.get().setFechaBaja(Instant.now().truncatedTo(ChronoUnit.MILLIS));
                 clienteRepository.save(optCliente.get());
 
             } else {
