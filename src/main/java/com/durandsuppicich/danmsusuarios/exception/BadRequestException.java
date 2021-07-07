@@ -1,11 +1,14 @@
 package com.durandsuppicich.danmsusuarios.exception;
 
-//Este tipo de clase generica se pondria extender para especificar. 
 public class BadRequestException extends RuntimeException {
     
-    private static final String DESCRIPCION = "Bad Request Exception (400)";
+    private static final String DEFAULT_MESSAGE = "Bad Request Exception (400)";
 
-    public BadRequestException(String detalle) {
-        super(DESCRIPCION + ". " + detalle);
+    public BadRequestException() {
+        super(DEFAULT_MESSAGE);
+    }
+
+    public BadRequestException(String message) {
+        super(DEFAULT_MESSAGE + ". " + message);
     }
 }

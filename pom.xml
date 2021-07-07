@@ -72,6 +72,14 @@
 			<version>42.2.20</version>
 			<scope>runtime</scope>
 		</dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -127,7 +135,27 @@
 					</excludeFilterFile>
 					<skip>true</skip>
 				</configuration>
-				</plugin>
+			</plugin>
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>dockerfile-maven-plugin</artifactId>
+				<version>1.4.13</version>
+				<executions>
+					<execution>
+					<id>default</id>
+					<goals>
+						<goal>build</goal>
+					</goals>
+					</execution>
+				</executions>
+				<configuration> 
+					<repository>dan/ms-usuarios</repository>
+					<tag>${project.version}</tag>
+					<buildArgs>
+						<JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
+					</buildArgs>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 	<reporting>

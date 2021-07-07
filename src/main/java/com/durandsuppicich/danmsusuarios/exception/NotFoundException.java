@@ -2,10 +2,14 @@ package com.durandsuppicich.danmsusuarios.exception;
 
 public class NotFoundException extends RuntimeException {
     
-    private static final String DESCRIPCION = "Not Found Exception (404)";
+    private static final String DEFAULT_MESSAGE = "Not Found Exception (404)";
 
-    public NotFoundException(String detalle) {
-        super(DESCRIPCION + ". " + detalle);
+    public NotFoundException() {
+        super(DEFAULT_MESSAGE);
+    }
+
+    public NotFoundException(String message) {
+        super(DEFAULT_MESSAGE + ". " + message);
     }
 
 }

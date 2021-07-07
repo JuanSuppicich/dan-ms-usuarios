@@ -2,10 +2,14 @@ package com.durandsuppicich.danmsusuarios.exception;
 
 public class UnauthorizedException extends RuntimeException {
 
-    private static final String DESCRIPCION = "Unauthorized Exception (401)";
+    private static final String DEFAULT_MESSAGE = "Unauthorized Exception (401)";
 
-    public UnauthorizedException(String detalle) {
-        super(DESCRIPCION + ". " + detalle);
+    public UnauthorizedException() {
+        super(DEFAULT_MESSAGE);
+    }
+
+    public UnauthorizedException(String message) {
+        super(DEFAULT_MESSAGE + ". " + message);
     }
 
 }
