@@ -8,15 +8,15 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "TIPO_USUARIO", schema = "MS_USUARIOS")
+@Table(name = "user_type", schema = "ms_users")
 public class UserType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_TIPO_USUARIO")
+    @Column(name = "user_type_id")
     private Integer id;
 
-    @Column(name = "TIPO", nullable = false)
+    @Column(nullable = false)
     private String description;
 
     public UserType() {

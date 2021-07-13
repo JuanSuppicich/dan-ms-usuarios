@@ -10,48 +10,60 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.sun.istack.Nullable;
+
+import java.time.Instant;
 
 @Entity
-@Table(name = "OBRA", schema = "MS_USUARIOS")
+@Table(name = "order", schema = "ms_users")
 public class Construction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_OBRA")
+    @Column(name = "order_id")
     private Integer id;
 
-    @Column(name = "DESCRIPCION", length = 128)
+    @Column(length = 128)
     private String description;
 
-    @Column(name = "LATITUD", nullable = false)
+    @Column(nullable = false)
     private Float latitude;
 
-    @Column(name = "LONGITUD", nullable = false)
+    @Column(nullable = false)
     private Float longitude;
 
-    @Column(name = "DIRECCION", nullable = false, length = 32)
+    @Column(nullable = false, length = 32)
     private String address;
 
-    private Integer area; //TODO map?
+    private Integer area;
+
+    @Column(name = "post_date" ,nullable = false)
+    private Instant postDate;
+
+    @Column(name = "put_date")
+    private Instant putDate;
+
+    @Column(name = "delete_date")
+    private Instant deleteDate;
 
     @OneToOne
-    @JoinColumn(name = "ID_TIPO_OBRA")
+    @JoinColumn(name = "oder_type_id")
     private ConstructionType constructionType;
 
     @ManyToOne
-    @JoinColumn(name = "ID_CLIENTE")
+    @JoinColumn(name = "customer_id")
     @JsonBackReference
     private Customer customer;
 
     public Construction() {
     }
 
-    public Construction(String description, Float latitude, Float longitude, String adress, Integer area,
+    public Construction(String description, Float latitude, Float longitude, String address, Integer area,
                         ConstructionType constructionType) {
         this.description = description;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.address = adress;
+        this.address = address;
         this.area = area;
         this.constructionType = constructionType;
     }
@@ -104,6 +116,30 @@ public class Construction {
         this.area = area;
     }
 
+    public Instant getPostDate() {
+        return postDate;
+    }
+
+    public void setPostDate(Instant postDate) {
+        this.postDate = postDate;
+    }
+
+    public Instant getPutDate() {
+        return putDate;
+    }
+
+    public void setPutDate(Instant putDate) {
+        this.putDate = putDate;
+    }
+
+    public Instant getDeleteDate() {
+        return deleteDate;
+    }
+
+    public void setDeleteDate(Instant deleteDate) {
+        this.deleteDate = deleteDate;
+    }
+
     public Customer getCustomer() {
         return customer;
     }
@@ -122,7 +158,7 @@ public class Construction {
 
     @Override
     public String toString() {
-        return "Construction [descripcion=" + description + ", direction=" + address + ", id=" + id + ", latitude=" + latitude
+        return "Construction [description=" + description + ", direction=" + address + ", id=" + id + ", latitude=" + latitude
                 + ", longitude=" + longitude + ", area=" + area + ", constructionType=" + constructionType + "]";
     }
 }

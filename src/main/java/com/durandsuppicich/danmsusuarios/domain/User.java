@@ -10,22 +10,22 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "USUARIO", schema = "MS_USUARIOS")
+@Table(name = "user", schema = "ms_users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_USUARIO")
+    @Column(name = "user_id")
     private Integer id;
 
-    @Column(name = "USUARIO", nullable = false, unique = true, updatable = false, length = 20)
+    @Column(nullable = false, unique = true, updatable = false, length = 20)
     private String user;
 
-    @Column(name = "CLAVE", nullable = false, length = 32)
+    @Column(nullable = false, length = 32)
     private String password;
 
     @OneToOne
-    @JoinColumn(name = "ID_TIPO_USUARIO")
+    @JoinColumn(name = "user_type_id")
     private UserType userType;
 
     public User() {

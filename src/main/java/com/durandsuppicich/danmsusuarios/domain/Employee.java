@@ -9,28 +9,34 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.time.Instant;
 
 @Entity
-@Table(name = "EMPLEADO", schema = "MS_USUARIOS")
+@Table(name = "employee", schema = "ms_users")
 public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_EMPLEADO")
+    @Column(name = "employee_id")
     private Integer id;
 
-    @Column(name = "NOMBRE", nullable = false, length = 32)
+    @Column(nullable = false, length = 32)
     private String name;
 
-    @Column(name = "MAIL", nullable = false)
+    @Column(nullable = false)
     private String email;
 
-    //TODO add createDate
-    //TODO add updateDate
-    //TODO add postDate
+    @Column(name = "post_date" ,nullable = false)
+    private Instant postDate;
+
+    @Column(name = "put_date")
+    private Instant putDate;
+
+    @Column(name = "delete_date")
+    private Instant deleteDate;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "ID_USUARIO")
+    @JoinColumn(name = "user_id")
     private User user;
 
     public Integer getId() {
@@ -43,6 +49,30 @@ public class Employee {
 
     public String getEmail() {
         return email;
+    }
+
+    public Instant getPostDate() {
+        return postDate;
+    }
+
+    public void setPostDate(Instant postDate) {
+        this.postDate = postDate;
+    }
+
+    public Instant getPutDate() {
+        return putDate;
+    }
+
+    public void setPutDate(Instant putDate) {
+        this.putDate = putDate;
+    }
+
+    public Instant getDeleteDate() {
+        return deleteDate;
+    }
+
+    public void setDeleteDate(Instant deleteDate) {
+        this.deleteDate = deleteDate;
     }
 
     public void setEmail(String email) {
