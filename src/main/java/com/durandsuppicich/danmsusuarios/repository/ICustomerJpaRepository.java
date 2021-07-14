@@ -1,5 +1,6 @@
 package com.durandsuppicich.danmsusuarios.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.durandsuppicich.danmsusuarios.domain.Customer;
@@ -12,9 +13,20 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ICustomerJpaRepository extends JpaRepository<Customer, Integer> {
 
+    @Query("SELECT c " +
+            "FROM Customer c " +
+            "WHERE c.deleteDate IS NULL" )
+    List<Customer> getAll();
+
+    Optional<Customer> findByIdAndDeleteDateIsNull(Integer id);
+
     Optional<Customer> findByCuit(String cuit);
 
-    Optional<Customer> findByBusinessName(String BusinessName);
+    Optional<Customer> findByCuitAndDeleteDateIsNull(String cuit);
+
+    Optional<Customer> findByBusinessName(String businessName);
+
+    Optional<Customer> findByBusinessNameAndDeleteDateIsNull(String businessName);
 
     @Query("SELECT c " +
             "FROM Customer c " +

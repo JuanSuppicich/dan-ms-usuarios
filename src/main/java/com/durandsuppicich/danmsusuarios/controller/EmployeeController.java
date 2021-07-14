@@ -7,7 +7,7 @@ import com.durandsuppicich.danmsusuarios.domain.Employee;
 import com.durandsuppicich.danmsusuarios.dto.employee.EmployeeDto;
 import com.durandsuppicich.danmsusuarios.dto.employee.EmployeePostDto;
 import com.durandsuppicich.danmsusuarios.dto.employee.EmployeePutDto;
-import com.durandsuppicich.danmsusuarios.exception.NotFoundException;
+import com.durandsuppicich.danmsusuarios.exception.http.NotFoundException;
 import com.durandsuppicich.danmsusuarios.mapper.IEmployeeMapper;
 import com.durandsuppicich.danmsusuarios.service.IEmployeeService;
 

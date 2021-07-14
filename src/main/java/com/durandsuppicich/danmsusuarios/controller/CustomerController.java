@@ -7,8 +7,7 @@ import com.durandsuppicich.danmsusuarios.domain.Customer;
 import com.durandsuppicich.danmsusuarios.dto.customer.CustomerDto;
 import com.durandsuppicich.danmsusuarios.dto.customer.CustomerPostDto;
 import com.durandsuppicich.danmsusuarios.dto.customer.CustomerPutDto;
-import com.durandsuppicich.danmsusuarios.exception.BadRequestException;
-import com.durandsuppicich.danmsusuarios.exception.NotFoundException;
+import com.durandsuppicich.danmsusuarios.exception.http.NotFoundException;
 import com.durandsuppicich.danmsusuarios.mapper.ICustomerMapper;
 import com.durandsuppicich.danmsusuarios.service.ICustomerService;
 
@@ -42,7 +41,7 @@ public class CustomerController {
 
     public CustomerController(ICustomerService customerService,
                               ICustomerMapper customerMapper) {
-        this.customerService = customerService; //TODO check if null
+        this.customerService = customerService;
         this.customerMapper = customerMapper;
     }
 
@@ -50,25 +49,9 @@ public class CustomerController {
     @ApiOperation(value = "Creates a new customer")
     public ResponseEntity<Customer> post(@RequestBody @Validated CustomerPostDto customerDto) {
 
-        if (customerDto.getConstructions() != null && !customerDto.getConstructions().isEmpty()) { //TODO change this
-
-            boolean constructionTypeOk = //TODO change this
-                    customerDto.getConstructions()
-                            .stream()
-                            .allMatch(o -> o.getConstructionTypeId() != null);
-
-            if (constructionTypeOk) {
-
-                Customer customer = customerMapper.map(customerDto);
-                Customer body = customerService.post(customer);
-                return ResponseEntity.ok(body);
-    
-            } else {
-                throw new BadRequestException("Tipo de obra: " + customerDto.getConstructions()); //TODO change this
-            }
-        } else {
-            throw new BadRequestException("Obras: " + customerDto.getConstructions()); //TODO change this
-        }
+        Customer customer = customerMapper.map(customerDto);
+        Customer body = customerService.post(customer);
+        return ResponseEntity.ok(body);
     }
 
     @GetMapping
@@ -86,14 +69,10 @@ public class CustomerController {
     public ResponseEntity<CustomerDto> getById(@PathVariable
                                                    @Range(min = 1, max = Integer.MAX_VALUE) Integer id) {
 
-        Optional<Customer> customer = customerService.getById(id);
+        Customer customer = customerService.getById(id);
+        CustomerDto body = customerMapper.mapToDto(customer);
 
-        if (customer.isPresent()) {
-            CustomerDto body = customerMapper.mapToDto(customer.get());
-            return ResponseEntity.ok(body);
-        } else {
-            throw new NotFoundException("Customer no encontrado. Id: " + id); //TODO change this
-        }
+        return ResponseEntity.ok(body);
     }
 
     @GetMapping(params = "cuit")

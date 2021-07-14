@@ -1,6 +1,8 @@
 package com.durandsuppicich.danmsusuarios.domain;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -125,7 +127,7 @@ public class Customer {
     }
 
     public void setPostDate(Instant postDate) {
-        this.postDate = postDate;
+        this.postDate = postDate.truncatedTo(ChronoUnit.SECONDS);;
     }
 
     public Instant getPutDate() {
@@ -133,7 +135,7 @@ public class Customer {
     }
 
     public void setPutDate(Instant putDate) {
-        this.putDate = putDate;
+        this.putDate = putDate.truncatedTo(ChronoUnit.SECONDS);;
     }
 
     public Instant getDeleteDate() {
@@ -141,7 +143,7 @@ public class Customer {
     }
 
     public void setDeleteDate(Instant deleteDate) {
-        this.deleteDate = deleteDate;
+        this.deleteDate = deleteDate.truncatedTo(ChronoUnit.SECONDS);
     }
 
     public List<Construction> getConstructions() {

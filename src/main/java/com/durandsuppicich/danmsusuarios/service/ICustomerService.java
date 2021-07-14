@@ -1,7 +1,6 @@
 package com.durandsuppicich.danmsusuarios.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.durandsuppicich.danmsusuarios.domain.Customer;
 
@@ -11,13 +10,13 @@ public interface ICustomerService {
 
     List<Customer> getAll();
 
-    Optional<Customer> getById(Integer id);
+    Customer getById(Integer id);
 
-    Optional<Customer> getByCuit(String cuit);
+    Customer getByCuit(String cuit);
 
-    Optional<Customer> getByBusinessName(String businessName);
+    Customer getByBusinessName(String businessName);
 
-    Optional<Customer> getByConstructionId(Integer constructionId);
+    Customer getByConstructionId(Integer constructionId);
 
     void put(Customer customer, Integer id);
 

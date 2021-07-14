@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import com.durandsuppicich.danmsusuarios.repository.IConstructionJpaRepository;
 import com.durandsuppicich.danmsusuarios.domain.Construction;
-import com.durandsuppicich.danmsusuarios.exception.NotFoundException;
+import com.durandsuppicich.danmsusuarios.exception.http.NotFoundException;
 
 import org.springframework.stereotype.Service;
 

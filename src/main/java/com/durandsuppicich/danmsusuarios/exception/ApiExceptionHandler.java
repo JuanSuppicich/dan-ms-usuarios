@@ -2,6 +2,7 @@ package com.durandsuppicich.danmsusuarios.exception;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.durandsuppicich.danmsusuarios.exception.http.*;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;

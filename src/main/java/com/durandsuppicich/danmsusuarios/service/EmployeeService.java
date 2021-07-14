@@ -7,7 +7,7 @@ import com.durandsuppicich.danmsusuarios.repository.IEmployeeJpaRepository;
 import com.durandsuppicich.danmsusuarios.domain.Employee;
 import com.durandsuppicich.danmsusuarios.domain.User;
 import com.durandsuppicich.danmsusuarios.domain.UserType;
-import com.durandsuppicich.danmsusuarios.exception.NotFoundException;
+import com.durandsuppicich.danmsusuarios.exception.http.NotFoundException;
 
 import org.springframework.stereotype.Service;
 

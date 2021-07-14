@@ -7,8 +7,8 @@ import com.durandsuppicich.danmsusuarios.domain.Construction;
 import com.durandsuppicich.danmsusuarios.dto.construction.ConstructionDto;
 import com.durandsuppicich.danmsusuarios.dto.construction.ConstructionPostDto;
 import com.durandsuppicich.danmsusuarios.dto.construction.ConstructionPutDto;
-import com.durandsuppicich.danmsusuarios.exception.BadRequestException;
-import com.durandsuppicich.danmsusuarios.exception.NotFoundException;
+import com.durandsuppicich.danmsusuarios.exception.http.BadRequestException;
+import com.durandsuppicich.danmsusuarios.exception.http.NotFoundException;
 import com.durandsuppicich.danmsusuarios.mapper.IConstructionMapper;
 import com.durandsuppicich.danmsusuarios.service.IConstructionService;
 
