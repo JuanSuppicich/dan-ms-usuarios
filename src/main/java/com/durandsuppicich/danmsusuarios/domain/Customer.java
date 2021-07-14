@@ -40,7 +40,7 @@ public class Customer {
     @Column(name = "allowed_online", nullable = false, columnDefinition = "boolean default false")
     private Boolean allowedOnline;
 
-    @Column(name = "post_date" ,nullable = false)
+    @Column(name = "post_date" , nullable = false)
     private Instant postDate;
 
     @Column(name = "put_date")

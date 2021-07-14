@@ -6,6 +6,8 @@ import com.durandsuppicich.danmsusuarios.dto.employee.EmployeeDto;
 import com.durandsuppicich.danmsusuarios.dto.employee.EmployeePostDto;
 import com.durandsuppicich.danmsusuarios.dto.employee.EmployeePutDto;
 
+import java.util.List;
+
 public interface IEmployeeMapper {
 
     Employee map(EmployeePostDto employeeDto);
@@ -15,4 +17,6 @@ public interface IEmployeeMapper {
     EmployeeDto mapToDto(Employee employee);
 
     EmployeeDetailsDto mapToDetailsDto(Employee employee);
+
+    List<EmployeeDto> mapToDto(List<Employee> employees);
 }

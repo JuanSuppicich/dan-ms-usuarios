@@ -6,6 +6,9 @@ import com.durandsuppicich.danmsusuarios.dto.employee.EmployeeDto;
 import com.durandsuppicich.danmsusuarios.dto.employee.EmployeePostDto;
 import com.durandsuppicich.danmsusuarios.dto.employee.EmployeePutDto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class EmployeeMapper implements IEmployeeMapper {
 
     @Override
@@ -46,5 +49,17 @@ public class EmployeeMapper implements IEmployeeMapper {
     @Override
     public EmployeeDetailsDto mapToDetailsDto(Employee employee) {
         return null;
+    }
+
+    @Override
+    public List<EmployeeDto> mapToDto(List<Employee> employees) {
+
+        List<EmployeeDto> employeeDtos = new ArrayList<>();
+
+        for (Employee employee : employees) {
+            employeeDtos.add(mapToDto(employee));
+        }
+
+        return employeeDtos;
     }
 }

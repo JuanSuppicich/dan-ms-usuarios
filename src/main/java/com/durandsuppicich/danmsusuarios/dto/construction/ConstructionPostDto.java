@@ -1,17 +1,36 @@
 package com.durandsuppicich.danmsusuarios.dto.construction;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 public class ConstructionPostDto {
 
+    @NotEmpty
+    @NotBlank
+    @Length(max = 128)
     private String description;
 
+    @NotNull
+    @Range(min = -90, max = 90)
     private Float latitude;
 
+    @NotNull
+    @Range(min = -180, max = 180)
     private Float longitude;
 
+    @NotEmpty
+    @NotBlank
+    @Length(max = 32)
     private String address;
 
     private Integer area;
 
+    @NotNull
+    @Range(min = 0, max = Integer.MAX_VALUE)
     private Integer constructionTypeId;
 
     private Integer customerId;

@@ -6,6 +6,8 @@ import com.durandsuppicich.danmsusuarios.dto.construction.ConstructionDto;
 import com.durandsuppicich.danmsusuarios.dto.construction.ConstructionPostDto;
 import com.durandsuppicich.danmsusuarios.dto.construction.ConstructionPutDto;
 
+import java.util.List;
+
 public interface IConstructionMapper {
 
     Construction map(ConstructionPostDto constructionDto);
@@ -16,4 +18,5 @@ public interface IConstructionMapper {
 
     ConstructionDetailsDto mapToDetailsDto(Construction construction);
 
+    List<ConstructionDto> mapToDto(List<Construction> constructions);
 }

@@ -1,11 +1,25 @@
 package com.durandsuppicich.danmsusuarios.dto.employee;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 public class EmployeePutDto {
 
+    @NotNull
+    @Range(min = 1, max = Integer.MAX_VALUE)
     private Integer id;
 
+    @NotEmpty
+    @NotBlank
+    @Length(max = 32)
     private String name;
 
+    @Email
     private String email;
 
     public Integer getId() {

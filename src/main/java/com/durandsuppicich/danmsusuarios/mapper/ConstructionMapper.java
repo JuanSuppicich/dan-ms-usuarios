@@ -7,6 +7,10 @@ import com.durandsuppicich.danmsusuarios.dto.construction.ConstructionDetailsDto
 import com.durandsuppicich.danmsusuarios.dto.construction.ConstructionDto;
 import com.durandsuppicich.danmsusuarios.dto.construction.ConstructionPostDto;
 import com.durandsuppicich.danmsusuarios.dto.construction.ConstructionPutDto;
+import com.durandsuppicich.danmsusuarios.dto.customer.CustomerDto;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ConstructionMapper implements IConstructionMapper {
 
@@ -63,6 +67,18 @@ public class ConstructionMapper implements IConstructionMapper {
     @Override
     public ConstructionDetailsDto mapToDetailsDto(Construction construction) {
         return null;
+    }
+
+    @Override
+    public List<ConstructionDto> mapToDto(List<Construction> constructions) {
+
+        List<ConstructionDto> constructionDtos = new ArrayList<>();
+
+        for (Construction construction : constructions) {
+            constructionDtos.add(mapToDto(construction));
+        }
+
+        return constructionDtos;
     }
 
 

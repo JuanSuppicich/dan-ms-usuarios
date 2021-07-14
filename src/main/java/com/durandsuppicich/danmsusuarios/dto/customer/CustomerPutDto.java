@@ -1,13 +1,27 @@
 package com.durandsuppicich.danmsusuarios.dto.customer;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
+
+import javax.validation.constraints.*;
+
 public class CustomerPutDto {
 
+    @NotNull
+    @Range(min = 1, max = Integer.MAX_VALUE)
     private Integer id;
 
+    @NotEmpty
+    @NotBlank
+    @Length(max = 32)
     private String businessName;
 
+    @Email
     private String email;
 
+    @NotNull
+    @Min(1)
+    @Digits(integer = 7, fraction = 3)
     private Double maxCurrentAccount;
 
     public Integer getId() {

@@ -8,6 +8,9 @@ import com.durandsuppicich.danmsusuarios.dto.customer.CustomerDto;
 import com.durandsuppicich.danmsusuarios.dto.customer.CustomerPostDto;
 import com.durandsuppicich.danmsusuarios.dto.customer.CustomerPutDto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CustomerMapper implements ICustomerMapper {
 
     private final IConstructionMapper constructionMapper;
@@ -52,18 +55,32 @@ public class CustomerMapper implements ICustomerMapper {
     @Override
     public CustomerDto mapToDto(Customer customer) {
 
-        CustomerDto dto = new CustomerDto();
+        CustomerDto customerDto = new CustomerDto();
 
-        dto.setId(customer.getId());
-        dto.setBusinessName(customer.getBusinessName());
-        dto.setCuit(customer.getCuit());
-        dto.setEmail(customer.getEmail());
+        customerDto.setId(customer.getId());
+        customerDto.setBusinessName(customer.getBusinessName());
+        customerDto.setCuit(customer.getCuit());
+        customerDto.setEmail(customer.getEmail());
 
-        return dto;
+        return customerDto;
     }
 
     @Override
     public CustomerDetailsDto mapToDetailsDto(Customer customer) {
         return null;
     }
+
+    @Override
+    public List<CustomerDto> mapToDto(List<Customer> customers) {
+
+        List<CustomerDto> customerDtos = new ArrayList<>();
+
+        for (Customer customer : customers) {
+            customerDtos.add(mapToDto(customer));
+        }
+
+        return customerDtos;
+    }
+
+
 }

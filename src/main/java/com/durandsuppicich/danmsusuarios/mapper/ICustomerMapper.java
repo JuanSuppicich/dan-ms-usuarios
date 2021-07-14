@@ -6,6 +6,8 @@ import com.durandsuppicich.danmsusuarios.dto.customer.CustomerDto;
 import com.durandsuppicich.danmsusuarios.dto.customer.CustomerPostDto;
 import com.durandsuppicich.danmsusuarios.dto.customer.CustomerPutDto;
 
+import java.util.List;
+
 public interface ICustomerMapper {
 
     Customer map(CustomerPostDto customerDto);
@@ -15,5 +17,7 @@ public interface ICustomerMapper {
     CustomerDto mapToDto(Customer customer);
 
     CustomerDetailsDto mapToDetailsDto(Customer customer);
+
+    List<CustomerDto> mapToDto(List<Customer> customers);
 
 }
