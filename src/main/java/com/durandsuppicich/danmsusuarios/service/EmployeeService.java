@@ -1,13 +1,13 @@
 package com.durandsuppicich.danmsusuarios.service;
 
 import java.util.List;
-import java.util.Optional;
 
+import com.durandsuppicich.danmsusuarios.exception.employee.EmployeeIdNotFoundException;
+import com.durandsuppicich.danmsusuarios.exception.employee.EmployeeNameNotFoundException;
 import com.durandsuppicich.danmsusuarios.repository.IEmployeeJpaRepository;
 import com.durandsuppicich.danmsusuarios.domain.Employee;
 import com.durandsuppicich.danmsusuarios.domain.User;
 import com.durandsuppicich.danmsusuarios.domain.UserType;
-import com.durandsuppicich.danmsusuarios.exception.http.NotFoundException;
 
 import org.springframework.stereotype.Service;
 
@@ -23,9 +23,10 @@ public class EmployeeService implements IEmployeeService {
     @Override
     public Employee post(Employee employee) {
 
-        UserType userType = new UserType(2, "Vendedor"); //TODO improve this
+        UserType userType = new UserType(2, "Vendedor");
         User user = new User(employee.getEmail(), "1234", userType);
         employee.setUser(user);
+
         return employeeRepository.save(employee);
     }
 
@@ -35,25 +36,27 @@ public class EmployeeService implements IEmployeeService {
     }
 
     @Override
-    public Optional<Employee> getById(Integer id) {
-        return employeeRepository.findById(id);
+    public Employee getById(Integer id) {
+        return employeeRepository.findById(id)
+                .orElseThrow(() -> new EmployeeIdNotFoundException(id));
     }
 
     @Override
-    public Optional<Employee> getByName(String name) {
-        return employeeRepository.findByName(name);
+    public Employee getByName(String name) {
+        return employeeRepository.findByName(name)
+                .orElseThrow(() -> new EmployeeNameNotFoundException(name));
     }
 
     @Override
     public void put(Employee employee, Integer id) {
 
-        if (employeeRepository.existsById(id)) {
-
-            employeeRepository.save(employee);
-
-        } else {
-            throw new NotFoundException("Employee inexistente. Id: " + id); //TODO change this
-        }
+       employeeRepository.findById(id)
+               .map(e -> {
+                   e.setName(employee.getName());
+                   e.setEmail(employee.getEmail());
+                   return employeeRepository.save(e);
+               })
+               .orElseThrow(() -> new EmployeeIdNotFoundException(id));
     }
 
     @Override
@@ -64,8 +67,7 @@ public class EmployeeService implements IEmployeeService {
             employeeRepository.deleteById(id);
 
         } else {
-            throw new NotFoundException("Employee inexistente. Id: " + id); //TODO change this
+            throw new EmployeeIdNotFoundException(id);
         }
     }
-
 }

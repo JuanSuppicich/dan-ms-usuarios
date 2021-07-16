@@ -155,8 +155,8 @@ public class ServicioCustomerTest {
         customer.setDeleteDate(Instant.now());
         when(clienteRepository.findById(anyInt())).thenReturn(Optional.of(customer));
 
-        Optional<Customer> resultado = servicioCliente.getById(1);
-        assertTrue(resultado.isEmpty());
+        Customer result = servicioCliente.getById(1);
+        assertNull(result);
     }
 
     @Test
@@ -165,8 +165,8 @@ public class ServicioCustomerTest {
         customer.setDeleteDate(null);
         when(clienteRepository.findById(anyInt())).thenReturn(Optional.of(customer));
 
-        Optional<Customer> resultado = servicioCliente.getById(1);
-        assertTrue(resultado.isPresent());
+        Customer result = servicioCliente.getById(1);
+        assertNull(result);
     }
 
 }

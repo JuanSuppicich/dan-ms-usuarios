@@ -1,7 +1,6 @@
 package com.durandsuppicich.danmsusuarios.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.durandsuppicich.danmsusuarios.domain.Employee;
 
@@ -11,9 +10,9 @@ public interface IEmployeeService {
 
     List<Employee> getAll();
 
-    Optional<Employee> getById(Integer id);
+    Employee getById(Integer id);
 
-    Optional<Employee> getByName(String name);
+    Employee getByName(String name);
 
     void put(Employee employee, Integer id);
 

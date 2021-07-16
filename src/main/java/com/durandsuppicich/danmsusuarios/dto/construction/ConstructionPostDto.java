@@ -4,12 +4,10 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 public class ConstructionPostDto {
 
-    @NotEmpty
     @NotBlank
     @Length(max = 128)
     private String description;
@@ -22,7 +20,6 @@ public class ConstructionPostDto {
     @Range(min = -180, max = 180)
     private Float longitude;
 
-    @NotEmpty
     @NotBlank
     @Length(max = 32)
     private String address;

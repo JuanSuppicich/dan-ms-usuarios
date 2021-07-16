@@ -3,11 +3,10 @@ package com.durandsuppicich.danmsusuarios.service;
 import java.time.Instant;
 import java.util.List;
 
-import com.durandsuppicich.danmsusuarios.exception.customer.BusinessNameNotFoundException;
-import com.durandsuppicich.danmsusuarios.exception.customer.CuitNotFoundException;
-import com.durandsuppicich.danmsusuarios.exception.customer.IdConstructionNotFoundException;
-import com.durandsuppicich.danmsusuarios.exception.customer.IdNotFoundException;
-import com.durandsuppicich.danmsusuarios.exception.validation.IdsNotMatchException;
+import com.durandsuppicich.danmsusuarios.exception.customer.CustomerBusinessNameNotFoundException;
+import com.durandsuppicich.danmsusuarios.exception.customer.CustomerCuitNotFoundException;
+import com.durandsuppicich.danmsusuarios.exception.customer.ConstructionIdNotFoundException;
+import com.durandsuppicich.danmsusuarios.exception.customer.CustomerIdNotFoundException;
 import com.durandsuppicich.danmsusuarios.repository.ICustomerJpaRepository;
 import com.durandsuppicich.danmsusuarios.domain.Construction;
 import com.durandsuppicich.danmsusuarios.domain.Customer;
@@ -75,48 +74,49 @@ public class CustomerService implements ICustomerService {
     public Customer getById(Integer id) {
 
         return customerRepository.findByIdAndDeleteDateIsNull(id)
-                .orElseThrow(() -> new IdNotFoundException(id));
+                .orElseThrow(() -> new CustomerIdNotFoundException(id));
     }
 
     @Override
     public Customer getByCuit(String cuit) {
 
         return customerRepository.findByCuitAndDeleteDateIsNull(cuit)
-                .orElseThrow(() -> new CuitNotFoundException(cuit));
+                .orElseThrow(() -> new CustomerCuitNotFoundException(cuit));
     }
 
     @Override
     public Customer getByBusinessName(String businessName) {
 
         return customerRepository.findByBusinessName(businessName)
-                .orElseThrow(() -> new BusinessNameNotFoundException(businessName));
+                .orElseThrow(() -> new CustomerBusinessNameNotFoundException(businessName));
     }
 
     @Override
     public Customer getByConstructionId(Integer constructionId) {
 
         return customerRepository.findByConstructionId(constructionId)
-                .orElseThrow(() -> new IdConstructionNotFoundException(constructionId));
+                .orElseThrow(() -> new ConstructionIdNotFoundException(constructionId));
     }
 
     @Override
     public void put(Customer customer, Integer id) {
 
-        if (!customer.getId().equals(id)) throw new IdsNotMatchException();
-
-        Customer oldCustomer = customerRepository.findByIdAndDeleteDateIsNull(id)
-                .orElseThrow(() -> new IdNotFoundException(id));
-
-        //set fecha actualizacion
-        //Update
-        customerRepository.save(customer);
+        customerRepository.findByIdAndDeleteDateIsNull(id)
+               .map(c -> {
+                   c.setPutDate(Instant.now());
+                   c.setBusinessName(customer.getBusinessName());
+                   c.setEmail(customer.getEmail());
+                   c.setMaxCurrentAccount(customer.getMaxCurrentAccount());
+                   return customerRepository.save(c);
+               })
+               .orElseThrow(() -> new CustomerIdNotFoundException(id));
     }
 
     @Override
     public void delete(Integer id) {
 
         Customer customer = customerRepository.findById(id)
-                .orElseThrow(() -> new IdNotFoundException(id));
+                .orElseThrow(() -> new CustomerIdNotFoundException(id));
 
         if (!orderService.getAll(customer).isEmpty()) { //TODO improve this
 

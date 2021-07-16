@@ -1,18 +1,15 @@
 package com.durandsuppicich.danmsusuarios.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.durandsuppicich.danmsusuarios.domain.Construction;
 import com.durandsuppicich.danmsusuarios.dto.construction.ConstructionDto;
 import com.durandsuppicich.danmsusuarios.dto.construction.ConstructionPostDto;
 import com.durandsuppicich.danmsusuarios.dto.construction.ConstructionPutDto;
-import com.durandsuppicich.danmsusuarios.exception.http.BadRequestException;
-import com.durandsuppicich.danmsusuarios.exception.http.NotFoundException;
+import com.durandsuppicich.danmsusuarios.exception.validation.IdsNotMatchException;
 import com.durandsuppicich.danmsusuarios.mapper.IConstructionMapper;
 import com.durandsuppicich.danmsusuarios.service.IConstructionService;
 
-import org.hibernate.validator.constraints.Range;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,7 +25,11 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
+
 @RestController
+@Validated
 @RequestMapping("/api/construction")
 @Api(value = "ConstructionController")
 public class ConstructionController {
@@ -46,18 +47,12 @@ public class ConstructionController {
     @PostMapping
     @ApiOperation(value = "Creates a new construction site")
     public ResponseEntity<Construction> postConstruction(@RequestBody
-                                                             @Validated ConstructionPostDto constructionDto) {
+                                                             @Valid ConstructionPostDto constructionDto) {
 
-        if (constructionDto.getConstructionTypeId() != null) {
+        Construction construction = constructionMapper.map(constructionDto);
+        Construction body = constructionService.post(construction);
 
-            Construction construction = constructionMapper.map(constructionDto);
-
-            Construction body = constructionService.post(construction);
-            return ResponseEntity.ok(body);
-
-        } else {
-            throw new BadRequestException("Tipo de construction: " + constructionDto.getConstructionTypeId()); //TODO Change this
-        }
+        return ResponseEntity.ok(body);
     }
 
     @GetMapping
@@ -73,48 +68,48 @@ public class ConstructionController {
     @GetMapping(path = "/{id}")
     @ApiOperation(value = "Retrieves a construction site based on the given id")
     public ResponseEntity<ConstructionDto> getById(@PathVariable
-                                                       @Range(min = 1, max = Integer.MAX_VALUE) Integer id) {
+                                                       @Positive Integer id) {
 
-        Optional<Construction> construction = constructionService.getById(id);
+        Construction construction = constructionService.getById(id);
+        ConstructionDto body = constructionMapper.mapToDto(construction);
 
-        if (construction.isPresent()) {
-            ConstructionDto body = constructionMapper.mapToDto(construction.get());
-            return ResponseEntity.ok(body);
-        } else {
-            throw new NotFoundException("Construction no encontrada. Id: " + id); //TODO change this
-        }
+        return ResponseEntity.ok(body);
     }
 
     @GetMapping(params = { "customerId", "constructionTypeId" })
     @ApiOperation(value = "Retrieves construction sites by customer's id and/or construction site type. Both params" +
                             " are optional, if neither is given it works as getAll method")
     public ResponseEntity<List<ConstructionDto>> getByCustomerOrConstructionType(
-            @RequestParam(required = false) @Range(min = 1, max = Integer.MAX_VALUE) Integer customerId,
-            @RequestParam(required = false) @Range(min = 1, max = Integer.MAX_VALUE) Integer ConstructionTypeId) {
+            @RequestParam(required = false) @Positive Integer customerId,
+            @RequestParam(required = false) @Positive Integer ConstructionTypeId) {
 
             List<Construction> constructions =
                     constructionService.getByCustomerOrConstructionType(customerId, ConstructionTypeId);
-
             List<ConstructionDto> body = constructionMapper.mapToDto(constructions);
+
             return ResponseEntity.ok(body);
     }
 
     @PutMapping(path = "/{id}")
     @ApiOperation(value = "Updates a construction site based on the given id")
     public ResponseEntity<Construction> put(@RequestBody @Validated ConstructionPutDto constructionDto,
-                                            @PathVariable @Range(min = 1, max = Integer.MAX_VALUE) Integer id) {
+                                            @PathVariable @Positive Integer id) {
+
+        if (!constructionDto.getId().equals(id))
+            throw new IdsNotMatchException(constructionDto.getId(), id);
 
         Construction construction = constructionMapper.map(constructionDto);
-        constructionService.put(construction, id); //TODO Change response
-        return ResponseEntity.ok().build();
+        constructionService.put(construction, id);
+
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping(path = "/{id}")
     @ApiOperation(value = "Delete a construction site based on the given id")
     public ResponseEntity<Construction> delete(@PathVariable
-                                                   @Range(min = 1, max = Integer.MAX_VALUE) Integer id) {
+                                                   @Positive Integer id) {
 
         constructionService.delete(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }

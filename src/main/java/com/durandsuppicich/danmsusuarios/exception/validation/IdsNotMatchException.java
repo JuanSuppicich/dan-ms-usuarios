@@ -11,7 +11,7 @@ public class IdsNotMatchException extends BadRequestException {
     }
 
     public IdsNotMatchException(Integer bodyId, Integer pathId) {
-        super(DEFAULT_MESSAGE + "The given id in the body is" + "{" + bodyId + "}"
-        + "while the given id in the path is " + "{" + pathId +"}");
+        super(DEFAULT_MESSAGE + "The given id in the body is " + "{" + bodyId + "}"
+        + " while the given id in the path is " + "{" + pathId +"}");
     }
 }

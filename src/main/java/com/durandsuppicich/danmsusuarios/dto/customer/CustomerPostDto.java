@@ -1,7 +1,6 @@
 package com.durandsuppicich.danmsusuarios.dto.customer;
 
 import com.durandsuppicich.danmsusuarios.dto.construction.ConstructionPostDto;
-import org.hibernate.validator.constraints.Range;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -9,12 +8,10 @@ import java.util.List;
 
 public class CustomerPostDto {
 
-    @NotEmpty
     @NotBlank
     @Size(max = 32)
     private String businessName;
 
-    @NotEmpty
     @NotBlank
     @Size(min = 11, max = 11)
     private String cuit;

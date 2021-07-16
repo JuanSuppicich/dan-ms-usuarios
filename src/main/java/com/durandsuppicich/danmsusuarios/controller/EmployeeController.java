@@ -1,18 +1,16 @@
 package com.durandsuppicich.danmsusuarios.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.durandsuppicich.danmsusuarios.domain.Employee;
 import com.durandsuppicich.danmsusuarios.dto.employee.EmployeeDto;
 import com.durandsuppicich.danmsusuarios.dto.employee.EmployeePostDto;
 import com.durandsuppicich.danmsusuarios.dto.employee.EmployeePutDto;
-import com.durandsuppicich.danmsusuarios.exception.http.NotFoundException;
+import com.durandsuppicich.danmsusuarios.exception.validation.IdsNotMatchException;
 import com.durandsuppicich.danmsusuarios.mapper.IEmployeeMapper;
 import com.durandsuppicich.danmsusuarios.service.IEmployeeService;
 
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.Range;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,7 +26,11 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
+
 @RestController
+@Validated
 @RequestMapping("/api/employee")
 @Api(value = "EmployeeController")
 public class EmployeeController {
@@ -45,42 +47,33 @@ public class EmployeeController {
 
     @PostMapping
     @ApiOperation(value = "Creates a new employee")
-    public ResponseEntity<Employee> post(@RequestBody @Validated EmployeePostDto employeeDto) {
+    public ResponseEntity<Employee> post(@RequestBody @Valid EmployeePostDto employeeDto) {
 
-        //if (employee.getUser() != null && employee.getUser().getPassword() != null) {
-            Employee employee = employeeMapper.map(employeeDto);
-            Employee body = employeeService.post(employee);
+        Employee employee = employeeMapper.map(employeeDto);
+        Employee body = employeeService.post(employee);
 
-            return ResponseEntity.ok(body);
-
-        /*} else {
-            throw new BadRequestException("Employee: " + employee);
-        }*/
+        return ResponseEntity.ok(body);
     }
 
     @GetMapping
     @ApiOperation(value = "Retrieves all employees")
     public ResponseEntity<List<EmployeeDto>> getAll() {
 
-
         List<Employee> employees = employeeService.getAll();
         List<EmployeeDto> body = employeeMapper.mapToDto(employees);
+
         return ResponseEntity.ok(body);
     }
 
     @GetMapping(path = "/{id}")
     @ApiOperation(value = "Retrieves an employee based on the given id")
     public ResponseEntity<EmployeeDto> getById(@PathVariable
-                                                   @Range(min = 1, max = Integer.MAX_VALUE) Integer id) {
+                                                   @Positive Integer id) {
 
-        Optional<Employee> employee = employeeService.getById(id);
+        Employee employee = employeeService.getById(id);
+        EmployeeDto body = employeeMapper.mapToDto(employee);
 
-        if (employee.isPresent()) {
-            EmployeeDto body = employeeMapper.mapToDto(employee.get());
-            return ResponseEntity.ok(body);
-        } else {
-            throw new NotFoundException("Employee no encontrado. Id: " + id); //TODO Change this
-        }
+        return ResponseEntity.ok(body);
     }
 
     @GetMapping(params = "name")
@@ -88,30 +81,29 @@ public class EmployeeController {
     public ResponseEntity<EmployeeDto> getByName(@RequestParam(name = "name", required = false)
                                                      @Length(max = 32) String name) {
 
-        Optional<Employee> employee = employeeService.getByName(name);
+        Employee employee = employeeService.getByName(name);
+        EmployeeDto body = employeeMapper.mapToDto(employee);
 
-        if (employee.isPresent()) {
-            EmployeeDto body = employeeMapper.mapToDto(employee.get());
-            return ResponseEntity.ok(body);
-        } else {
-            throw new NotFoundException("Employee no encontrado. Nombre: " + name); //TODO Change this
-        }
+        return ResponseEntity.ok(body);
     }
 
     @PutMapping(path = "/{id}")
     @ApiOperation(value = "Updates an employee based on the given id")
-    public ResponseEntity<?> put(@RequestBody @Validated EmployeePutDto employeeDto,
-                                 @PathVariable @Range(min = 1, max = Integer.MAX_VALUE) Integer id) {
+    public ResponseEntity<?> put(@RequestBody @Valid EmployeePutDto employeeDto,
+                                 @PathVariable @Positive Integer id) {
+
+        if (!employeeDto.getId().equals(id))
+            throw new IdsNotMatchException(employeeDto.getId(), id);
 
         Employee employee = employeeMapper.map(employeeDto);
+        employeeService.put(employee, id);
 
-        employeeService.put(employee, id); //TODO Change response
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping(path = "/{id}")
     @ApiOperation(value = "Deletes an employee based on the given id")
-    public ResponseEntity<?> delete(@PathVariable @Range(min = 1, max = Integer.MAX_VALUE) Integer id) {
+    public ResponseEntity<?> delete(@PathVariable @Positive Integer id) {
 
         employeeService.delete(id);
         return ResponseEntity.noContent().build();

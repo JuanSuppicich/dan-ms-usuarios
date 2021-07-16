@@ -6,14 +6,14 @@ import org.hibernate.validator.constraints.Range;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 public class ConstructionPutDto {
 
     @NotNull
-    @Range(min = 1, max = Integer.MAX_VALUE)
+    @Positive
     private Integer id;
 
-    @NotEmpty
     @NotBlank
     @Length(max = 128)
     private String description;
@@ -26,7 +26,6 @@ public class ConstructionPutDto {
     @Range(min = -180, max = 180)
     private Float longitude;
 
-    @NotEmpty
     @NotBlank
     @Length(max = 32)
     private String address;

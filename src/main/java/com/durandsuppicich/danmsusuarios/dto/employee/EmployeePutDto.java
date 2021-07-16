@@ -5,7 +5,6 @@ import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 public class EmployeePutDto {
@@ -14,7 +13,6 @@ public class EmployeePutDto {
     @Range(min = 1, max = Integer.MAX_VALUE)
     private Integer id;
 
-    @NotEmpty
     @NotBlank
     @Length(max = 32)
     private String name;

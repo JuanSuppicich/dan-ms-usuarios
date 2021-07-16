@@ -1,7 +1,6 @@
 package com.durandsuppicich.danmsusuarios.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.durandsuppicich.danmsusuarios.domain.Construction;
 
@@ -11,7 +10,7 @@ public interface IConstructionService {
 
     List<Construction> getAll();
 
-    Optional<Construction> getById(Integer id);
+    Construction getById(Integer id);
 
     List<Construction> getByCustomerOrConstructionType(Integer customerId, Integer constructionTypeId);
 

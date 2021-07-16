@@ -8,7 +8,6 @@ import javax.validation.constraints.NotEmpty;
 
 public class EmployeePostDto {
 
-    @NotEmpty
     @NotBlank
     @Length(max = 32)
     private String name;

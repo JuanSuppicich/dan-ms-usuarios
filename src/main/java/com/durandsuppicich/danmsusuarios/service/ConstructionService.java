@@ -1,11 +1,10 @@
 package com.durandsuppicich.danmsusuarios.service;
 
 import java.util.List;
-import java.util.Optional;
 
+import com.durandsuppicich.danmsusuarios.exception.construction.ConstructionIdNotFoundException;
 import com.durandsuppicich.danmsusuarios.repository.IConstructionJpaRepository;
 import com.durandsuppicich.danmsusuarios.domain.Construction;
-import com.durandsuppicich.danmsusuarios.exception.http.NotFoundException;
 
 import org.springframework.stereotype.Service;
 
@@ -29,8 +28,9 @@ public class ConstructionService implements IConstructionService {
     }
 
     @Override
-    public Optional<Construction> getById(Integer id) {
-        return constructionRepository.findById(id);
+    public Construction getById(Integer id) {
+        return constructionRepository.findById(id)
+                .orElseThrow(() -> new ConstructionIdNotFoundException(id));
     }
 
     @Override
@@ -41,11 +41,16 @@ public class ConstructionService implements IConstructionService {
     @Override
     public void put(Construction construction, Integer id) {
 
-        if (constructionRepository.existsById(id)) {
-            constructionRepository.save(construction);
-        } else {
-            throw new NotFoundException("Construction inexistente. Id: " + id); //TODO change this
-        }
+        constructionRepository.findById(id)
+                .map (c ->  {
+                    c.setDescription(construction.getDescription());
+                    c.setLatitude(construction.getLatitude());
+                    c.setLongitude(construction.getLongitude());
+                    c.setAddress(construction.getAddress());
+                    c.setArea(construction.getArea());
+                    return constructionRepository.save(c);
+                })
+                .orElseThrow(() -> new ConstructionIdNotFoundException(id));
     }
 
     @Override
@@ -54,7 +59,7 @@ public class ConstructionService implements IConstructionService {
         if (constructionRepository.existsById(id)) {
             constructionRepository.deleteById(id);
         } else {
-            throw new NotFoundException("Construction inexistente. Id: " + id); //TODO change this
+            throw new ConstructionIdNotFoundException(id);
         }
     }
 

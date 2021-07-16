@@ -11,7 +11,6 @@ public class CustomerPutDto {
     @Range(min = 1, max = Integer.MAX_VALUE)
     private Integer id;
 
-    @NotEmpty
     @NotBlank
     @Length(max = 32)
     private String businessName;
@@ -20,7 +19,7 @@ public class CustomerPutDto {
     private String email;
 
     @NotNull
-    @Min(1)
+    @Min(0)
     @Digits(integer = 7, fraction = 3)
     private Double maxCurrentAccount;
 
