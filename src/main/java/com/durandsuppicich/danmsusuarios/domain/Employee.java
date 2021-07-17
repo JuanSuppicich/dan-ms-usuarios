@@ -32,9 +32,6 @@ public class Employee {
     @Column(name = "put_date")
     private Instant putDate;
 
-    @Column(name = "delete_date")
-    private Instant deleteDate;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
@@ -65,14 +62,6 @@ public class Employee {
 
     public void setPutDate(Instant putDate) {
         this.putDate = putDate;
-    }
-
-    public Instant getDeleteDate() {
-        return deleteDate;
-    }
-
-    public void setDeleteDate(Instant deleteDate) {
-        this.deleteDate = deleteDate;
     }
 
     public void setEmail(String email) {

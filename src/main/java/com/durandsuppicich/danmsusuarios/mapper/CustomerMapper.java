@@ -31,10 +31,10 @@ public class CustomerMapper implements ICustomerMapper {
             customer.addConstruction(construction);
         }
 
-        customer.setBusinessName(customer.getBusinessName());
-        customer.setCuit(customer.getCuit());
-        customer.setEmail(customer.getEmail());
-        customer.setMaxCurrentAccount(customer.getMaxCurrentAccount());
+        customer.setBusinessName(customerDto.getBusinessName());
+        customer.setCuit(customerDto.getCuit());
+        customer.setEmail(customerDto.getEmail());
+        customer.setMaxCurrentAccount(customerDto.getMaxCurrentAccount());
 
         return customer;
     }

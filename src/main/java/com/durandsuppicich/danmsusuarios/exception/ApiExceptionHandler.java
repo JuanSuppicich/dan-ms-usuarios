@@ -11,9 +11,12 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.ServletRequestBindingException;
@@ -24,6 +27,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.async.AsyncRequestTimeoutException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
+
+import java.util.Objects;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
@@ -44,6 +49,25 @@ public class ApiExceptionHandler {
     @ResponseBody
     public ErrorMessage badRequest(HttpServletRequest request, Exception exception) {
         return new ErrorMessage(exception, request.getRequestURI());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({MethodArgumentNotValidException.class})
+    @ResponseBody
+    public ErrorMessage validationBadRequest(HttpServletRequest request,
+                                             MethodArgumentNotValidException exception) {
+
+        int errorCount = exception.getBindingResult().getErrorCount();
+        String message = "Rejected values. " + errorCount + " errors found ";
+
+        for (FieldError error : exception.getBindingResult().getFieldErrors()) {
+            message = message.concat(error.getField())
+                    .concat(" ")
+                    .concat(Objects.requireNonNull(error.getDefaultMessage())
+                    .concat( " | " ));
+        }
+
+        return new ErrorMessage(exception, request.getRequestURI(), message);
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)

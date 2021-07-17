@@ -50,13 +50,13 @@ public class CustomerService implements ICustomerService {
         //We need to set customer attribute in each construction object
         // in order to save the relationship
         //TODO improve
-        List<Construction> aux = List.copyOf(customer.getConstructions());
+        /*List<Construction> aux = List.copyOf(customer.getConstructions());
         aux
             .stream()
             .forEach( (o) -> {
                 customer.addConstruction(o);
             });
-        customer.setConstructions(aux);
+        customer.setConstructions(aux);*/
 
         return customerRepository.save(customer);
     }

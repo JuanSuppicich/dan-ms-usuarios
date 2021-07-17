@@ -23,6 +23,13 @@ public class ErrorMessage {
         this.timeStamp = Instant.now().truncatedTo(ChronoUnit.MILLIS);
     }
 
+    public ErrorMessage(Exception exception, String path, String message) {
+        this.exception = exception.getClass().getSimpleName();
+        this.message = message;
+        this.path = path;
+        this.timeStamp = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    }
+
     public String getException() {
         return exception;
     }

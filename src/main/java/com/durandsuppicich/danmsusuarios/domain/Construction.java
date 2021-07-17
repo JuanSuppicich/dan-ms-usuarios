@@ -15,12 +15,12 @@ import com.sun.istack.Nullable;
 import java.time.Instant;
 
 @Entity
-@Table(name = "order", schema = "ms_users")
+@Table(name = "construction", schema = "ms_users")
 public class Construction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "order_id")
+    @Column(name = "construction_id")
     private Integer id;
 
     @Column(length = 128)
@@ -43,11 +43,8 @@ public class Construction {
     @Column(name = "put_date")
     private Instant putDate;
 
-    @Column(name = "delete_date")
-    private Instant deleteDate;
-
     @OneToOne
-    @JoinColumn(name = "oder_type_id")
+    @JoinColumn(name = "construction_type_id")
     private ConstructionType constructionType;
 
     @ManyToOne
@@ -130,14 +127,6 @@ public class Construction {
 
     public void setPutDate(Instant putDate) {
         this.putDate = putDate;
-    }
-
-    public Instant getDeleteDate() {
-        return deleteDate;
-    }
-
-    public void setDeleteDate(Instant deleteDate) {
-        this.deleteDate = deleteDate;
     }
 
     public Customer getCustomer() {

@@ -1,5 +1,6 @@
 package com.durandsuppicich.danmsusuarios.service;
 
+import java.time.Instant;
 import java.util.List;
 
 import com.durandsuppicich.danmsusuarios.exception.construction.ConstructionIdNotFoundException;
@@ -19,6 +20,7 @@ public class ConstructionService implements IConstructionService {
 
     @Override
     public Construction post(Construction construction) {
+        construction.setPostDate(Instant.now());
         return constructionRepository.save(construction);
     }
 
@@ -43,6 +45,7 @@ public class ConstructionService implements IConstructionService {
 
         constructionRepository.findById(id)
                 .map (c ->  {
+                    c.setPutDate(Instant.now());
                     c.setDescription(construction.getDescription());
                     c.setLatitude(construction.getLatitude());
                     c.setLongitude(construction.getLongitude());
@@ -57,7 +60,9 @@ public class ConstructionService implements IConstructionService {
     public void delete(Integer id) {
 
         if (constructionRepository.existsById(id)) {
+
             constructionRepository.deleteById(id);
+
         } else {
             throw new ConstructionIdNotFoundException(id);
         }

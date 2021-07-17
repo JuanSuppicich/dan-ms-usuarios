@@ -9,6 +9,7 @@ import com.durandsuppicich.danmsusuarios.dto.construction.ConstructionPostDto;
 import com.durandsuppicich.danmsusuarios.dto.construction.ConstructionPutDto;
 import com.durandsuppicich.danmsusuarios.dto.customer.CustomerDto;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class ConstructionMapper implements IConstructionMapper {
 
         constructionType.setId(constructionDto.getConstructionTypeId());
 
+        construction.setPostDate(Instant.now());
         construction.setDescription(constructionDto.getDescription());
         construction.setLatitude(constructionDto.getLatitude());
         construction.setLongitude(constructionDto.getLongitude());

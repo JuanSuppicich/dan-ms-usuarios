@@ -1,5 +1,6 @@
 package com.durandsuppicich.danmsusuarios.service;
 
+import java.time.Instant;
 import java.util.List;
 
 import com.durandsuppicich.danmsusuarios.exception.employee.EmployeeIdNotFoundException;
@@ -26,6 +27,7 @@ public class EmployeeService implements IEmployeeService {
         UserType userType = new UserType(2, "Vendedor");
         User user = new User(employee.getEmail(), "1234", userType);
         employee.setUser(user);
+        employee.setPostDate(Instant.now());
 
         return employeeRepository.save(employee);
     }
@@ -52,6 +54,7 @@ public class EmployeeService implements IEmployeeService {
 
        employeeRepository.findById(id)
                .map(e -> {
+                   e.setPutDate(Instant.now());
                    e.setName(employee.getName());
                    e.setEmail(employee.getEmail());
                    return employeeRepository.save(e);

@@ -18,8 +18,8 @@ public class User {
     @Column(name = "user_id")
     private Integer id;
 
-    @Column(nullable = false, unique = true, updatable = false, length = 20)
-    private String user;
+    @Column(name = "username", nullable = false, unique = true, updatable = false, length = 20)
+    private String username;
 
     @Column(nullable = false, length = 32)
     private String password;
@@ -31,8 +31,8 @@ public class User {
     public User() {
     }
 
-    public User(String user, String password, UserType userType) {
-        this.user = user;
+    public User(String username, String password, UserType userType) {
+        this.username = username;
         this.password = password;
         this.userType = userType;
     }
@@ -45,12 +45,12 @@ public class User {
         this.id = id;
     }
 
-    public String getUser() {
-        return user;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -71,6 +71,6 @@ public class User {
 
     @Override
     public String toString() {
-        return "User [password=" + password + ", id=" + id + ", userType=" + userType + ", user=" + user + "]";
+        return "User [password=" + password + ", id=" + id + ", userType=" + userType + ", user=" + username + "]";
     }
 }

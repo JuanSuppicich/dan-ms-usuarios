@@ -101,7 +101,7 @@ public class ServicioCustomerTest {
 
         Customer resultado = servicioCliente.post(customer);
 
-        assertTrue(resultado.getUser().getUser().equals(resultado.getEmail()));
+        assertTrue(resultado.getUser().getUsername().equals(resultado.getEmail()));
     }
 
     @Test
