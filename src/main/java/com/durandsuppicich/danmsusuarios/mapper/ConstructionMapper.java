@@ -7,7 +7,6 @@ import com.durandsuppicich.danmsusuarios.dto.construction.ConstructionDetailsDto
 import com.durandsuppicich.danmsusuarios.dto.construction.ConstructionDto;
 import com.durandsuppicich.danmsusuarios.dto.construction.ConstructionPostDto;
 import com.durandsuppicich.danmsusuarios.dto.construction.ConstructionPutDto;
-import com.durandsuppicich.danmsusuarios.dto.customer.CustomerDto;
 
 import java.time.Instant;
 import java.util.ArrayList;

@@ -10,7 +10,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.sun.istack.Nullable;
 
 import java.time.Instant;
 

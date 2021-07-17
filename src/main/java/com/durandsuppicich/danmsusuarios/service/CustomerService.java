@@ -8,7 +8,6 @@ import com.durandsuppicich.danmsusuarios.exception.customer.CustomerCuitNotFound
 import com.durandsuppicich.danmsusuarios.exception.customer.ConstructionIdNotFoundException;
 import com.durandsuppicich.danmsusuarios.exception.customer.CustomerIdNotFoundException;
 import com.durandsuppicich.danmsusuarios.repository.ICustomerJpaRepository;
-import com.durandsuppicich.danmsusuarios.domain.Construction;
 import com.durandsuppicich.danmsusuarios.domain.Customer;
 import com.durandsuppicich.danmsusuarios.domain.User;
 import com.durandsuppicich.danmsusuarios.domain.UserType;
