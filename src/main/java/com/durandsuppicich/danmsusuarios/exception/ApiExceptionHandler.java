@@ -57,11 +57,13 @@ public class ApiExceptionHandler {
                                              MethodArgumentNotValidException exception) {
 
         int errorCount = exception.getBindingResult().getErrorCount();
-        String message = "Rejected values. " + errorCount + " errors found ";
+        String message = "Rejected fields. " + errorCount + " errors found. |";
 
         for (FieldError error : exception.getBindingResult().getFieldErrors()) {
-            message = message.concat(error.getField())
-                    .concat(" ")
+            message = message
+                    .concat(" Error in field ")
+                    .concat(error.getField())
+                    .concat(": ")
                     .concat(Objects.requireNonNull(error.getDefaultMessage())
                     .concat( " | " ));
         }
