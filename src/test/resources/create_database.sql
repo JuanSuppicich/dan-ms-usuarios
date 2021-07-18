@@ -37,7 +37,7 @@ alter table ms_users.construction add constraint fk_customer foreign key (custom
 alter table ms_users.construction add constraint fk_construction_type foreign key (construction_type_id) references ms_users.construction_type;
 alter table ms_users.user add constraint fk_user_type foreign key (user_type_id) references ms_users.user_type;
 
-create table ms_products.product (product_id  serial not null, description varchar(64), name varchar(32) not null, price float8 not null, stock_actual int4 not null, stock_minimo int4 not null, unit_id int4, primary key (product_id));
+create table ms_products.product (product_id  serial not null, description varchar(64), name varchar(32) not null, price float8 not null, current_stock int4 not null, minimum_stock int4 not null, unit_id int4, primary key (product_id));
 create table ms_products.unit (unit_id  serial not null, description varchar(255) not null, primary key (unit_id));
 
 create table ms_orders.order_item (order_item_id  serial not null, quantity int4 not null, price float8 not null, product_id int4, order_id int4, primary key (order_item_id));
@@ -50,14 +50,14 @@ alter table ms_orders.order_item add constraint fk_order foreign key (order_id) 
 alter table ms_orders.order add constraint fk_order_state foreign key (order_state_id) references ms_orders.order_state;
 alter table ms_orders.order add constraint fk_construction foreign key (construction_id) references ms_users.construction;
 
-create table ms_products.provision_detail (provision_detail_id  serial not null, quantity int4 not null, product_id int4, id_provision int4, primary key (provision_detail_id));
-create table ms_products.stock_movement (stock_movement_id  serial not null, input_quantity int4, output_quantity int4, shipping_date timestamp not null, order_item_id int4, provision_detail_id int4, product_id int4, primary key (stock_movement_id));
-create table ms_products.provision (id_provision  serial not null, shipping_date timestamp, primary key (id_provision));
-alter table ms_products.provision_detail add constraint fk_product foreign key (product_id) references ms_products.product;
-alter table ms_products.provision_detail add constraint fk_provision foreign key (id_provision) references ms_products.provision;
+create table ms_products.provision_item (provision_item_id  serial not null, quantity int4 not null, product_id int4, provision_id int4, primary key (provision_item_id));
+create table ms_products.stock_movement (stock_movement_id  serial not null, quantity int4, movement_date timestamp not null, order_item_id int4, provision_item_id int4, product_id int4, primary key (stock_movement_id));
+create table ms_products.provision (provision_id serial not null, provision_date timestamp, primary key (provision_id));
+alter table ms_products.provision_item add constraint fk_product foreign key (product_id) references ms_products.product;
+alter table ms_products.provision_item add constraint fk_provision foreign key (provision_id) references ms_products.provision;
 alter table ms_products.product add constraint fk_unit foreign key (unit_id) references ms_products.unit;
 alter table ms_products.stock_movement add constraint fk_order_item foreign key (order_item_id) references ms_orders.order_item;
-alter table ms_products.stock_movement add constraint fk_provision_detail foreign key (provision_detail_id) references ms_products.provision_detail;
+alter table ms_products.stock_movement add constraint fk_provision_item foreign key (provision_item_id) references ms_products.provision_item;
 alter table ms_products.stock_movement add constraint fk_product foreign key (product_id) references ms_products.product;
 
 create table ms_accounting.check (bank varchar(32) not null, payment_date timestamp, number int4 not null, payment_method_id int4 not null, primary key (payment_method_id));
