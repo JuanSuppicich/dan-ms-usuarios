@@ -63,7 +63,7 @@ alter table ms_products.stock_movement add constraint fk_product foreign key (pr
 create table ms_accounting.check (bank varchar(32) not null, payment_date timestamp, number int4 not null, payment_method_id int4 not null, primary key (payment_method_id));
 create table ms_accounting.cash (bill_code int4 not null, payment_method_id int4 not null, primary key (payment_method_id));
 create table ms_accounting.payment_method (payment_method_id  serial not null, comment varchar(128), primary key (payment_method_id));
-create table ms_accounting.payment (payment_id  serial not null, shipping_date timestamp, customer_id int4, payment_method_id int4, primary key (payment_id));
+create table ms_accounting.payment (payment_id  serial not null, payment_date timestamp, customer_id int4, payment_method_id int4, primary key (payment_id));
 create table ms_accounting.transfer (cbu_destination varchar(22) not null, cbu_origin varchar(22) not null, code int8 not null, payment_method_id int4 not null, primary key (payment_method_id));
 alter table ms_accounting.check add constraint uk_number unique (number);
 alter table ms_accounting.cash add constraint uk_bill_code unique (bill_code);
@@ -110,8 +110,6 @@ INSERT INTO ms_products.unit (description) VALUES
 	('ML'),
 	('PPM'),
 	('PSI');
-
-
 
 
 
