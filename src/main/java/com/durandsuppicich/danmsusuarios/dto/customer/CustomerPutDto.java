@@ -8,7 +8,7 @@ import javax.validation.constraints.*;
 public class CustomerPutDto {
 
     @NotNull
-    @Range(min = 1, max = Integer.MAX_VALUE)
+    @Positive
     private Integer id;
 
     @NotBlank

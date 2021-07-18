@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 @Entity
 @Table(name = "construction", schema = "ms_users")
@@ -117,7 +118,7 @@ public class Construction {
     }
 
     public void setPostDate(Instant postDate) {
-        this.postDate = postDate;
+        this.postDate = postDate.truncatedTo(ChronoUnit.SECONDS);;
     }
 
     public Instant getPutDate() {
@@ -125,7 +126,7 @@ public class Construction {
     }
 
     public void setPutDate(Instant putDate) {
-        this.putDate = putDate;
+        this.putDate = putDate.truncatedTo(ChronoUnit.SECONDS);;
     }
 
     public Customer getCustomer() {

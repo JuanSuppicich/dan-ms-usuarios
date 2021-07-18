@@ -126,7 +126,7 @@ public class Customer {
     }
 
     public void setPostDate(Instant postDate) {
-        this.postDate = postDate.truncatedTo(ChronoUnit.SECONDS);;
+        this.postDate = postDate.truncatedTo(ChronoUnit.SECONDS);
     }
 
     public Instant getPutDate() {
@@ -134,7 +134,7 @@ public class Customer {
     }
 
     public void setPutDate(Instant putDate) {
-        this.putDate = putDate.truncatedTo(ChronoUnit.SECONDS);;
+        this.putDate = putDate.truncatedTo(ChronoUnit.SECONDS);
     }
 
     public Instant getDeleteDate() {

@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 @Entity
 @Table(name = "employee", schema = "ms_users")
@@ -53,7 +54,7 @@ public class Employee {
     }
 
     public void setPostDate(Instant postDate) {
-        this.postDate = postDate;
+        this.postDate = postDate.truncatedTo(ChronoUnit.SECONDS);
     }
 
     public Instant getPutDate() {
@@ -61,7 +62,7 @@ public class Employee {
     }
 
     public void setPutDate(Instant putDate) {
-        this.putDate = putDate;
+        this.putDate = putDate.truncatedTo(ChronoUnit.SECONDS);;
     }
 
     public void setEmail(String email) {

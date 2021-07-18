@@ -1,8 +1,10 @@
 package com.durandsuppicich.danmsusuarios.controller;
 
+import java.net.URI;
 import java.util.List;
 
 import com.durandsuppicich.danmsusuarios.domain.Customer;
+import com.durandsuppicich.danmsusuarios.dto.OnCustomerPost;
 import com.durandsuppicich.danmsusuarios.dto.customer.CustomerDto;
 import com.durandsuppicich.danmsusuarios.dto.customer.CustomerPostDto;
 import com.durandsuppicich.danmsusuarios.dto.customer.CustomerPutDto;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -47,13 +50,19 @@ public class CustomerController {
     }
 
     @PostMapping
+    @Validated(OnCustomerPost.class)
     @ApiOperation(value = "Creates a new customer")
     public ResponseEntity<Customer> post(@RequestBody @Valid CustomerPostDto customerDto) {
 
         Customer customer = customerMapper.map(customerDto);
         Customer body = customerService.post(customer);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(body.getId())
+                .toUri();
 
-        return ResponseEntity.ok(body);
+        return ResponseEntity.created(location).body(body);
     }
 
     @GetMapping
@@ -115,7 +124,7 @@ public class CustomerController {
 
     @PutMapping(path = "/{id}")
     @ApiOperation(value = "Updates a customer based on the given id")
-    public ResponseEntity<Customer> put(@RequestBody @Valid CustomerPutDto customerDto,
+    public ResponseEntity<?> put(@RequestBody @Valid CustomerPutDto customerDto,
                                         @PathVariable @Positive Integer id) {
 
         if (!customerDto.getId().equals(id))
@@ -129,7 +138,7 @@ public class CustomerController {
 
     @DeleteMapping(path = "/{id}")
     @ApiOperation(value = "Deletes a customer based on the given id")
-    public ResponseEntity<Customer> delete(@PathVariable @Positive Integer id) {
+    public ResponseEntity<?> delete(@PathVariable @Positive Integer id) {
 
         customerService.delete(id);
         return ResponseEntity.noContent().build();

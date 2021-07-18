@@ -1,10 +1,14 @@
 package com.durandsuppicich.danmsusuarios.dto.construction;
 
+import com.durandsuppicich.danmsusuarios.dto.OnConstructionPost;
+import com.durandsuppicich.danmsusuarios.dto.OnCustomerPost;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+import javax.validation.constraints.Positive;
 
 public class ConstructionPostDto {
 
@@ -30,6 +34,9 @@ public class ConstructionPostDto {
     @Range(min = 0, max = Integer.MAX_VALUE)
     private Integer constructionTypeId;
 
+    @Null(groups = OnCustomerPost.class)
+    @NotNull(groups = OnConstructionPost.class)
+    @Positive(groups = OnConstructionPost.class)
     private Integer customerId;
 
     public String getDescription() {

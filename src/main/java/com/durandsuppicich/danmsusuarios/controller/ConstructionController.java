@@ -1,8 +1,10 @@
 package com.durandsuppicich.danmsusuarios.controller;
 
+import java.net.URI;
 import java.util.List;
 
 import com.durandsuppicich.danmsusuarios.domain.Construction;
+import com.durandsuppicich.danmsusuarios.dto.OnConstructionPost;
 import com.durandsuppicich.danmsusuarios.dto.construction.ConstructionDto;
 import com.durandsuppicich.danmsusuarios.dto.construction.ConstructionPostDto;
 import com.durandsuppicich.danmsusuarios.dto.construction.ConstructionPutDto;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
@@ -45,14 +48,20 @@ public class ConstructionController {
     }
 
     @PostMapping
+    @Validated(OnConstructionPost.class)
     @ApiOperation(value = "Creates a new construction site")
-    public ResponseEntity<Construction> postConstruction(@RequestBody
-                                                             @Valid ConstructionPostDto constructionDto) {
+    public ResponseEntity<Construction> post(@RequestBody
+                                                 @Valid ConstructionPostDto constructionDto) {
 
         Construction construction = constructionMapper.map(constructionDto);
         Construction body = constructionService.post(construction);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(body.getId())
+                .toUri();
 
-        return ResponseEntity.ok(body);
+        return ResponseEntity.created(location).body(body);
     }
 
     @GetMapping
@@ -92,7 +101,7 @@ public class ConstructionController {
 
     @PutMapping(path = "/{id}")
     @ApiOperation(value = "Updates a construction site based on the given id")
-    public ResponseEntity<Construction> put(@RequestBody @Validated ConstructionPutDto constructionDto,
+    public ResponseEntity<?> put(@RequestBody @Validated ConstructionPutDto constructionDto,
                                             @PathVariable @Positive Integer id) {
 
         if (!constructionDto.getId().equals(id))
@@ -106,8 +115,7 @@ public class ConstructionController {
 
     @DeleteMapping(path = "/{id}")
     @ApiOperation(value = "Delete a construction site based on the given id")
-    public ResponseEntity<Construction> delete(@PathVariable
-                                                   @Positive Integer id) {
+    public ResponseEntity<?> delete(@PathVariable @Positive Integer id) {
 
         constructionService.delete(id);
         return ResponseEntity.noContent().build();

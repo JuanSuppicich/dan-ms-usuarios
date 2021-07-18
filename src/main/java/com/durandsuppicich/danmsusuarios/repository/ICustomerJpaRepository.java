@@ -31,7 +31,8 @@ public interface ICustomerJpaRepository extends JpaRepository<Customer, Integer>
     @Query("SELECT c " +
             "FROM Customer c " +
             "JOIN c.constructions o " +
-            "WHERE o.id = :constructionId"
+            "WHERE o.id = :constructionId" +
+            "   AND c.deleteDate IS NULL"
     )
     Optional<Customer> findByConstructionId(@Param("constructionId") Integer constructionId);
 

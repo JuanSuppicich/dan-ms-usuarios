@@ -1,5 +1,6 @@
 package com.durandsuppicich.danmsusuarios.controller;
 
+import java.net.URI;
 import java.util.List;
 
 import com.durandsuppicich.danmsusuarios.domain.Employee;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
@@ -51,8 +53,13 @@ public class EmployeeController {
 
         Employee employee = employeeMapper.map(employeeDto);
         Employee body = employeeService.post(employee);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(body.getId())
+                .toUri();
 
-        return ResponseEntity.ok(body);
+        return ResponseEntity.created(location).body(body);
     }
 
     @GetMapping

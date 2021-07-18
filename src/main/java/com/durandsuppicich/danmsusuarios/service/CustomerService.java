@@ -46,17 +46,6 @@ public class CustomerService implements ICustomerService {
         User user = new User(customer.getEmail(), "1234", userType);
         customer.setUser(user);
 
-        //We need to set customer attribute in each construction object
-        // in order to save the relationship
-        //TODO improve
-        /*List<Construction> aux = List.copyOf(customer.getConstructions());
-        aux
-            .stream()
-            .forEach( (o) -> {
-                customer.addConstruction(o);
-            });
-        customer.setConstructions(aux);*/
-
         return customerRepository.save(customer);
     }
 
@@ -64,9 +53,6 @@ public class CustomerService implements ICustomerService {
     public List<Customer> getAll() {
 
         return customerRepository.getAll();
-            //.stream()
-            //.filter(c -> c.getDeleteDate() == null)
-            //.collect(Collectors.toList());
     }
 
     @Override
@@ -86,7 +72,7 @@ public class CustomerService implements ICustomerService {
     @Override
     public Customer getByBusinessName(String businessName) {
 
-        return customerRepository.findByBusinessName(businessName)
+        return customerRepository.findByBusinessNameAndDeleteDateIsNull(businessName)
                 .orElseThrow(() -> new CustomerBusinessNameNotFoundException(businessName));
     }
 
