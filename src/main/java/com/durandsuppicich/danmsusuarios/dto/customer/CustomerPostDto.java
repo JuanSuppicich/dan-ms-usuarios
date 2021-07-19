@@ -1,6 +1,7 @@
 package com.durandsuppicich.danmsusuarios.dto.customer;
 
 import com.durandsuppicich.danmsusuarios.dto.construction.ConstructionPostDto;
+import org.hibernate.validator.constraints.Mod11Check;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -14,6 +15,7 @@ public class CustomerPostDto {
 
     @NotBlank
     @Size(min = 11, max = 11)
+    @Mod11Check(threshold = 7)
     private String cuit;
 
     @Email
