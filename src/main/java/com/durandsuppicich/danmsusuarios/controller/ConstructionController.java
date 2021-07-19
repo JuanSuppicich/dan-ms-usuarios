@@ -50,11 +50,13 @@ public class ConstructionController {
     @PostMapping
     @Validated(OnConstructionPost.class)
     @ApiOperation(value = "Creates a new construction site")
-    public ResponseEntity<Construction> post(@RequestBody
+    public ResponseEntity<ConstructionDto> post(@RequestBody
                                                  @Valid ConstructionPostDto constructionDto) {
 
         Construction construction = constructionMapper.map(constructionDto);
-        Construction body = constructionService.post(construction);
+        Construction result = constructionService.post(construction);
+        ConstructionDto body = constructionMapper.mapToDto(result);
+
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")

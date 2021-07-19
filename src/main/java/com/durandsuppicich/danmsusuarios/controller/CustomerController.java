@@ -52,10 +52,12 @@ public class CustomerController {
     @PostMapping
     @Validated(OnCustomerPost.class)
     @ApiOperation(value = "Creates a new customer")
-    public ResponseEntity<Customer> post(@RequestBody @Valid CustomerPostDto customerDto) {
+    public ResponseEntity<CustomerDto> post(@RequestBody @Valid CustomerPostDto customerDto) {
 
         Customer customer = customerMapper.map(customerDto);
-        Customer body = customerService.post(customer);
+        Customer result = customerService.post(customer);
+        CustomerDto body = customerMapper.mapToDto(result);
+
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")

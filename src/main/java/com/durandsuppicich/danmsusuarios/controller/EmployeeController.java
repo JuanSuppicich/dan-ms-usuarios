@@ -49,10 +49,12 @@ public class EmployeeController {
 
     @PostMapping
     @ApiOperation(value = "Creates a new employee")
-    public ResponseEntity<Employee> post(@RequestBody @Valid EmployeePostDto employeeDto) {
+    public ResponseEntity<EmployeeDto> post(@RequestBody @Valid EmployeePostDto employeeDto) {
 
         Employee employee = employeeMapper.map(employeeDto);
-        Employee body = employeeService.post(employee);
+        Employee result = employeeService.post(employee);
+        EmployeeDto body = employeeMapper.mapToDto(result);
+
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
