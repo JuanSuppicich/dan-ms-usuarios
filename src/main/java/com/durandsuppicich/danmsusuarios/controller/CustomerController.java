@@ -13,6 +13,7 @@ import com.durandsuppicich.danmsusuarios.mapper.ICustomerMapper;
 import com.durandsuppicich.danmsusuarios.service.ICustomerService;
 
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Mod11Check;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -92,7 +93,8 @@ public class CustomerController {
     @ApiOperation(value = "Retrieves a customer based on the given cuit")
     public ResponseEntity<CustomerDto> getByCuit(@RequestParam(name = "cuit")
                                                      @NotBlank
-                                                     @Length(min = 11, max = 11) String cuit) {
+                                                     @Length(min = 11, max = 11)
+                                                     @Mod11Check(threshold = 7) String cuit) {
 
         Customer customer = customerService.getByCuit(cuit);
         CustomerDto body = customerMapper.mapToDto(customer);
