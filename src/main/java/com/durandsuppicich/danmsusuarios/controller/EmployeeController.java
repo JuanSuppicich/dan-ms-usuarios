@@ -33,7 +33,7 @@ import javax.validation.constraints.Positive;
 
 @RestController
 @Validated
-@RequestMapping("/api/employee")
+@RequestMapping("/api/employees")
 @Api(value = "EmployeeController")
 public class EmployeeController {
 
