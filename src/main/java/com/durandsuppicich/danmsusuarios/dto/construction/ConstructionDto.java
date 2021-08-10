@@ -14,6 +14,8 @@ public class ConstructionDto {
 
     private Integer area;
 
+    private Integer constructionTypeId;
+
     private String customerBusinessName;
 
     public Integer getId() {
@@ -70,5 +72,13 @@ public class ConstructionDto {
 
     public void setCustomerBusinessName(String customerBusinessName) {
         this.customerBusinessName = customerBusinessName;
+    }
+
+    public Integer getConstructionTypeId() {
+        return constructionTypeId;
+    }
+
+    public void setConstructionTypeId(Integer constructionTypeId) {
+        this.constructionTypeId = constructionTypeId;
     }
 }

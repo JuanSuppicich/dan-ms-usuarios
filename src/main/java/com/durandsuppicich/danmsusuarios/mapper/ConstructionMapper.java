@@ -64,6 +64,7 @@ public class ConstructionMapper implements IConstructionMapper {
         dto.setAddress(construction.getAddress());
         dto.setArea(construction.getArea());
         dto.setCustomerBusinessName(construction.getCustomer().getBusinessName());
+        dto.setConstructionTypeId(construction.getConstructionType().getId());
 
         return dto;
     }
