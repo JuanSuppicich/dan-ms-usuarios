@@ -46,7 +46,7 @@ public class ConstructionJpaRepositoryTest {
 
         Construction result = obraRepository.save(construction);
         
-        assertThat(result.getId(), is(equalTo(4))); //TODO too many asserts !
+        assertThat(result.getId(), is(equalTo(4))); // too many asserts !
         assertThat(result.getCustomer(), notNullValue());
         assertThat(result.getCustomer().getId(), is(equalTo(2)));
         assertThat(result.getConstructionType(), notNullValue());
