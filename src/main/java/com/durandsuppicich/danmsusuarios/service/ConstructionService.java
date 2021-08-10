@@ -41,6 +41,11 @@ public class ConstructionService implements IConstructionService {
     }
 
     @Override
+    public List<Construction> getByCuit(String cuit) {
+        return constructionRepository.findByCuit(cuit);
+    }
+
+    @Override
     public void put(Construction construction, Integer id) {
 
         constructionRepository.findById(id)

@@ -14,6 +14,8 @@ public interface IConstructionService {
 
     List<Construction> getByCustomerOrConstructionType(Integer customerId, Integer constructionTypeId);
 
+    List<Construction> getByCuit(String cuit);
+
     void put(Construction construction, Integer id);
 
     void delete(Integer id);

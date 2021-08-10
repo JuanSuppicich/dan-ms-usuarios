@@ -12,6 +12,8 @@ import com.durandsuppicich.danmsusuarios.exception.validation.IdsNotMatchExcepti
 import com.durandsuppicich.danmsusuarios.mapper.IConstructionMapper;
 import com.durandsuppicich.danmsusuarios.service.IConstructionService;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Mod11Check;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,6 +31,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 
 @RestController
@@ -99,6 +102,20 @@ public class ConstructionController {
             List<ConstructionDto> body = constructionMapper.mapToDto(constructions);
 
             return ResponseEntity.ok(body);
+    }
+
+    @GetMapping(params = { "cuit" })
+    @ApiOperation(value = "Retrieves construction sites by customer's cuit")
+    public ResponseEntity<List<ConstructionDto>> getByCuit(
+            @RequestParam(required = false)
+            @NotBlank
+            @Length(min = 11, max = 11)
+            @Mod11Check(threshold = 7) String cuit) {
+
+        List<Construction> constructions = constructionService.getByCuit(cuit);
+        List<ConstructionDto> body = constructionMapper.mapToDto(constructions);
+
+        return ResponseEntity.ok(body);
     }
 
     @PutMapping(path = "/{id}")

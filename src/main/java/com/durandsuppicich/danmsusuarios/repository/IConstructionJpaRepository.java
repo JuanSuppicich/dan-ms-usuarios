@@ -22,4 +22,11 @@ public interface IConstructionJpaRepository extends JpaRepository<Construction, 
             @Param("constructionTypeId") Integer constructionTypeId
     );
 
+    @Query("SELECT DISTINCT o " +
+            "FROM Construction o " +
+            "JOIN o.customer c " +
+            "WHERE c.cuit = :cuit"
+    )
+    List<Construction> findByCuit(@Param("cuit") String cuit);
+
 }
