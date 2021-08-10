@@ -6,7 +6,13 @@ public class ConstructionDto {
 
     private String description;
 
+    private Float latitude;
+
+    private Float longitude;
+
     private String address;
+
+    private Integer area;
 
     private String customerBusinessName;
 
@@ -26,12 +32,36 @@ public class ConstructionDto {
         this.description = description;
     }
 
+    public Float getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Float latitude) {
+        this.latitude = latitude;
+    }
+
+    public Float getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Float longitude) {
+        this.longitude = longitude;
+    }
+
     public String getAddress() {
         return address;
     }
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public Integer getArea() {
+        return area;
+    }
+
+    public void setArea(Integer area) {
+        this.area = area;
     }
 
     public String getCustomerBusinessName() {
