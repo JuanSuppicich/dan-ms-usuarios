@@ -1,8 +1,10 @@
 package com.durandsuppicich.danmsusuarios.service;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.durandsuppicich.danmsusuarios.client.OrderDto;
 import com.durandsuppicich.danmsusuarios.exception.customer.CustomerBusinessNameNotFoundException;
 import com.durandsuppicich.danmsusuarios.exception.customer.CustomerCuitNotFoundException;
 import com.durandsuppicich.danmsusuarios.exception.customer.ConstructionIdNotFoundException;
@@ -12,6 +14,9 @@ import com.durandsuppicich.danmsusuarios.domain.Customer;
 import com.durandsuppicich.danmsusuarios.domain.User;
 import com.durandsuppicich.danmsusuarios.domain.UserType;
 
+import com.durandsuppicich.danmsusuarios.client.IOrderClient;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,16 +24,20 @@ public class CustomerService implements ICustomerService {
 
     private final ICreditRiskService riskService;
 
-    private final IOrderService orderService;
-    
     private final ICustomerJpaRepository customerRepository;
 
+    private final IOrderClient orderClient;
+
+    private final CircuitBreakerFactory circuitBreakerFactory;
+
     public CustomerService(ICreditRiskService riskService,
-                           IOrderService orderService,
-                           ICustomerJpaRepository customerRepository) {
+                           ICustomerJpaRepository customerRepository,
+                           IOrderClient orderClient,
+                           CircuitBreakerFactory circuitBreakerFactory) {
         this.riskService = riskService;
-        this.orderService = orderService;
+        this.orderClient = orderClient;
         this.customerRepository = customerRepository;
+        this.circuitBreakerFactory = circuitBreakerFactory;
     }
 
     @Override
@@ -100,16 +109,28 @@ public class CustomerService implements ICustomerService {
     @Override
     public void delete(Integer id) {
 
+        CircuitBreaker circuitBreaker = circuitBreakerFactory.create("circuit-breaker");
+
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new CustomerIdNotFoundException(id));
 
-        if (!orderService.getAll(customer).isEmpty()) { //TODO improve this
+        List<OrderDto> orders = circuitBreaker.run(
+                () -> orderClient.getByCuit(customer.getCuit()),
+                throwable -> defaultOrderList()
+        );
 
-            customer.setDeleteDate(Instant.now()); //TODO improve this
-            customerRepository.save(customer);
-
-        } else {
+        if (orders.isEmpty()) {
             customerRepository.deleteById(id);
+        } else {
+            customer.setDeleteDate(Instant.now());
+            customerRepository.save(customer);
         }
+    }
+
+    // This method returns a non-empty list, so if service call fails customer will be logically deleted.
+    public List<OrderDto> defaultOrderList() {
+        List<OrderDto> defaultOrderList = new ArrayList<>();
+        defaultOrderList.add(new OrderDto());
+        return defaultOrderList;
     }
 }

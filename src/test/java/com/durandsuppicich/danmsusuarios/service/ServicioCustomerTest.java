@@ -22,7 +22,7 @@ import com.durandsuppicich.danmsusuarios.DanMsUsuariosApplicationTests;
 import com.durandsuppicich.danmsusuarios.repository.ICustomerJpaRepository;
 import com.durandsuppicich.danmsusuarios.domain.Construction;
 import com.durandsuppicich.danmsusuarios.domain.Customer;
-import com.durandsuppicich.danmsusuarios.domain.Order;
+import com.durandsuppicich.danmsusuarios.client.OrderDto;
 import com.durandsuppicich.danmsusuarios.domain.User;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -39,9 +39,6 @@ public class ServicioCustomerTest {
 
     @MockBean
     ICreditRiskService servicioRiesgo;
-
-    @MockBean
-    IOrderService servicioPedido;
 
     @MockBean
     ICustomerJpaRepository clienteRepository;
@@ -107,11 +104,10 @@ public class ServicioCustomerTest {
     @Test
     public void eliminar_ClienteConPedidos_FechaBajaEstablecida() {
 
-        List<Order> orders = new ArrayList<Order>();
-        orders.add(new Order());
+        List<OrderDto> orderDtos = new ArrayList<OrderDto>();
+        orderDtos.add(new OrderDto());
         when(clienteRepository.existsById(anyInt())).thenReturn(true);
         when(clienteRepository.findById(anyInt())).thenReturn(Optional.of(customer));
-        when(servicioPedido.getAll(any(Customer.class))).thenReturn(orders);
         when(clienteRepository.save(any(Customer.class))).thenReturn(customer);
 
         servicioCliente.delete(1);
@@ -122,10 +118,9 @@ public class ServicioCustomerTest {
     @Test
     public void eliminar_ClienteSinPedidos_ClienteEliminado() {
 
-        List<Order> orders = new ArrayList<Order>();
+        List<OrderDto> orderDtos = new ArrayList<OrderDto>();
         when(clienteRepository.existsById(anyInt())).thenReturn(true);
         when(clienteRepository.findById(anyInt())).thenReturn(Optional.of(customer));
-        when(servicioPedido.getAll(any(Customer.class))).thenReturn(orders);
         doNothing().when(clienteRepository).deleteById(anyInt());
 
         servicioCliente.delete(1);

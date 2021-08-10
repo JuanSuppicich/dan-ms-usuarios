@@ -35,7 +35,7 @@ public class CustomerJpaRepositoryTest {
     
     @Test
     public void save_CustomerOk_CustomerCreated() {
-        //TODO improve this
+
         UserType userType = new UserType();
         userType.setId(1);
         User user = new User("user5", "password5", userType);
@@ -62,7 +62,7 @@ public class CustomerJpaRepositoryTest {
         UserType userType = new UserType("Customer");
         userType.setId(1);
         User user = new User("user6", "password6", userType);
-        ConstructionType constructionType = new ConstructionType("House"); //TODO change this
+        ConstructionType constructionType = new ConstructionType("House");
         constructionType.setId(1);
         Customer customer =
                 new Customer("customer4", "4444", "customer4@emai.com", 4000.0, false, null, user, null);
