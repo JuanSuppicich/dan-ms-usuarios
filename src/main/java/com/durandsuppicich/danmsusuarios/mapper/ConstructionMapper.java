@@ -46,7 +46,7 @@ public class ConstructionMapper implements IConstructionMapper {
         construction.setDescription(constructionDto.getDescription());
         construction.setLatitude(constructionDto.getLatitude());
         construction.setLongitude(constructionDto.getLongitude());
-        construction.setAddress(constructionDto.getDescription());
+        construction.setAddress(constructionDto.getAddress());
         construction.setArea(constructionDto.getArea());
 
         return construction;
