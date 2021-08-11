@@ -61,6 +61,7 @@ public class CustomerMapper implements ICustomerMapper {
         customerDto.setBusinessName(customer.getBusinessName());
         customerDto.setCuit(customer.getCuit());
         customerDto.setEmail(customer.getEmail());
+        customerDto.setMaxCurrentAccount(customer.getMaxCurrentAccount());
 
         return customerDto;
     }

@@ -10,6 +10,8 @@ public class CustomerDto {
 
     private String email;
 
+    private Double maxCurrentAccount;
+
     public Integer getId() {
         return id;
     }
@@ -40,5 +42,13 @@ public class CustomerDto {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Double getMaxCurrentAccount() {
+        return maxCurrentAccount;
+    }
+
+    public void setMaxCurrentAccount(Double maxCurrentAccount) {
+        this.maxCurrentAccount = maxCurrentAccount;
     }
 }
