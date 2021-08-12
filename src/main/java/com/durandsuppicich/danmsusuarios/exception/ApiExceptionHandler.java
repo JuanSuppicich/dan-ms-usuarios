@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.ValidationException;
 
 import com.durandsuppicich.danmsusuarios.exception.http.*;
+import feign.RetryableException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -122,7 +123,7 @@ public class ApiExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
-    @ExceptionHandler({AsyncRequestTimeoutException.class})
+    @ExceptionHandler({AsyncRequestTimeoutException.class, RetryableException.class})
     public ErrorMessage serviceUnavailable(HttpServletRequest request, Exception exception) {
         return new ErrorMessage(exception, request.getRequestURI());
     }

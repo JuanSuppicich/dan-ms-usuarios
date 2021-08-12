@@ -57,7 +57,7 @@ public class CustomerRestTest {
         construction.setArea(1);
         construction.setAddress("test");
         
-        ConstructionType constructionType = new ConstructionType(1, "Reforma"); //TODO change this
+        ConstructionType constructionType = new ConstructionType(1, "Reforma");
         construction.setConstructionType(constructionType);
 
         List<Construction> constructions = new ArrayList<>();
@@ -120,7 +120,7 @@ public class CustomerRestTest {
         construction.setArea(1);
         construction.setAddress("test");
         
-        ConstructionType constructionType = new ConstructionType(1, "Reforma"); //TODO change this
+        ConstructionType constructionType = new ConstructionType(1, "Reforma");
         construction.setConstructionType(constructionType);
 
         List<Construction> constructions = new ArrayList<Construction>();
