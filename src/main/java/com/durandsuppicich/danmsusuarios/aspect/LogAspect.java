@@ -23,14 +23,21 @@ public class LogAspect {
     @Pointcut("execution(* com.durandsuppicich.danmsusuarios.repository.*.*(..))")
     private void repositoryMethods() {}
 
-    @Before("servicesMethods() || repositoryMethods()" )
+    @Pointcut("execution(* com.durandsuppicich.danmsusuarios.exception.*.*(..))")
+    private void exceptions() {}
+
+    @Pointcut("execution(* com.durandsuppicich.danmsusuarios.client.*.*(..))")
+    private void client() {}
+
+
+    @Before("servicesMethods() || repositoryMethods() || exceptions() || client()" )
     public void doBefore(JoinPoint joinPoint) {
         logger.debug(joinPoint.getTarget().getClass() + 
             ". METODO A EJECUTAR: " + joinPoint.getSignature().getName() + 
             ". ARGUMENTOS: " + Arrays.toString(joinPoint.getArgs()));
     }
 
-    @After("servicesMethods() || repositoryMethods()")
+    @After("servicesMethods() || repositoryMethods() || client()")
     public void doAfter(JoinPoint joinPoint) {
         logger.debug(joinPoint.getTarget().getClass() + 
             ". METODO EJECUTADO: " + joinPoint.getSignature().getName() + 
