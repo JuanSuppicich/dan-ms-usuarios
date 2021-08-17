@@ -29,7 +29,6 @@ public class LogAspect {
     @Pointcut("execution(* com.durandsuppicich.danmsusuarios.client.*.*(..))")
     private void client() {}
 
-
     @Before("servicesMethods() || repositoryMethods() || exceptions() || client()" )
     public void doBefore(JoinPoint joinPoint) {
         logger.debug(joinPoint.getTarget().getClass() + 
